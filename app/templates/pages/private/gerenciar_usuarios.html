@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% from "macros/tables.jinja2" import user_table %}
+
+{% block title %}Gerenciar Usuários{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/gerenciar_usuario.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="admin-container">
+    <h1>Gerenciamento de Usuários</h1>
+
+    <div class="tabs">
+        <button class="tab-btn active" data-tab="internos">Usuários Internos</button>
+        <button class="tab-btn" data-tab="publicos">Solicitações</button>
+    </div>
+
+    <div class="tab-content">
+        <div class="tab-pane active" id="internos">
+            {{ user_table(usuarios_internos, 'internos') }}
+        </div>
+        <div class="tab-pane" id="publicos">
+            {{ user_table(usuarios_publicos, 'publicos') }}
+        </div>
+    </div>
+
+</div>
+
+<div id="detalheModal" class="modal" style="display: none;"></div>
+
+{% endblock %}
+
+{% block js %}
+<script src="{{ url_for('static', filename='js/modules/gerenciar_usuarios.js') }}"></script>
+{% endblock %}

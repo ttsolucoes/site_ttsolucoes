@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% from "macros/forms.jinja2" import render_field, render_submit %}
+
+{% block title %}Login{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/login.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="login-container">
+    <h1 class="login-title">Acessar Sistema</h1>
+    
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+    
+    <form method="POST" class="login-form">
+        {{ form.hidden_tag() }}
+
+        {{ render_field(form.username, placeholder="Seu usuário") }}
+        {{ render_field(form.password, placeholder="Sua senha") }}
+
+        <div class="form-footer">
+            {{ render_submit('Entrar') }}
+            <a href="/recovery" class="forgot-password">
+                Esqueci minha senha
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="{{ url_for('static', filename='js/modules/login.js') }}"></script>
+{% endblock %}

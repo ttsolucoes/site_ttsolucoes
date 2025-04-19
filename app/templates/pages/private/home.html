@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/home.css') }}">
+{% endblock %}
+
+{% block content %}
+{% set title_hero = "TT SOLUÇÕES" %}
+{% set subtitle_hero = "Transformação técnico-digital para empresas que ainda fazem milagre com planilha." %}
+{% include 'components/hero-card.html' %}
+
+<section class="content-section">
+    <div class="content-container">
+        <h2 class="content-title"> Bem-vindo a TT_SOLUCOES </h2>
+        <p class="content-description"> Somos uma plataforma especializada em transformação técnico-digital para pequenas e médias empresas. Nossa missão é ajudar sua empresa a sair das planilhas e evoluir para soluções digitais completas: com diagnóstico, execução, capacitação e suporte contínuo. </p>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block js %}
+<script src="{{ url_for('static', filename='js/modules/home.js') }}"></script>
+{% endblock %}

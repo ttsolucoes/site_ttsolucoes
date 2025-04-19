@@ -1,0 +1,71 @@
+{% macro user_table(usuarios, tipo) %}
+<table class="user-table" data-type="{{ tipo }}">
+    <thead>
+        <tr>
+            <th>Usuário</th>
+            <th>Email</th>
+            {% if tipo == 'internos' %}
+                <th>Cargo</th>
+                <th>Senha</th>
+                <th>Status</th>
+            {% else %}
+                <th>Origem</th>
+            {% endif %}
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for usuario in usuarios %}
+        <tr data-username="{{ usuario.username }}">
+            <td>{{ usuario.username }}</td>
+
+            <td>
+                {% if tipo == 'internos' %}
+                <input type="text" class="email-input" value="{{ usuario.email }}">
+                {% else %}
+                {{ usuario.email }}
+                {% endif %}
+            </td>
+
+            {% if tipo == 'internos' %}
+            <td>
+                <select class="cargo-select">
+                    <option value="user" {% if usuario.cargo == 'user' %}selected{% endif %}>Usuário</option>
+                    <option value="funcionario" {% if usuario.cargo == 'funcionario' %}selected{% endif %}>Funcionário</option>
+                    <option value="admin" {% if usuario.cargo == 'admin' %}selected{% endif %}>Admin</option>
+                </select>
+            </td>
+            <td>
+                <input type="password" class="senha-input" value="******">
+            </td>
+            <td>Ativo</td>
+            {% else %}
+            <td>{{ usuario.origem | upper }}</td>
+            {% endif %}
+
+            <td class="actions">
+                {% if tipo == 'internos' %}
+                    <button class="btn-save" data-username="{{ usuario.username }}" data-tipo="privado">Salvar</button>
+                    <button class="btn-logs" data-username="{{ usuario.username }}">Ver Logs</button>
+                    <button class="btn-delete" data-username="{{ usuario.username }}" data-tipo="privado">Remover</button>
+                {% else %}
+                    <button id="resolverSolicitacao" class="btn-resolver" data-username="{{ usuario.username }}" data-id="{{ usuario.id }}">Resolver</button>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+
+    {% if tipo == 'internos' %}
+    <tfoot>
+        <tr>
+            <td colspan="6" class="admin-actions">
+                <a href="/usuario_novo" class="btn-new-user" title="Novo Usuário">
+                    <i class="fas fa-plus"></i> Novo Usuário
+                </a>
+            </td>
+        </tr>
+    </tfoot>
+    {% endif %}
+</table>
+{% endmacro %}

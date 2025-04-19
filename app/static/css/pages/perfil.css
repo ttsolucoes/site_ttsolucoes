@@ -1,0 +1,116 @@
+.profile-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.profile-section,
+.history-section {
+    margin-bottom: 3rem;
+}
+
+.section-title {
+    color: var(--text-dark);
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.profile-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.info-card {
+    background-color: var(--background-card);
+    border: 1px solid var(--border-color);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.info-card h3 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.info-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.info-item {
+    display: flex;
+    justify-content: space-between;
+    color: var(--text-dark);
+}
+
+.info-label {
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.info-value {
+    color: var(--text-light);
+}
+
+.history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.log-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    background-color: var(--background-card);
+    padding: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.log-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+}
+
+.log-icon {
+    font-size: 1.8rem;
+    color: var(--primary-color);
+}
+
+.log-details {
+    flex: 1;
+}
+
+.log-title {
+    margin: 0 0 0.5rem 0;
+    color: var(--text-dark);
+    font-weight: 600;
+}
+
+.log-description {
+    margin: 0;
+    color: var(--text-light);
+}
+
+.log-date {
+    color: var(--text-light);
+    opacity: 0.7;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+    .profile-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .log-icon {
+        font-size: 1.5rem;
+    }
+}

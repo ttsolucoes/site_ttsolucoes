@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% from "macros/cards.jinja2" import info_card %}
+
+{% block title %}Meu Perfil{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/perfil.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="profile-container">
+
+    <!-- Seção de Informações -->
+    <section class="profile-section">
+        <h2 class="section-title">Minhas Informações</h2>
+
+        <div class="profile-grid">
+            {{ info_card(
+                title="Dados Pessoais",
+                items=[
+                    ('Usuário', user.username),
+                    ('Email', user.email),
+                    ('Cargo', user.cargo),
+                    ('Status', 'Ativo')
+                ]
+            ) }}
+
+            {{ info_card(
+                title="Acesso",
+                items=[
+                    ('API', 'Sim' if user.acesso_api else 'Não')
+                ]
+            ) }}
+        </div>
+    </section>
+
+    <!-- Seção de Histórico -->
+    <section class="history-section">
+        <h2 class="section-title">Meu Histórico</h2>
+        
+        <div class="history-list">
+            {% for log in logs %}
+                {% include 'components/log-card.html' %}
+            {% endfor %}
+        </div>
+    </section>
+    
+{% endblock %}
+
+{% block js %}
+<script src="{{ url_for('static', filename='js/modules/perfil.js') }}"></script>
+{% endblock %}

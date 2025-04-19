@@ -1,0 +1,37 @@
+<header class="main-header">
+    <div class="header-container">
+
+        <div class="brand">
+            <a href="/index">TT SOLUÇÕES</a>
+        </div>
+
+        <nav class="main-nav">
+            <ul>
+                {% if current_user.is_authenticated %}
+                    {% if session.user.cargo == 'admin' %}
+                        <li>
+                            <a href="/usuarios" class="nav-link">
+                                <i class="fas fa-users-cog"></i> Gerenciar Usuários
+                            </a>
+                        </li>
+                    {% endif %}
+                    <li><a href="/perfil" title="Ir para perfil do sistema">Perfil</a></li>
+                    <li><a href="/logout" title="Deslogar do sistema">Sair</a></li>
+                {% else %}
+                    <li><a href="/login" title="Realizar Login">Login</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+
+        <div class="header-intro">
+            {% if current_user.is_authenticated %}
+                <h2 class="dashboard-title">Olá, {{ session.user.username }} 👋</h2>
+                <p class="dashboard-subtext">Seja bem-vindo de volta à plataforma da TT_SOLUCOES.</p>
+            {% else %}
+                <h2 class="public-title">Entre para mais recursos</h2>
+                <p class="public-subtext">Crie uma conta ou faça login para ter acesso completo ao sistema.</p>
+            {% endif %}
+        </div>
+
+    </div>
+</header>

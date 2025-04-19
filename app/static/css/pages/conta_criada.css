@@ -1,0 +1,33 @@
+.success-container {
+    max-width: 500px;
+    margin: 3rem auto;
+    padding: 2rem;
+    text-align: center;
+    background: --text-light;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.success-icon {
+    font-size: 4rem;
+    color: var(--success-color, #2ecc71);
+    margin-bottom: 1.5rem;
+}
+
+.success-title {
+    color: var(--dark-color);
+    margin-bottom: 1.5rem;
+}
+
+.success-message {
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.success-message p {
+    margin-bottom: 0.5rem;
+}
+
+.success-actions {
+    margin-top: 2rem;
+}

@@ -1,0 +1,14 @@
+{% macro button(text, url, type='primary', icon=None) %}
+    <a href="{{ url }}" class="btn btn-{{ type }}">
+        {% if icon %}
+            <i class="icon-{{ icon }}"></i>
+        {% endif %}
+        {{ text }}
+    </a>
+{% endmacro %}
+
+{% macro submit_button(text='Salvar', type='success') %}
+    <button type="submit" class="btn btn-{{ type }}">
+        {{ text }}
+    </button>
+{% endmacro %}

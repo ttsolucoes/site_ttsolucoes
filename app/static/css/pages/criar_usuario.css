@@ -1,0 +1,81 @@
+.create-user-container {
+    background-color: var(--background-card);
+    padding: calc(var(--spacing-unit) * 2);
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    max-width: 400px;
+}
+
+/* Título */
+.create-user-container h1 {
+    color: var(--text-dark);
+    text-align: center;
+    margin-bottom: var(--spacing-unit);
+}
+
+/* Estilização dos grupos de form */
+.form-group {
+    margin-bottom: var(--spacing-unit);
+    display: flex;
+    flex-direction: column;
+}
+
+/* Labels */
+.form-group label {
+    margin-bottom: 0.5rem;
+    color: var(--text-light);
+    font-weight: bold;
+}
+
+/* Inputs e Select */
+.form-group input,
+.form-group select {
+    padding: 0.6rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background-color: var(--light-color);
+    color: var(--text-color);
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    background-color: var(--dark-color);
+}
+
+/* Checkbox estilizado */
+.checkbox-group {
+    flex-direction: row;
+    align-items: center;
+}
+
+.checkbox-group input[type="checkbox"] {
+    margin-right: 0.5rem;
+}
+
+/* Botão Submit */
+.btn-submit {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: var(--btn-primary-bg);
+    color: var(--btn-primary-text);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.btn-submit:hover {
+    background-color: var(--secondary-color);
+}
+
+/* Responsividade simples */
+@media (max-width: 480px) {
+    .create-user-container {
+        padding: var(--spacing-unit);
+    }
+}

@@ -1,0 +1,12 @@
+User-agent: *
+Disallow: /static/
+Disallow: /templates/
+Disallow: /api/
+Disallow: /config/
+Disallow: /data/
+Disallow: /logs/
+Disallow: /temp/
+Disallow: /tests/
+Disallow: /utils/
+
+Sitemap: https://www.seusite.com/sitemap.xml

@@ -1,0 +1,13 @@
+{% macro info_card(title, items) %}
+<div class="info-card">
+    <h3>{{ title }}</h3>
+    <div class="info-list">
+        {% for label, value in items %}
+        <div class="info-item">
+            <span class="info-label">{{ label }}:</span>
+            <span class="info-value">{{ value }}</span>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endmacro %}

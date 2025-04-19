@@ -1,0 +1,64 @@
+:root {
+    --primary-color: #1A73E8;
+    --secondary-color: #34D399;
+    --accent-color: #F59E0B;
+    --danger-color: #EF4444;
+    --success-color: #10B981;
+    --info-color: #60A5FA;
+    --warning-color: #FBBF24;
+
+    --light-color: #1E293B;
+    --dark-color: #0F172A;
+    --text-color: #E5E7EB;
+    --text-dark: #F9FAFB;
+    --text-light: #CBD5E1;
+
+    --background-soft: #1E293B;
+    --background-card: #0F172A;
+    --border-color: #334155;
+
+    --btn-primary-bg: var(--primary-color);
+    --btn-primary-text: #ffffff;
+    --btn-secondary-bg: var(--secondary-color);
+    --btn-secondary-text: #ffffff;
+
+    --modal-bg: rgba(0, 0, 0, 0.6);
+    --modal-content-bg: #fff;
+
+    --spacing-unit: 1rem;
+}
+
+* { margin: 0; padding: 0; }
+
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--light-color);
+}
+
+label {
+    font-weight: bold;
+    color: var(--text-dark);
+}
+
+.main-content {
+    min-height: 100%;
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: var(--background-soft);
+    border-radius: 1rem;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+
+.text-center { text-align: center; }
+.mt-1 { margin-top: 0.5rem; }
+.mt-2 { margin-top: 1rem; }
+.mb-2 { margin-bottom: 1rem; }

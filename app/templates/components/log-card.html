@@ -1,0 +1,10 @@
+<div class="log-card">
+    <div class="log-icon">
+        <i class="fas fa-{{ 'check-circle' if log.acao == 'login' else 'file-alt' }}"></i>
+    </div>
+    <div class="log-details">
+        <h3 class="log-title">{{ log.acao|title }}</h3>
+        <p class="log-description">{{ log.detalhes }}</p>
+        <small class="log-date">{{ log.data_hora }}</small>
+    </div>
+</div>

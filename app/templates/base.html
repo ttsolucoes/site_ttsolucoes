@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Transformação técnico-digital para pequenas e médias empresas. Capacitação, execução técnica e suporte contínuo.">
+    <meta name="keywords" content="transformação digital, tt soluções, automatização de processos, pmes, tecnologia para empresas">
+    <meta name="author" content="TT Soluções">
+    <meta property="og:title" content="TT Soluções - Transformação Técnico-Digital para sua Empresa">
+    <meta property="og:description" content="A TT Soluções ajuda sua empresa a evoluir para o digital em até 120 dias.">
+    <meta property="og:image" content="{{ url_for('static', filename='images/logo.png') }}">
+    <meta property="og:url" content="{{ request.url }}">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="TT Soluções">
+    <meta name="twitter:description" content="Transformação técnico-digital para pequenas e médias empresas.">
+    <meta name="twitter:image" content="{{ url_for('static', filename='images/logo.png') }}">
+    <title> TT SOLUÇÕES | {% block title %} HOME {% endblock %}</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='images/logo.png') }}">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/logo.png') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/logo.ico') }}" type="image/x-icon">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/components/header.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/components/form.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/components/footer.css') }}">
+    {% block css %}{% endblock %}
+</head>
+<body>
+    {% include 'components/header.html' %}
+    
+    <main class="main-content">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+        
+        {% block content %}{% endblock %}
+    </main>
+    
+    {% include 'components/footer.html' %}
+    
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    {% block js %}{% endblock %}
+
+</body>
+</html>

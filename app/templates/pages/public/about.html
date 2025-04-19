@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/home.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/about.css') }}">
+{% endblock %}
+
+{% block content %}
+{% set title_hero = "TT SOLUÇÕES" %}
+{% set subtitle_hero = "Transformação técnico-digital para empresas que ainda fazem milagre com planilha." %}
+{% include 'components/hero-card.html' %}
+
+<section class="features-section">
+    <h2 class="section-title">O que você pode fazer</h2>
+    <div class="features-grid">
+        {% with icon='chart-line', title='Diagnóstico Técnico', description='Avalie a maturidade digital da sua empresa com nosso sistema automatizado.' %}
+            {% include 'components/feature_card.html' %}
+        {% endwith %}
+
+        {% with icon='settings', title='Execução Técnica', description='Implementamos soluções práticas para digitalizar seus processos operacionais.' %}
+            {% include 'components/feature_card.html' %}
+        {% endwith %}
+
+        {% with icon='graduation-cap', title='Capacitação da Equipe', description='Treine sua equipe para adotar as novas tecnologias com autonomia.' %}
+            {% include 'components/feature_card.html' %}
+        {% endwith %}
+
+        {% with icon='life-ring', title='Suporte Contínuo', description='Conte com suporte técnico e orientação contínua para crescer com segurança.' %}
+            {% include 'components/feature_card.html' %}
+        {% endwith %}
+    </div>
+</section>
+
+{% endblock %}
+
+{% block js %}
+<script src="{{ url_for('static', filename='js/modules/home.js') }}"></script>
+{% endblock %}

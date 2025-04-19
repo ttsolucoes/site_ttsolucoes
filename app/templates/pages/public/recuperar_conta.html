@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% from "macros/forms.jinja2" import render_field, render_submit %}
+
+{% block title %}Recuperar Acesso{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/recuperar_conta.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="recovery-container">
+    <h1 class="recovery-title">Recuperar Acesso</h1>
+    
+    <form method="POST" class="recovery-form">
+        {{ form.hidden_tag() }}
+        
+        {{ render_field(form.email_or_username, placeholder="Seu email ou nome de usuário") }}
+        {{ render_field(form.motivo, placeholder="Motivo da recuperação") }}
+        
+        <div class="form-footer">
+            {{ render_submit('Enviar Solicitação') }}
+            <p class="login-link">
+                Lembrou seus dados? <a href="/login" title="Clique para fazer login">Faça login</a>
+            </p>
+        </div>
+    </form>
+</div>
+{% endblock %}
