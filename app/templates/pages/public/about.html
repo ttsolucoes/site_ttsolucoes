@@ -6,30 +6,46 @@
 {% endblock %}
 
 {% block content %}
+
 {% set title_hero = "TT SOLUÇÕES" %}
 {% set subtitle_hero = "Transformação técnico-digital para empresas que ainda fazem milagre com planilha." %}
 {% include 'components/hero-card.html' %}
 
+{% with title='Quem somos', description='A TT Soluções nasceu para acabar com o caos silencioso das planilhas e dar poder digital às PMEs brasileiras.' %}
+    {% include 'components/content_block.html' %}
+{% endwith %}
+{% with title='Nossa missão', description='Reduzir o déficit técnico-operacional das pequenas e médias empresas brasileiras em até 120 dias, com soluções acessíveis, sustentáveis e 100% adaptadas à realidade do cliente.' %}
+    {% include 'components/content_block.html' %}
+{% endwith %}
+
+{% with title='Como fazemos isso', description='Usamos um fluxo de transformação dividido em cinco etapas: pré-diagnóstico gratuito, diagnóstico técnico detalhado, execução de soluções digitais sob medida, capacitação da equipe e suporte técnico recorrente. Tudo isso de forma transparente, didática e voltada à autonomia do cliente.' %}
+    {% include 'components/content_block.html' %}
+{% endwith %}
+
 <section class="features-section">
-    <h2 class="section-title">O que você pode fazer</h2>
+    <h2 class="section-title">Nossos pilares</h2>
     <div class="features-grid">
-        {% with icon='chart-line', title='Diagnóstico Técnico', description='Avalie a maturidade digital da sua empresa com nosso sistema automatizado.' %}
+        {% with icon='shield-check', title='Ética e Alinhamento', description='Negócios saudáveis começam com pessoas respeitadas e alinhadas.' %}
             {% include 'components/feature_card.html' %}
         {% endwith %}
 
-        {% with icon='settings', title='Execução Técnica', description='Implementamos soluções práticas para digitalizar seus processos operacionais.' %}
+        {% with icon='clock', title='Responsabilidade e Ritmo', description='Prezamos por equilíbrio e constância, sem promessas vazias.' %}
             {% include 'components/feature_card.html' %}
         {% endwith %}
 
-        {% with icon='graduation-cap', title='Capacitação da Equipe', description='Treine sua equipe para adotar as novas tecnologias com autonomia.' %}
+        {% with icon='sparkles', title='Execução Sustentável', description='Antes não feito do que mal feito. Fazemos com clareza, método e propósito.' %}
             {% include 'components/feature_card.html' %}
         {% endwith %}
 
-        {% with icon='life-ring', title='Suporte Contínuo', description='Conte com suporte técnico e orientação contínua para crescer com segurança.' %}
+        {% with icon='users', title='Ambiente Transparente', description='Acreditamos em acessos iguais, informações compartilhadas e crescimento real.' %}
             {% include 'components/feature_card.html' %}
         {% endwith %}
     </div>
 </section>
+
+{% with title='De onde viemos', description='A TT Soluções surgiu da experiência prática da equipe com gestão, tecnologia e operação em empresas reais. Tudo começou com a Invertus, um projeto anterior que revelou a urgência de digitalizar PMEs que ainda operam no improviso. A partir daí, a TT ganhou forma: com processo, com propósito e com gente que acredita que crescer certo vale mais que crescer rápido.' %}
+    {% include 'components/content_block.html' %}
+{% endwith %}
 
 {% endblock %}
 
