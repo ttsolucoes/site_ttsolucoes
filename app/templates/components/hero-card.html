@@ -2,5 +2,13 @@
     <div class="hero-content">
         <h1 class="hero-title">{{ title_hero }}</h1>
         <p class="hero-subtitle">{{ subtitle_hero }}</p>
+        
+        {% if actions_hero %}
+        <div class="hero-actions">
+            {% for action in actions_hero %}
+                <a href="{{ action.url }}" class="{{ action.class }}" title="{{ action.title }}">{{ action.label }}</a>
+            {% endfor %}
+        </div>
+        {% endif %}
     </div>
 </section>

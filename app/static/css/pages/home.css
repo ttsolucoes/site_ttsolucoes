@@ -15,6 +15,14 @@
     opacity: 0.9;
 }
 
+.hero-actions {
+    margin-top: 1.5rem;
+}
+.hero-actions .btn {
+    margin-right: 0.75rem;
+}
+
+
 .btn-outline {
     background-color: transparent;
     border: 2px solid var(--primary-color);
@@ -26,7 +34,6 @@
     color: var(--btn-primary-text);
 }
 
-/* GRID Layout shared */
 .grid-layout {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -35,7 +42,6 @@
     margin: 0 auto;
 }
 
-/* Universal Card Style */
 .card-base {
     background-color: var(--background-card);
     padding: 2rem;
@@ -51,7 +57,6 @@
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
 }
 
-/* Access Card Specific */
 .access-card .card-icon {
     font-size: 2.5rem;
     color: var(--secondary-color);
@@ -76,7 +81,6 @@
     gap: 0.5rem;
 }
 
-/* Buttons */
 .btn {
     text-decoration: none;
     padding: 0.75rem 1.5rem;
@@ -84,6 +88,11 @@
     font-weight: 600;
     display: inline-block;
     text-align: center;
+}
+
+.btn-zero {
+    background-color: var(--warning-color);
+    color: var(--secondary-light);
 }
 
 .btn-primary {
