@@ -15,7 +15,7 @@ SELECT
     email, 
     motivo
 FROM recuperar_acesso
-WHERE status == 'a validar';
+WHERE status = 'a validar';
     """
     resultados = executar_sql(query)
     
@@ -140,24 +140,33 @@ SELECT * FROM recuperar_acesso WHERE usuario_id = {id_solicitacao};
     }
     return resultado
 
-def criar_usuario(username: str, email, senha: str, cargo: str = 'user', acesso_api: bool = False) -> bool:
+def criar_usuario(username: str, email : str, senha: str, cargo: str = 'user', acesso_api: bool = False) -> bool:
 
     senha_hash = _hash_senha(senha)
+    username = username.replace("'", "''")
+    email = email.replace("'", "''")
+    cargo = cargo.replace("'", "''")
     query = f"""
 INSERT INTO usuarios (username, email, senha_hash, cargo, acesso_api)
-VALUES ('{username}', '{email}', '{senha_hash}', '{cargo}', {int(acesso_api)})
+VALUES ('{username}', '{email}', '{senha_hash}', '{cargo}', {bool(acesso_api)})
     """
+    print(query)
     try:
-        executar_sql(query)
-        
-        user_id = executar_sql(f"SELECT id FROM usuarios WHERE username = '{username}'")[0][0]
+        res = executar_sql(query)
+        print(res)
+
+        id_query = f"SELECT id FROM usuarios WHERE username = '{username}'"
+        user_id = executar_sql(id_query)[0][0]
+        print(user_id)
+
         log_query = f"""
 INSERT INTO logs_usuarios (usuario_id, acao, detalhes)
 VALUES ({user_id}, 'criacao', 'Usuário criado com cargo {cargo}')
         """
         executar_sql(log_query)
         return True
-    except Exception:
+    except Exception as e:
+        print(f"Erro ao criar usuário: {e}")
         return False
 
 def aprovar_usuario_publico(username: str) -> bool:

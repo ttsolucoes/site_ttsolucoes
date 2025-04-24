@@ -2,25 +2,27 @@ import sqlite3
 from typing import Union
 from typing import List
 import pandas as pd
+import psycopg2
+from psycopg2 import OperationalError
+from dotenv import load_dotenv
+import os
 
-def conectar_banco() -> sqlite3.Connection:
+load_dotenv()
 
-    from config.models.paths import path_data_base
-    import os
+DATABASE_URL = os.getenv("DATABASE_URL")
 
-    path_db = os.path.join(path_data_base, 'tt_solucoes.db')
-
+def conectar_banco():
     try:
-        conn = sqlite3.connect(path_db)
+        conn = psycopg2.connect(DATABASE_URL)
         return conn
-    except sqlite3.Error as e:
+    except OperationalError as e:
         raise Exception(f"Erro ao conectar ao banco: {e}")
 
-def finalizar_conexao(conn: sqlite3.Connection):
+def finalizar_conexao(conn):
     try:
-        if conn.in_transaction:
+        if conn:
             conn.commit()
-    except sqlite3.Error as e:
+    except OperationalError as e:
         conn.rollback()
         raise Exception(f"Erro ao tentar comitar ou fazer rollback: {e}")
     finally:
@@ -30,14 +32,14 @@ def executar_sql(sql: str) -> Union[str, list]:
     conn = conectar_banco()
     cursor = conn.cursor()
     try:
-        cursor.execute(sql)
+        cursor.execute(sql)  # <- sem params aqui MESMO
         if cursor.description:
             resultado = cursor.fetchall()
         else:
             conn.commit()
             resultado = "Sucesso ao executar"
         return resultado
-    except sqlite3.Error as e:
+    except OperationalError as e:
         conn.rollback()
         raise Exception(f"Erro ao executar SQL: {e}")
     finally:
@@ -45,16 +47,13 @@ def executar_sql(sql: str) -> Union[str, list]:
         conn.close()
 
 def recriar_tabela(nome_tabela: str, colunas: List[str]):
-
     conn = conectar_banco()
     cursor = conn.cursor()
     
     try:
-
-        cursor.execute(
-            f"SELECT name FROM sqlite_master WHERE type='table' AND name='{nome_tabela}'"
-        )
-        tabela_existe = cursor.fetchone() is not None
+        # Verificar se a tabela já existe
+        cursor.execute(f"SELECT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = %s)", (nome_tabela,))
+        tabela_existe = cursor.fetchone()[0]
 
         if tabela_existe:
             cursor.execute(f"DROP TABLE {nome_tabela}")
@@ -64,20 +63,23 @@ def recriar_tabela(nome_tabela: str, colunas: List[str]):
 
         conn.commit()
 
-    except sqlite3.Error as e:
+    except OperationalError as e:
         conn.rollback()
-        raise Exception(f"Erro ao importar dados: {e}")
+        raise Exception(f"Erro ao recriar tabela: {e}")
     finally:
         cursor.close()
         conn.close()
 
-def importar_dataframe_para_tabela( nome_tabela: str, colunas: List[str], df: pd.DataFrame ):
+def importar_dataframe_para_tabela(nome_tabela: str, colunas: List[str], df: pd.DataFrame):
     conn = conectar_banco()
     cursor = conn.cursor()
     
     try:
-
-        insert_sql = f"INSERT OR IGNORE INTO {nome_tabela} ({', '.join(colunas)}) VALUES ({', '.join(['?'] * len(colunas))})"
+        insert_sql = f"""
+            INSERT INTO {nome_tabela} ({', '.join(colunas)}) 
+            VALUES ({', '.join(['%s'] * len(colunas))})
+            ON CONFLICT ({', '.join(colunas)}) DO NOTHING
+        """
         for inicio in range(0, len(df), 1000):
             fim = inicio + 1000
             chunk = df.iloc[inicio:fim]
@@ -86,7 +88,7 @@ def importar_dataframe_para_tabela( nome_tabela: str, colunas: List[str], df: pd
 
         conn.commit()
 
-    except sqlite3.Error as e:
+    except OperationalError as e:
         conn.rollback()
         raise Exception(f"Erro ao importar dados: {e}")
     finally:
