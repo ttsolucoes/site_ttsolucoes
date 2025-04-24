@@ -1,9 +1,6 @@
 from flask import render_template, flash, session
 from app import app
-from config import secret_key
 from utils import detalhar_usuario, log_usuario
-
-app.secret_key = secret_key
 
 @app.route('/perfil')
 def perfil():
