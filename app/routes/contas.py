@@ -55,8 +55,9 @@ def recovery():
         new_user = {
             'conta': form.email_or_username.data,
             'password': form.motivo.data,
-            'status': 'pending'
+            'status': 'a validar'
         }
-        recuperar_acesso_public(form.email_or_username.data, form.motivo.data)
+        res = recuperar_acesso_public(form.email_or_username.data, form.motivo.data)
+        print(res)
         return render_template('pages/public/conta_recuperada.html', novos=new_user)
     return render_template('pages/public/recuperar_conta.html', form=form)

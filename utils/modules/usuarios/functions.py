@@ -105,11 +105,11 @@ def recuperar_acesso_public(conta: str, motivo) -> bool:
         motivo = motivo
 
     query = f"""
-INSERT INTO recuperar_acesso ({campo}, motivo)
-VALUES ('{registro}', '{motivo}');
+INSERT INTO recuperar_acesso (usuario_id, {campo}, motivo)
+VALUES (1, '{registro}', '{motivo}');
     """
     try:
-        executar_sql(query)
+        print(executar_sql(query))
 
         # Registrar log
         user_id = 0
