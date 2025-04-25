@@ -35,3 +35,28 @@ CREATE TABLE IF NOT EXISTS recuperar_acesso (
     data_hora TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );
+
+CREATE TABLE diagnostico_pessoal (
+    id SERIAL PRIMARY KEY,
+    nome TEXT,
+    empresa TEXT,
+    relacao TEXT,
+    email TEXT,
+    telefone TEXT,
+    data TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE diagnostico_eixo (
+    id SERIAL PRIMARY KEY,
+    diagnostico_id INT REFERENCES diagnostico_pessoal(id),
+    eixo TEXT,
+    media NUMERIC,
+    respostas JSONB
+);
+
+CREATE TABLE diagnostico_final (
+    id SERIAL PRIMARY KEY,
+    diagnostico_id INT REFERENCES diagnostico_pessoal(id),
+    media_final NUMERIC,
+    proposta TEXT
+);

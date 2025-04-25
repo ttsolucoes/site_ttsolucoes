@@ -1,4 +1,4 @@
-from flask import render_template, flash, session
+from flask import render_template, session
 from app import app
 from utils import detalhar_usuario, log_usuario
 

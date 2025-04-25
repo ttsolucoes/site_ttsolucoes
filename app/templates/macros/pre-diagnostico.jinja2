@@ -1,0 +1,21 @@
+{% macro input_field(name, label, type='text', required=true) %}
+  <div class="form-group">
+    <label for="{{ name }}">{{ label }}{% if required %}*{% endif %}</label>
+    <input type="{{ type }}" id="{{ name }}" name="{{ name }}" 
+           class="form-control" {% if required %}required{% endif %}>
+  </div>
+{% endmacro %}
+
+{% macro eixo_question(question_num, question_text, options) %}
+  <div class="question-card">
+    <h4>{{ question_num }}. {{ question_text }}</h4>
+    <div class="options-grid">
+      {% for option in options %}
+        <label class="option-btn">
+          <input type="radio" name="q{{ question_num }}" value="{{ option.value }}" required>
+          <span>{{ option.label }}</span>
+        </label>
+      {% endfor %}
+    </div>
+  </div>
+{% endmacro %}

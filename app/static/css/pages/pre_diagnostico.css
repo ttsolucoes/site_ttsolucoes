@@ -1,0 +1,61 @@
+.diagnostic-container {
+max-width: 800px;
+margin: 2rem auto;
+padding: var(--spacing-unit);
+background: var(--background-card);
+border-radius: 8px;
+box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.form-step {
+display: none;
+animation: fadeIn 0.3s ease;
+}
+
+.form-step.active {
+display: block;
+}
+
+.question-card {
+background: var(--background-soft);
+padding: var(--spacing-unit);
+margin-bottom: 1rem;
+border-radius: 4px;
+}
+
+.options-grid {
+display: grid;
+grid-template-columns: repeat(2, 1fr);
+gap: 0.5rem;
+}
+
+.option-btn {
+display: block;
+padding: 0.75rem;
+background: var(--dark-color);
+border: 1px solid var(--border-color);
+border-radius: 4px;
+cursor: pointer;
+}
+
+.option-btn input {
+margin-right: 0.5rem;
+}
+
+.progress-bar {
+height: 10px;
+background: var(--light-color);
+border-radius: 5px;
+margin: 0.5rem 0;
+}
+
+.progress-bar div {
+height: 100%;
+background: var(--secondary-color);
+border-radius: 5px;
+}
+
+@keyframes fadeIn {
+from { opacity: 0; transform: translateY(10px); }
+to { opacity: 1; transform: translateY(0); }
+}

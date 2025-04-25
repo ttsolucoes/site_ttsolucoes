@@ -1,0 +1,650 @@
+{% extends "base.html" %}
+{% from "macros/pre-diagnostico.jinja2" import input_field, eixo_question %}
+
+{% block title %}Pre Diagnostico{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/home.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/pre_diagnostico.css') }}">
+{% endblock %}
+
+{% block content %}
+
+{% set title_hero = "Pré diagnóstico - TT SOLUÇÕES" %}
+{% set subtitle_hero = "Levantamento da realidade tecnológica do cliente e classificação da maturidade (0 a 10). O formulário será estruturado com perguntas de múltipla escolha baseadas nos seguintes pilares de avaliação: Infraestrutura & Hardware; Sistemas & Automação; Processos & Padronização; Pessoas & Capacitação; Governança & Dados; Cultura & Inovação" %}
+{% set actions_hero = [
+    {'url': '/index', 'class': 'btn btn-zero', 'label': 'HOME', 'title': 'Volte para a Index'},
+    {'url': '/saiba_mais', 'class': 'btn btn-zero', 'label': 'Saiba mais', 'title': 'Tenha mais informações da TT Soluções'},
+] %}
+{% include 'components/hero-card.html' %}
+
+<div id="form-container" class="diagnostic-container">
+
+    <div id="step-1" class="form-step active">
+      <h2>Informações Pessoais</h2>
+      <form id="personal-info">
+        {{ input_field('nome', 'Nome Completo') }}
+        {{ input_field('empresa', 'Empresa') }}
+        {{ input_field('cargo', 'Cargo/Função') }}
+        {{ input_field('email', 'E-mail', type='email') }}
+        {{ input_field('telefone', 'Telefone', type='tel') }}
+        <button type="button" class="btn btn-next" data-next="step-2">Próximo</button>
+      </form>
+    </div>
+
+    <div id="step-2" class="form-step">
+        <h2>Eixo 1: Infraestrutura & Hardware</h2>
+        <form class="eixo-form">
+          {% set options = [
+            {'value': 0, 'label': 'A) Não possui inventário'},
+            {'value': 2, 'label': 'B) Tem um controle informal (planilhas esporádicas)'},
+            {'value': 4, 'label': 'C) Mantém inventário parcial, sem atualização regular'},
+            {'value': 6, 'label': 'D) Possui inventário completo e atualizado trimestralmente'},
+            {'value': 10, 'label': 'E) Possui inventário automatizado com alertas e auditorias'}
+          ] %}
+          {{ eixo_question(1, 'A empresa possui inventário atualizado dos equipamentos (computadores, servidores, etc.)?', options) }}
+      
+          {% set options = [
+            {'value': 0, 'label': 'A) Máquinas antigas, lentas e sem manutenção'},
+            {'value': 2, 'label': 'B) Computadores variados, sem padronização ou manutenção preventiva'},
+            {'value': 4, 'label': 'C) Equipamentos padrão com manutenção corretiva esporádica'},
+            {'value': 6, 'label': 'D) Equipamentos atualizados com manutenção preventiva periódica'},
+            {'value': 10, 'label': 'E) Máquinas modernas, padronizadas e substituídas por ciclo de vida'}
+          ] %}
+          {{ eixo_question(2, 'Qual é o padrão dos computadores usados na empresa?', options) }}
+      
+          {% set options = [
+            {'value': 0, 'label': 'A) Nenhum dos dois'},
+            {'value': 2, 'label': 'B) Apenas armazenamento em nuvem (ex: Google Drive)'},
+            {'value': 4, 'label': 'C) Servidor local simples ou conta gratuita de nuvem'},
+            {'value': 6, 'label': 'D) Infraestrutura híbrida com controle de acessos'},
+            {'value': 10, 'label': 'E) Ambientes virtualizados profissionais e cloud escalável'}
+          ] %}
+          {{ eixo_question(3, 'A empresa possui servidores próprios ou usa nuvem?', options) }}
+      
+          {% set options = [
+            {'value': 0, 'label': 'A) Internet instável, sem backup'},
+            {'value': 2, 'label': 'B) Internet fixa, mas com interrupções frequentes'},
+            {'value': 4, 'label': 'C) Conexão estável, sem backup de link'},
+            {'value': 6, 'label': 'D) Conexão estável com backup de link'},
+            {'value': 10, 'label': 'E) Conexões redundantes com monitoramento e alta disponibilidade'}
+          ] %}
+          {{ eixo_question(4, 'Como é a rede de internet da empresa?', options) }}
+      
+          {% set options = [
+            {'value': 0, 'label': 'A) Wi-Fi instável, sem senha ou com senha padrão'},
+            {'value': 2, 'label': 'B) Wi-Fi com senha, mas sem controle de acesso'},
+            {'value': 4, 'label': 'C) Wi-Fi com segmentação básica (convidado x interno)'},
+            {'value': 6, 'label': 'D) Wi-Fi com controle de acesso e autenticação por dispositivo'},
+            {'value': 10, 'label': 'E) Rede profissional com QoS e autenticação integrada ao sistema'}
+          ] %}
+          {{ eixo_question(5, 'A empresa possui Wi-Fi configurado de forma adequada?', options) }}
+      
+          {% set options = [
+            {'value': 0, 'label': 'A) Não existe nenhuma política'},
+            {'value': 2, 'label': 'B) A substituição ocorre apenas quando o equipamento quebra'},
+            {'value': 4, 'label': 'C) Existe uma diretriz informal, mas sem calendário definido'},
+            {'value': 6, 'label': 'D) Existe política formal de substituição a cada 3-4 anos'},
+            {'value': 10, 'label': 'E) Há ciclo planejado de upgrades e testes de performance'}
+          ] %}
+          {{ eixo_question(6, 'Existe alguma política para manutenção ou substituição de equipamentos?', options) }}
+      
+          {% set options = [
+            {'value': 0, 'label': 'A) Não'},
+            {'value': 2, 'label': 'B) Alguns colaboradores usam os próprios dispositivos'},
+            {'value': 4, 'label': 'C) Empresa fornece dispositivos, mas sem controle ou segurança'},
+            {'value': 6, 'label': 'D) Empresa fornece e monitora dispositivos básicos'},
+            {'value': 10, 'label': 'E) Dispositivos móveis integrados à infraestrutura e com MDM'}
+          ] %}
+          {{ eixo_question(7, 'A empresa utiliza dispositivos móveis (celulares, tablets) para trabalho?', options) }}
+      
+          {% set options = [
+            {'value': 0, 'label': 'A) Não existe suporte técnico definido'},
+            {'value': 2, 'label': 'B) Alguém da equipe ajuda informalmente'},
+            {'value': 4, 'label': 'C) Possui suporte externo sob demanda'},
+            {'value': 6, 'label': 'D) Possui contrato fixo de suporte com SLA básico'},
+            {'value': 10, 'label': 'E) Equipe dedicada ou empresa parceira com SLA claro e rápido'}
+          ] %}
+          {{ eixo_question(8, 'Existe suporte técnico interno ou contratado?', options) }}
+      
+          {% set options = [
+            {'value': 0, 'label': 'A) Totalmente aberto, qualquer um acessa'},
+            {'value': 2, 'label': 'B) Apenas trancado, sem controle de quem acessa'},
+            {'value': 4, 'label': 'C) Acesso controlado com chave ou senha'},
+            {'value': 6, 'label': 'D) Registros de acesso físico (assinaturas, câmeras)'},
+            {'value': 10, 'label': 'E) Controle com logs eletrônicos e autorização prévia'}
+          ] %}
+          {{ eixo_question(9, 'Há controle de acesso físico aos equipamentos e salas técnicas?', options) }}
+      
+          {% set options = [
+            {'value': 0, 'label': 'A) Não faz backups'},
+            {'value': 2, 'label': 'B) Backups manuais e esporádicos'},
+            {'value': 4, 'label': 'C) Backups periódicos em HDs locais'},
+            {'value': 6, 'label': 'D) Backups automáticos em nuvem'},
+            {'value': 10, 'label': 'E) Backups automáticos em nuvem com múltiplas redundâncias e testes'}
+          ] %}
+          {{ eixo_question(10, 'Como a empresa faz backup dos dados locais?', options) }}
+      
+          <div class="form-navigation">
+            <button type="button" class="btn btn-prev" data-prev="step-1">Voltar</button>
+            <button type="button" class="btn btn-next" data-next="step-3">Próximo</button>
+          </div>
+        </form>
+    </div>     
+
+    <div id="step-3" class="form-step">
+      <h2>Eixo 2: Sistemas & Automação</h2>
+      <form class="eixo-form">
+        {% set options = [
+          {'value': 0, 'label': 'A) Não utiliza nenhum ERP'},
+          {'value': 2, 'label': 'B) Usa planilhas como substituto'},
+          {'value': 4, 'label': 'C) Utiliza um ERP gratuito ou limitado a um setor'},
+          {'value': 6, 'label': 'D) ERP pago, com uso em áreas-chave da empresa'},
+          {'value': 10, 'label': 'E) ERP completo e integrado a todos os departamentos'}
+        ] %}
+        {{ eixo_question(1, 'A empresa utiliza algum sistema ERP (Gestão Empresarial)?', options) }}
+    
+        {% set options = [
+          {'value': 0, 'label': 'A) Tudo é feito manualmente (WhatsApp, e-mail, planilha)'},
+          {'value': 2, 'label': 'B) Anotações manuais com tentativas de padronização'},
+          {'value': 4, 'label': 'C) Ferramenta de CRM simples, sem integração'},
+          {'value': 6, 'label': 'D) CRM usado para acompanhar vendas e leads'},
+          {'value': 10, 'label': 'E) CRM integrado com ERP, marketing e suporte'}
+        ] %}
+        {{ eixo_question(2, 'Existem ferramentas de CRM (Gestão de Relacionamento com Cliente)?', options) }}
+    
+        {% set options = [
+          {'value': 0, 'label': 'A) Não sabe o que é RPA'},
+          {'value': 2, 'label': 'B) Já ouviu falar, mas nunca aplicou'},
+          {'value': 4, 'label': 'C) Automatizou pequenas tarefas com macros/scripts'},
+          {'value': 6, 'label': 'D) Tem processos automatizados em setores específicos'},
+          {'value': 10, 'label': 'E) Usa RPA para automatizar tarefas recorrentes de forma integrada'}
+        ] %}
+        {{ eixo_question(3, 'A empresa utiliza ferramentas de automação de processos (RPA)?', options) }}
+    
+        {% set options = [
+          {'value': 0, 'label': 'A) Manualmente em site da prefeitura/SEFAZ'},
+          {'value': 2, 'label': 'B) Manual com uso de planilhas de controle'},
+          {'value': 4, 'label': 'C) Sistema básico que gera e salva XML'},
+          {'value': 6, 'label': 'D) Sistema integrado com ERP ou contabilidade'},
+          {'value': 10, 'label': 'E) Emissão automática integrada com estoque, vendas e financeiro'}
+        ] %}
+        {{ eixo_question(4, 'Como são geradas as notas fiscais eletrônicas?', options) }}
+    
+        {% set options = [
+          {'value': 0, 'label': 'A) Nenhum relatório, só percepção e conversa'},
+          {'value': 2, 'label': 'B) Relatórios manuais em Excel ou similares'},
+          {'value': 4, 'label': 'C) Relatórios automatizados em ferramentas isoladas'},
+          {'value': 6, 'label': 'D) Relatórios com dashboards parciais (Power BI, Google Data Studio)'},
+          {'value': 10, 'label': 'E) Relatórios automáticos e integrados, com alertas e previsões'}
+        ] %}
+        {{ eixo_question(5, 'Existem relatórios automáticos para tomada de decisão?', options) }}
+    
+        {% set options = [
+          {'value': 0, 'label': 'A) Não há controle estruturado'},
+          {'value': 2, 'label': 'B) Feito manualmente com contagem esporádica'},
+          {'value': 4, 'label': 'C) Sistema simples, sem integração com vendas/compras'},
+          {'value': 6, 'label': 'D) Sistema integrado com vendas, compras e produção'},
+          {'value': 10, 'label': 'E) Controle automatizado com reposição automática e relatórios'}
+        ] %}
+        {{ eixo_question(6, 'Como a empresa controla os estoques (caso aplicável)?', options) }}
+    
+        {% set options = [
+          {'value': 0, 'label': 'A) Tudo separado, sem integração'},
+          {'value': 2, 'label': 'B) Exportação e importação manual entre sistemas'},
+          {'value': 4, 'label': 'C) Algumas integrações feitas via API ou automações simples'},
+          {'value': 6, 'label': 'D) Integrações principais funcionando com apoio técnico'},
+          {'value': 10, 'label': 'E) Ambiente unificado com APIs robustas e dados em tempo real'}
+        ] %}
+        {{ eixo_question(7, 'Existem integrações entre sistemas diferentes (ex: vendas + financeiro)?', options) }}
+    
+        {% set options = [
+          {'value': 0, 'label': 'A) Tudo é feito por conversa (WhatsApp, boca a boca)'},
+          {'value': 2, 'label': 'B) Planilhas e agendas manuais'},
+          {'value': 4, 'label': 'C) Ferramenta simples de tarefas (Trello, Todoist)'},
+          {'value': 6, 'label': 'D) Software de gestão de tarefas com atribuições por equipe'},
+          {'value': 10, 'label': 'E) Sistema integrado com metas, alertas e relatórios de produtividade'}
+        ] %}
+        {{ eixo_question(8, 'Como a empresa agenda tarefas e organiza o fluxo de trabalho?', options) }}
+    
+        {% set options = [
+          {'value': 0, 'label': 'A) Apenas WhatsApp ou presencial'},
+          {'value': 2, 'label': 'B) WhatsApp + e-mails, sem organização'},
+          {'value': 4, 'label': 'C) Alguma ferramenta como Slack/Discord, mas mal usada'},
+          {'value': 6, 'label': 'D) Ferramenta oficial usada ativamente pela equipe'},
+          {'value': 10, 'label': 'E) Comunicação estruturada com canais, histórico e integrações'}
+        ] %}
+        {{ eixo_question(9, 'A empresa utiliza ferramentas para comunicação interna?', options) }}
+    
+        {% set options = [
+          {'value': 0, 'label': 'A) Nada automatizado'},
+          {'value': 2, 'label': 'B) Envio manual de mensagens e campanhas'},
+          {'value': 4, 'label': 'C) Algumas automações simples em redes sociais ou e-mail'},
+          {'value': 6, 'label': 'D) Uso de bots ou sequências automatizadas com CRM'},
+          {'value': 10, 'label': 'E) Jornada do cliente automatizada do lead à conversão'}
+        ] %}
+        {{ eixo_question(10, 'Há automação em marketing ou atendimento?', options) }}
+    
+        <div class="form-navigation">
+          <button type="button" class="btn btn-prev" data-prev="step-2">Voltar</button>
+          <button type="button" class="btn btn-next" data-next="step-4">Próximo</button>
+        </div>
+      </form>
+    </div>
+
+    <div id="step-4" class="form-step">
+      <h2>Eixo 3: Processos & Padronização</h2>
+      <form class="eixo-form">
+        {% set options1 = [
+          {'value': 0, 'label': 'A) Não mapeia nenhum processo'},
+          {'value': 2, 'label': 'B) Processos estão na cabeça das pessoas'},
+          {'value': 4, 'label': 'C) Possui alguns processos desenhados de forma informal'},
+          {'value': 6, 'label': 'D) Usa fluxogramas ou BPMN para áreas-chave'},
+          {'value': 10, 'label': 'E) Todos os processos críticos estão mapeados com documentação formal'}
+        ] %}
+    
+        {% set options2 = [
+          {'value': 0, 'label': 'A) Não há nenhum tipo de manual ou instrução'},
+          {'value': 2, 'label': 'B) Existem anotações soltas ou registros não oficiais'},
+          {'value': 4, 'label': 'C) Alguns processos contam com instruções simples'},
+          {'value': 6, 'label': 'D) Há manuais atualizados para funções operacionais importantes'},
+          {'value': 10, 'label': 'E) Manuais completos, com versionamento e acessibilidade por toda equipe'}
+        ] %}
+    
+        {% set options3 = [
+          {'value': 0, 'label': 'A) Cada pessoa executa à sua maneira'},
+          {'value': 2, 'label': 'B) Tentativa de padronização verbal/informal'},
+          {'value': 4, 'label': 'C) Há padrões não documentados, mas seguidos'},
+          {'value': 6, 'label': 'D) Processos padronizados e documentados em áreas-chave'},
+          {'value': 10, 'label': 'E) Padrões documentados, revisados e aplicados em toda a operação'}
+        ] %}
+    
+        {% set options4 = [
+          {'value': 0, 'label': 'A) Nenhuma documentação formal'},
+          {'value': 2, 'label': 'B) Algumas anotações em planilhas ou cadernos'},
+          {'value': 4, 'label': 'C) Documentação pontual em arquivos locais'},
+          {'value': 6, 'label': 'D) Registro de mudanças com histórico interno'},
+          {'value': 10, 'label': 'E) Gestão estruturada de mudanças com controle de versões'}
+        ] %}
+    
+        {% set options5 = [
+          {'value': 0, 'label': 'A) Não há revisões, só correções quando dá problema'},
+          {'value': 2, 'label': 'B) Revisão esporádica, sem método definido'},
+          {'value': 4, 'label': 'C) Algumas revisões feitas por responsáveis diretos'},
+          {'value': 6, 'label': 'D) Processo cíclico de revisão sem acompanhamento de métricas'},
+          {'value': 10, 'label': 'E) Revisão programada com base em indicadores de desempenho'}
+        ] %}
+    
+        {% set options6 = [
+          {'value': 0, 'label': 'A) Cada um guarda seus arquivos no próprio computador'},
+          {'value': 2, 'label': 'B) Compartilhamento por e-mail ou WhatsApp'},
+          {'value': 4, 'label': 'C) Uso de pastas compartilhadas com pouca organização'},
+          {'value': 6, 'label': 'D) Sistema em nuvem com estrutura definida'},
+          {'value': 10, 'label': 'E) Gestão documental com acesso controlado, histórico e backups'}
+        ] %}
+    
+        {% set options7 = [
+          {'value': 0, 'label': 'A) Não há nenhum controle de qualidade'},
+          {'value': 2, 'label': 'B) Controle visual ou informal pelos líderes'},
+          {'value': 4, 'label': 'C) Aplicação pontual de checklists de qualidade'},
+          {'value': 6, 'label': 'D) Controle com métricas definidas em áreas críticas'},
+          {'value': 10, 'label': 'E) Sistema de gestão da qualidade com indicadores, auditorias e ações corretivas'}
+        ] %}
+    
+        {% set options8 = [
+          {'value': 0, 'label': 'A) Não há controle formal de prazos'},
+          {'value': 2, 'label': 'B) Prazos controlados por planilhas e cobrança informal'},
+          {'value': 4, 'label': 'C) Ferramenta básica com lembretes manuais'},
+          {'value': 6, 'label': 'D) Ferramenta de gestão com acompanhamento por responsáveis'},
+          {'value': 10, 'label': 'E) Controle automatizado com dashboards e alertas de desempenho'}
+        ] %}
+    
+        {% set options9 = [
+          {'value': 0, 'label': 'A) Nunca ouviu falar ou não utiliza'},
+          {'value': 2, 'label': 'B) Conhece mas não aplica'},
+          {'value': 4, 'label': 'C) Aplica práticas soltas, sem padronização'},
+          {'value': 6, 'label': 'D) Segue um modelo de referência adaptado'},
+          {'value': 10, 'label': 'E) Implementação formal e monitorada de um ou mais padrões de gestão'}
+        ] %}
+    
+        {% set options10 = [
+          {'value': 0, 'label': 'A) Cada um ensina como quiser'},
+          {'value': 2, 'label': 'B) Orientações verbais e informalidade total'},
+          {'value': 4, 'label': 'C) Apresentação de forma básica e sem padrão'},
+          {'value': 6, 'label': 'D) Documentação ou apresentações estruturadas por função'},
+          {'value': 10, 'label': 'E) Onboarding completo com trilha, checklists e feedback inicial'}
+        ] %}
+    
+        {{ eixo_question(1, 'A empresa possui seus processos mapeados de forma formal (fluxogramas, diagramas etc.)?', options1) }}
+        {{ eixo_question(2, 'Existem manuais operacionais ou instruções de trabalho?', options2) }}
+        {{ eixo_question(3, 'A empresa possui procedimentos padronizados para tarefas repetitivas?', options3) }}
+        {{ eixo_question(4, 'Como a empresa documenta mudanças ou melhorias nos processos?', options4) }}
+        {{ eixo_question(5, 'Existe uma rotina de revisão periódica dos processos?', options5) }}
+        {{ eixo_question(6, 'Como é feita a gestão de documentos e arquivos operacionais?', options6) }}
+        {{ eixo_question(7, 'Existe algum controle de qualidade operacional?', options7) }}
+        {{ eixo_question(8, 'Como são acompanhadas as entregas e prazos internos?', options8) }}
+        {{ eixo_question(9, 'Existe alguma certificação ou padrão de referência seguido (ex: ISO, BPM, 5S)?', options9) }}
+        {{ eixo_question(10, 'Como os processos são apresentados aos novos colaboradores (onboarding técnico)?', options10) }}
+    
+        <div class="form-navigation">
+          <button type="button" class="btn btn-prev" data-prev="step-3">Voltar</button>
+          <button type="button" class="btn btn-next" data-next="step-5">Próximo</button>
+        </div>
+      </form>
+    </div>
+    
+    <div id="step-5" class="form-step">
+      <h2>Eixo 4: Pessoas & Capacitação</h2>
+      <form class="eixo-form">
+        {% set options1 = [
+          {'value': 0, 'label': 'A) Não, grande parte da equipe tem dificuldades básicas'},
+          {'value': 2, 'label': 'B) Alguns conseguem, outros têm dificuldades'},
+          {'value': 4, 'label': 'C) A maioria consegue usar bem, com pequenas limitações'},
+          {'value': 6, 'label': 'D) Toda a equipe tem domínio funcional das ferramentas básicas'},
+          {'value': 10, 'label': 'E) Domínio pleno + capacidade de ajudar colegas'}
+        ] %}
+    
+        {% set options2 = [
+          {'value': 0, 'label': 'A) Nunca ofereceu treinamentos'},
+          {'value': 2, 'label': 'B) Apenas quando há mudanças urgentes'},
+          {'value': 4, 'label': 'C) Treinamentos pontuais para áreas específicas'},
+          {'value': 6, 'label': 'D) Treinamentos recorrentes programados para funções-chave'},
+          {'value': 10, 'label': 'E) Treinamentos contínuos e personalizados por função e nível'}
+        ] %}
+    
+        {% set options3 = [
+          {'value': 0, 'label': 'A) Nenhuma trilha ou plano de desenvolvimento'},
+          {'value': 2, 'label': 'B) Trilha informal, cada um aprende com o outro'},
+          {'value': 4, 'label': 'C) Trilha básica, com materiais ou orientações simples'},
+          {'value': 6, 'label': 'D) Trilha definida para cada cargo ou setor'},
+          {'value': 10, 'label': 'E) Trilha com conteúdos, metas e avaliações periódicas'}
+        ] %}
+    
+        {% set options4 = [
+          {'value': 0, 'label': 'A) Não realiza'},
+          {'value': 2, 'label': 'B) Ocasionalmente, quando há tempo ou necessidade'},
+          {'value': 4, 'label': 'C) Já fez alguma capacitação digital no passado'},
+          {'value': 6, 'label': 'D) Mantém um plano de capacitação digital ativo'},
+          {'value': 10, 'label': 'E) Capacitação digital contínua com evolução acompanhada'}
+        ] %}
+    
+        {% set options5 = [
+          {'value': 0, 'label': 'A) Não há processo formal, tudo é no improviso'},
+          {'value': 2, 'label': 'B) Existe um primeiro dia com algumas apresentações'},
+          {'value': 4, 'label': 'C) Entregam documentos e fazem um tour pela empresa'},
+          {'value': 6, 'label': 'D) Onboarding com roteiro, documentos e integração funcional'},
+          {'value': 10, 'label': 'E) Onboarding estruturado com trilha, treinamento e acompanhamento'}
+        ] %}
+    
+        {% set options6 = [
+          {'value': 0, 'label': 'A) Não há responsáveis claros por isso'},
+          {'value': 2, 'label': 'B) Cada um se vira como pode'},
+          {'value': 4, 'label': 'C) Pessoas mais experientes ajudam informalmente'},
+          {'value': 6, 'label': 'D) Há líderes que orientam e ajudam com dúvidas'},
+          {'value': 10, 'label': 'E) Referências formais com papel de mentor, suporte e desenvolvimento'}
+        ] %}
+    
+        {% set options7 = [
+          {'value': 0, 'label': 'A) Não há incentivo'},
+          {'value': 2, 'label': 'B) Às vezes, mas sem apoio real'},
+          {'value': 4, 'label': 'C) São incentivados verbalmente'},
+          {'value': 6, 'label': 'D) Incentivo + acesso a conteúdos ou reembolso'},
+          {'value': 10, 'label': 'E) Incentivo ativo, reconhecimento e valorização do aprendizado contínuo'}
+        ] %}
+    
+        {% set options8 = [
+          {'value': 0, 'label': 'A) Não existe acompanhamento'},
+          {'value': 2, 'label': 'B) Apenas em casos de problema grave'},
+          {'value': 4, 'label': 'C) Acompanhamento informal pelo gestor'},
+          {'value': 6, 'label': 'D) Feedbacks periódicos com base em metas'},
+          {'value': 10, 'label': 'E) Avaliações estruturadas com planos de desenvolvimento individual'}
+        ] %}
+    
+        {% set options9 = [
+          {'value': 0, 'label': 'A) Não promove'},
+          {'value': 2, 'label': 'B) Quando muito, só bate-papo informal'},
+          {'value': 4, 'label': 'C) Tenta fazer, mas sem rotina definida'},
+          {'value': 6, 'label': 'D) Reuniões ou rituais mensais para aprendizado coletivo'},
+          {'value': 10, 'label': 'E) Cultura forte de troca constante, com rituais e ações programadas'}
+        ] %}
+    
+        {% set options10 = [
+          {'value': 0, 'label': 'A) Erros geram punições ou tensão'},
+          {'value': 2, 'label': 'B) Tentam resolver rapidamente, sem investigar causas'},
+          {'value': 4, 'label': 'C) Corrigem o erro, mas não tratam como aprendizado'},
+          {'value': 6, 'label': 'D) Discutem falhas para entender e evitar repetição'},
+          {'value': 10, 'label': 'E) Cultura de aprendizado com análise construtiva e melhoria contínua'}
+        ] %}
+    
+        {{ eixo_question(1, 'A equipe possui conhecimentos básicos de tecnologia (uso de computador, internet, aplicativos)?', options1) }}
+        {{ eixo_question(2, 'A empresa oferece treinamentos técnicos ou operacionais?', options2) }}
+        {{ eixo_question(3, 'Existe algum tipo de trilha de aprendizado para os colaboradores?', options3) }}
+        {{ eixo_question(4, 'A empresa realiza algum tipo de capacitação digital (planilhas, sistemas, ferramentas colaborativas etc.)?', options4) }}
+        {{ eixo_question(5, 'Como é o processo de integração (onboarding) de novos colaboradores?', options5) }}
+        {{ eixo_question(6, 'Existem lideranças ou referências técnicas internas para suporte ao time?', options6) }}
+        {{ eixo_question(7, 'Os colaboradores são incentivados a buscar aprendizado por conta própria?', options7) }}
+        {{ eixo_question(8, 'Como é feito o acompanhamento da performance individual?', options8) }}
+        {{ eixo_question(9, 'A empresa promove alguma cultura de aprendizado coletivo (ex: reuniões de troca, grupos de estudo, cafés técnicos)?', options9) }}
+        {{ eixo_question(10, 'Como a empresa lida com os erros e falhas dos colaboradores?', options10) }}
+    
+        <div class="form-navigation">
+          <button type="button" class="btn btn-prev" data-prev="step-4">Voltar</button>
+          <button type="button" class="btn btn-next" data-next="step-6">Próximo</button>
+        </div>
+      </form>
+    </div>
+    
+    <div id="step-6" class="form-step">
+      <h2>Eixo 5: Governança & Dados</h2>
+      <form class="eixo-form">
+        {% set options = [
+          {'value': 0, 'label': 'A) Não existe nenhuma política de proteção de dados'},
+          {'value': 2, 'label': 'B) Existe uma política, mas ela não é formal ou documentada'},
+          {'value': 4, 'label': 'C) Existe uma política formal, mas não é revisada regularmente'},
+          {'value': 6, 'label': 'D) Política formal com revisão periódica e comunicação interna'},
+          {'value': 10, 'label': 'E) Política robusta com monitoramento, treinamento e auditorias constantes'}
+        ] %}
+        {{ eixo_question(1, 'A empresa possui políticas formais de proteção de dados e privacidade?', options) }}
+    
+        {% set options = [
+          {'value': 0, 'label': 'A) Não há criptografia ou proteção de dados'},
+          {'value': 2, 'label': 'B) Apenas algumas informações sensíveis são protegidas'},
+          {'value': 4, 'label': 'C) Dados são protegidos em algumas plataformas ou sistemas'},
+          {'value': 6, 'label': 'D) Proteção de dados em sistemas críticos e plataformas principais'},
+          {'value': 10, 'label': 'E) Criptografia e protocolos de segurança implementados em todos os dados, em todas as plataformas'}
+        ] %}
+        {{ eixo_question(2, 'Os dados dos clientes e da empresa são criptografados ou protegidos de alguma forma?', options) }}
+    
+        {% set options = [
+          {'value': 0, 'label': 'A) Não tem nenhum controle sobre isso'},
+          {'value': 2, 'label': 'B) A empresa desconhece ou tem pouco conhecimento da LGPD'},
+          {'value': 4, 'label': 'C) Existem alguns controles básicos para compliance, mas não é centralizado'},
+          {'value': 6, 'label': 'D) Existe um processo formal para garantir a conformidade com as leis de proteção de dados'},
+          {'value': 10, 'label': 'E) A empresa tem processos automatizados e auditorias periódicas para garantir a conformidade legal total'}
+        ] %}
+        {{ eixo_question(3, 'Como a empresa garante o cumprimento das normas legais, como a LGPD (Lei Geral de Proteção de Dados)?', options) }}
+    
+        {% set options = [
+          {'value': 0, 'label': 'A) Não há controle de permissões'},
+          {'value': 2, 'label': 'B) O controle é feito de forma informal, sem registro'},
+          {'value': 4, 'label': 'C) Existe um controle de permissões básico, mas não é documentado'},
+          {'value': 6, 'label': 'D) As permissões são bem definidas por função, com registros e auditoria'},
+          {'value': 10, 'label': 'E) Há um controle avançado, com verificação periódica de acessos, incluindo automação de permissões'}
+        ] %}
+        {{ eixo_question(4, 'Como são gerenciadas as permissões e acessos a dados e sistemas?', options) }}
+    
+        {% set options = [
+          {'value': 0, 'label': 'A) Nunca realiza auditorias'},
+          {'value': 2, 'label': 'B) Apenas quando há algum problema'},
+          {'value': 4, 'label': 'C) Realiza auditorias periódicas, mas com escopo limitado'},
+          {'value': 6, 'label': 'D) Realiza auditorias anuais ou semestrais com escopo definido'},
+          {'value': 10, 'label': 'E) Realiza auditorias regulares, com foco em melhorias contínuas e controle de riscos'}
+        ] %}
+        {{ eixo_question(5, 'A empresa realiza auditorias internas sobre a segurança de dados e governança?', options) }}
+    
+        {% set options = [
+          {'value': 0, 'label': 'A) Não realiza backup, ou realiza de maneira desorganizada'},
+          {'value': 2, 'label': 'B) Realiza backup manualmente, de forma esporádica'},
+          {'value': 4, 'label': 'C) Backup automático de algumas informações essenciais'},
+          {'value': 6, 'label': 'D) Backup completo e periódico de todos os dados críticos'},
+          {'value': 10, 'label': 'E) Backup automatizado, redundante e com monitoramento 24/7'}
+        ] %}
+        {{ eixo_question(6, 'Como a empresa realiza o armazenamento e backup de dados?', options) }}
+    
+        {% set options = [
+          {'value': 0, 'label': 'A) Não são treinados sobre segurança de dados'},
+          {'value': 2, 'label': 'B) Recebem treinamentos ocasionais, sem foco específico'},
+          {'value': 4, 'label': 'C) Recebem treinamentos periódicos sobre boas práticas'},
+          {'value': 6, 'label': 'D) Existem treinamentos regulares, com protocolos claros'},
+          {'value': 10, 'label': 'E) Treinamento contínuo com atualizações frequentes sobre novas ameaças e leis de proteção'}
+        ] %}
+        {{ eixo_question(7, 'Os colaboradores são treinados para garantir a segurança da informação e privacidade dos dados?', options) }}
+    
+        {% set options = [
+          {'value': 0, 'label': 'A) Não há governança formal'},
+          {'value': 2, 'label': 'B) Existe algum controle informal, mas não documentado'},
+          {'value': 4, 'label': 'C) Existe uma governança definida para TI, mas com pouca abrangência'},
+          {'value': 6, 'label': 'D) Governança formalmente estabelecida, com processos claros de dados e TI'},
+          {'value': 10, 'label': 'E) Governança avançada e centralizada, com um Comitê de Governança de TI e dados'}
+        ] %}
+        {{ eixo_question(8, 'Existe alguma abordagem formal de governança de TI para gestão de dados e processos?', options) }}
+    
+        {% set options = [
+          {'value': 0, 'label': 'A) Não existe plano para tratar falhas de segurança'},
+          {'value': 2, 'label': 'B) Tratam-se de maneira reativa, sem processos formais'},
+          {'value': 4, 'label': 'C) Existe um processo informal de reação a falhas de segurança'},
+          {'value': 6, 'label': 'D) Há um plano estruturado e a equipe é treinada para tratar falhas'},
+          {'value': 10, 'label': 'E) Existe um plano de resposta a incidentes documentado e atualizado, com comunicação clara'}
+        ] %}
+        {{ eixo_question(9, 'Como são tratadas as falhas de segurança ou vazamentos de dados?', options) }}
+    
+        {% set options = [
+          {'value': 0, 'label': 'A) Não realiza monitoramento'},
+          {'value': 2, 'label': 'B) Monitoramento feito apenas em caso de incidentes'},
+          {'value': 4, 'label': 'C) Monitoramento básico de dados e plataformas principais'},
+          {'value': 6, 'label': 'D) Monitoramento contínuo, mas com foco apenas em sistemas críticos'},
+          {'value': 10, 'label': 'E) Monitoramento integral e contínuo de todos os sistemas e dados, com alertas automáticos para riscos'}
+        ] %}
+        {{ eixo_question(10, 'A empresa realiza algum tipo de monitoramento contínuo de suas plataformas, dados e acessos?', options) }}
+    
+        <div class="form-navigation">
+          <button type="button" class="btn btn-prev" data-prev="step-1">Voltar</button>
+          <button type="button" class="btn btn-next" data-next="step-3">Próximo</button>
+        </div>
+      </form>
+    </div>
+
+    <div id="step-7" class="form-step">
+      <h2>Eixo 6: Cultura & Inovação</h2>
+      <form class="eixo-form">
+        {% set options = [
+          {'value': 0, 'label': 'A) Resistência total a mudanças, preferindo manter o status quo'},
+          {'value': 2, 'label': 'B) Mudanças ocasionais, mas com dificuldades para adotar novas tecnologias'},
+          {'value': 4, 'label': 'C) Abertura moderada para mudanças, embora com certo receio'},
+          {'value': 6, 'label': 'D) A empresa busca constantemente novas soluções e se adapta bem a mudanças'},
+          {'value': 10, 'label': 'E) A empresa é uma referência em inovação, com grande capacidade de adaptação às mudanças'}
+        ] %}
+        {{ eixo_question(1, 'Como a empresa lida com mudanças e inovação?', options) }}
+        
+        {% set options = [
+          {'value': 0, 'label': 'A) Não existe nenhum programa ou incentivo à inovação'},
+          {'value': 2, 'label': 'B) Existe algum programa, mas ele não é estruturado ou frequente'},
+          {'value': 4, 'label': 'C) Há programas informais e incentivos eventuais para inovação'},
+          {'value': 6, 'label': 'D) A empresa tem um programa formal de inovação com metas claras'},
+          {'value': 10, 'label': 'E) A inovação é parte da cultura, com iniciativas contínuas e investimentos em pesquisa e desenvolvimento'}
+        ] %}
+        {{ eixo_question(2, 'Existe algum programa ou iniciativa voltado para fomentar a inovação interna?', options) }}
+    
+        {% set options = [
+          {'value': 0, 'label': 'A) Ignora as novas tecnologias e não acompanha tendências'},
+          {'value': 2, 'label': 'B) Analisa as tecnologias, mas demora a adotar'},
+          {'value': 4, 'label': 'C) A empresa acompanha as tendências e tenta adotar algumas delas'},
+          {'value': 6, 'label': 'D) A empresa adota tecnologias de forma planejada e consciente'},
+          {'value': 10, 'label': 'E) A empresa é pioneira na adoção de novas tecnologias e tendências emergentes'}
+        ] %}
+        {{ eixo_question(3, 'Como a empresa reage às novas tecnologias e tendências do mercado?', options) }}
+    
+        {% set options = [
+          {'value': 0, 'label': 'A) Não há incentivo para aprendizagem contínua'},
+          {'value': 2, 'label': 'B) Existem algumas oportunidades, mas não são bem estruturadas'},
+          {'value': 4, 'label': 'C) A empresa oferece treinamentos periódicos, mas de forma informal'},
+          {'value': 6, 'label': 'D) A empresa possui programas estruturados de capacitação contínua'},
+          {'value': 10, 'label': 'E) Há uma cultura de aprendizado contínuo, com treinamentos e feedbacks regulares'}
+        ] %}
+        {{ eixo_question(4, 'Como a cultura organizacional incentiva o aprendizado e a capacitação contínua?', options) }}
+    
+        {% set options = [
+          {'value': 0, 'label': 'A) Não, a liderança não incentiva a criatividade nem a inovação'},
+          {'value': 2, 'label': 'B) Sim, mas de forma limitada e pontual'},
+          {'value': 4, 'label': 'C) A liderança promove algumas iniciativas para estimular a inovação'},
+          {'value': 6, 'label': 'D) A liderança está engajada em fomentar a criatividade e novas ideias'},
+          {'value': 10, 'label': 'E) A liderança é um grande motor da inovação, promovendo um ambiente criativo e aberto'}
+        ] %}
+        {{ eixo_question(5, 'Os líderes da empresa promovem a inovação e a criatividade entre os colaboradores?', options) }}
+    
+        {% set options = [
+          {'value': 0, 'label': 'A) Não há incentivo para que os colaboradores proponham ideias'},
+          {'value': 2, 'label': 'B) Há uma abertura limitada para sugestões, mas sem estrutura formal'},
+          {'value': 4, 'label': 'C) Existe um canal de sugestões, mas não há resposta sistemática'},
+          {'value': 6, 'label': 'D) A empresa possui canais formais para submissão de ideias e soluções'},
+          {'value': 10, 'label': 'E) Há um sistema ativo de inovação, com recompensas e implementação de boas ideias'}
+        ] %}
+        {{ eixo_question(6, 'Como os colaboradores são incentivados a propor ideias e soluções inovadoras?', options) }}
+    
+        {% set options = [
+          {'value': 0, 'label': 'A) Não possui nenhuma prática ou estrutura de gestão de mudanças'},
+          {'value': 2, 'label': 'B) A gestão de mudanças é realizada de forma improvisada e sem planejamento'},
+          {'value': 4, 'label': 'C) Há uma gestão de mudanças básica, mas sem processos definidos'},
+          {'value': 6, 'label': 'D) Existe uma estrutura formal e planejada para a gestão de mudanças'},
+          {'value': 10, 'label': 'E) A gestão de mudanças é altamente estruturada e integrada à cultura organizacional'}
+        ] %}
+        {{ eixo_question(7, 'A empresa tem práticas de gestão de mudança para implementar novos processos ou tecnologias?', options) }}
+    
+        {% set options = [
+          {'value': 0, 'label': 'A) Não utiliza nenhuma tecnologia emergente'},
+          {'value': 2, 'label': 'B) A empresa faz um uso básico de algumas tecnologias emergentes'},
+          {'value': 4, 'label': 'C) Utiliza algumas tecnologias emergentes de forma pontual'},
+          {'value': 6, 'label': 'D) A empresa explora ativamente novas tecnologias para otimizar processos'},
+          {'value': 10, 'label': 'E) A empresa é líder no uso de tecnologias emergentes e pioneira em novas tendências'}
+        ] %}
+        {{ eixo_question(8, 'A empresa utiliza tecnologias emergentes ou explora novas possibilidades tecnológicas (ex. Inteligência Artificial, IoT, Blockchain)?', options) }}
+    
+        {% set options = [
+          {'value': 0, 'label': 'A) A colaboração é rara e pouco incentivada'},
+          {'value': 2, 'label': 'B) Existe alguma colaboração, mas de forma informal e pouco estruturada'},
+          {'value': 4, 'label': 'C) A colaboração ocorre, mas com limitações entre áreas diferentes'},
+          {'value': 6, 'label': 'D) A empresa tem uma cultura colaborativa com foco no trabalho em equipe'},
+          {'value': 10, 'label': 'E) A colaboração entre equipes e departamentos é essencial para a empresa e acontece de forma contínua'}
+        ] %}
+        {{ eixo_question(9, 'A cultura da empresa favorece a colaboração entre equipes e departamentos?', options) }}
+    
+        {% set options = [
+          {'value': 0, 'label': 'A) Não coleta feedback ou ignora o que é dito'},
+          {'value': 2, 'label': 'B) Coleta feedback de forma informal, mas sem grande ação sobre ele'},
+          {'value': 4, 'label': 'C) Coleta feedbacks regulares, mas com implementação limitada'},
+          {'value': 6, 'label': 'D) Coleta e age ativamente sobre os feedbacks dos clientes'},
+          {'value': 10, 'label': 'E) A empresa tem um processo estruturado de feedback, e implementa rapidamente melhorias com base nele'}
+        ] %}
+        {{ eixo_question(10, 'Como a empresa lida com o feedback dos clientes e do mercado?', options) }}
+    
+        <div class="form-navigation">
+          <button type="button" class="btn btn-prev" data-prev="step-6">Voltar</button>
+          <button type="button" class="btn btn-next" data-next="step-8">ENVIAR</button>
+        </div>
+      </form>
+    </div>
+
+    <div id="step-8" class="form-step">
+      <h2>Seu Resultado</h2>
+      <div id="result-container">
+        <!-- Preenchido via JavaScript -->
+      </div>
+    </div>
+  </div>
+
+
+{% endblock %}
+
+{% block js %}
+<script src="{{ url_for('static', filename='js/modules/pre_diagnostico.js') }}"></script>
+{% endblock %}

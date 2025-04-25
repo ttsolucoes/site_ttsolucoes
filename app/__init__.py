@@ -7,6 +7,7 @@ from .routes import contas
 from .routes import acessos
 from .routes import perfil
 from .routes import gerenciar
+from .routes import pre_diagnostico
 from api.routes.principal import api_conexao_bp
 
 app.register_blueprint(api_conexao_bp, url_prefix='/api')
@@ -18,4 +19,5 @@ __all__ = [
     'acessos',
     'perfil',
     'gerenciar',
+    'pre_diagnostico'
 ]
