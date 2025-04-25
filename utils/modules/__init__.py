@@ -4,6 +4,9 @@ from .usuarios.functions import (
     detalhar_usuario, ver_usuarios_public, aprovar_usuario_publico, detalhar_recuperar_acesso, atualizar_senha_usuario, ver_recuperaracesso_public,
     acao_recuperar_acesso, atualizar_email_usuario
 )
+from .pre_diagnostico.functions import (
+    salvar_prediagnostico
+)
 
 __all__ = [
     'criar_usuario', 
@@ -23,5 +26,6 @@ __all__ = [
     'atualizar_senha_usuario', 
     'ver_recuperaracesso_public',
     'acao_recuperar_acesso',
-    'atualizar_email_usuario'
+    'atualizar_email_usuario',
+    'salvar_prediagnostico'
 ]

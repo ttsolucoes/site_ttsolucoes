@@ -11,7 +11,7 @@
 {% block content %}
 
 {% set title_hero = "Pré diagnóstico - TT SOLUÇÕES" %}
-{% set subtitle_hero = "Levantamento da realidade tecnológica do cliente e classificação da maturidade (0 a 10). O formulário será estruturado com perguntas de múltipla escolha baseadas nos seguintes pilares de avaliação: Infraestrutura & Hardware; Sistemas & Automação; Processos & Padronização; Pessoas & Capacitação; Governança & Dados; Cultura & Inovação" %}
+{% set subtitle_hero = "Levantamento da realidade tecnológica de sua e classificação da maturidade (0 a 10). O formulário será estruturado com perguntas de múltipla escolha baseadas nos seguintes pilares de avaliação: Infraestrutura & Hardware; Sistemas & Automação; Processos & Padronização; Pessoas & Capacitação; Governança & Dados; Cultura & Inovação" %}
 {% set actions_hero = [
     {'url': '/index', 'class': 'btn btn-zero', 'label': 'HOME', 'title': 'Volte para a Index'},
     {'url': '/saiba_mais', 'class': 'btn btn-zero', 'label': 'Saiba mais', 'title': 'Tenha mais informações da TT Soluções'},
@@ -637,7 +637,9 @@
     <div id="step-8" class="form-step">
       <h2>Seu Resultado</h2>
       <div id="result-container">
-        <!-- Preenchido via JavaScript -->
+      </div>
+      <div class="form-navigation">
+        <button type="button" class="btn btn-restart" data-prev="step-0">Reiniciar</button>
       </div>
     </div>
   </div>

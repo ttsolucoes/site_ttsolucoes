@@ -32,12 +32,12 @@ def executar_sql(sql: str) -> Union[str, list]:
     conn = conectar_banco()
     cursor = conn.cursor()
     try:
-        cursor.execute(sql)  # <- sem params aqui MESMO
+        cursor.execute(sql)
         if cursor.description:
             resultado = cursor.fetchall()
         else:
-            conn.commit()
             resultado = "Sucesso ao executar"
+        conn.commit()
         return resultado
     except OperationalError as e:
         conn.rollback()
