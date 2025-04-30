@@ -17,6 +17,32 @@ from utils import (
     atualizar_email_usuario
 )
 from typing import Dict, List, Union
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+
+EMAIL_ADDRESS = "techttracksolucoes@gmail.com"
+APP_PASSWORD = "nhuh pctp kijc pjew"
+
+def enviar_email(destinatario = "", assunto = "Assunto Padrão", corpo = "<p>Corpo do e-mail padrão</p>"):
+    destinatario = destinatario
+    assunto = assunto
+    corpo = corpo
+
+    msg = MIMEMultipart()
+    msg['From'] = EMAIL_ADDRESS
+    msg['To'] = destinatario
+    msg['Subject'] = assunto
+
+    msg.attach(MIMEText(corpo, "html"))
+
+    try:
+        with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
+            smtp.login(EMAIL_ADDRESS, APP_PASSWORD)
+            smtp.send_message(msg)
+        return "Email enviado com sucesso!"
+    except Exception as e:
+        return f"Erro ao enviar e-mail: {str(e)}"
 
 app.secret_key = secret_key
 
@@ -137,6 +163,42 @@ def aprovar_novo_usuario(id_solicitacao):
             senha='123456',
             cargo='user'
         )
+
+        assunto = "Cadastro confirmado"
+        corpo = f'''
+
+<p>Olá, {user['username']}.</p>
+
+<p>Estamos entrando em contato para informar que sua solicitação foi aprovada e que sua conta está aprovada em nossa plataforma. Seguem credenciais:</p>
+
+<p>- Website: https://site-ttsolucoes.onrender.com/login</p>
+
+<p>- Usuário: {user['username']}</p>
+
+<p>- Senha: 123456</p>
+
+<p>( existem dados sensíveis, nunca compartilhe com quem tu não confia, a TT Soluções está comprometida em construir um mundo digital mais seguro para todos, todas e todxs  )</p>
+
+<p>Caso não tenha solicitado, favor entre em contato conosco:</p>
+
+<p>- Plataforma: https://site-ttsolucoes.onrender.com/recovery </p>
+
+<p>- Whatsapp: https://wa.me/5527997516005 </p>
+
+<p>- Ligação: +55 (27) 9 9751-6005</p>
+
+<p>Ou simplesmente responda esse e-mail.</p>
+
+<p>Estamos gratos pela sua atenção e solicitação. Esperamos que nossa jornada juntos seja positiva e adorável!</p>
+-----
+</br>
+<small>Atenciosamente, equipe <strong>TT SOLUÇÕES</strong></small>
+</br>
+<small>Transformação técnico-digital para empresas que ainda fazem milagre com planilha.</small>
+</br>
+<img src="https://lh3.googleusercontent.com/d/1W1llr4gNibdJwsGX11dj2jspIt633yWX" width="96" height="96" alt="Logo TT Soluções">
+        '''
+        enviar_email(user['email'], assunto, corpo)
 
         remover_usuario(user['username'], tipo='publicos')
         inserir_log(session['user']['username'], 'aprovar_novo_usuario', f"Novo usuário {user['username']} aprovado.")
