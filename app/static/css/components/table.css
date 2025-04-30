@@ -1,0 +1,69 @@
+.table-container {
+    margin-top: 2rem;
+    overflow-x: auto;
+    background-color: var(--background-soft);
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    padding: 1rem;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+    color: var(--text-light);
+}
+
+.data-table thead {
+    background-color: var(--dark-color);
+}
+
+.data-table thead th {
+    padding: 0.75rem 1rem;
+    text-align: center;
+    font-weight: bold;
+    border-bottom: 2px solid var(--border-color);
+    color: var(--text-dark);
+    white-space: nowrap;
+}
+
+.data-table tbody tr {
+    transition: background 0.2s ease;
+}
+
+.data-table tbody tr:hover {
+    background-color: rgba(52, 211, 153, 0.08);
+}
+
+.data-table td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-color);
+}
+
+.data-table td:last-child {
+    white-space: nowrap;
+}
+
+.table-pagination {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.table-pagination a,
+.table-pagination span {
+    background-color: var(--dark-color);
+    color: var(--text-light);
+    padding: 0.5rem 0.75rem;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background 0.2s ease;
+}
+
+.table-pagination a:hover {
+    background-color: var(--secondary-color);
+    color: var(--text-dark);
+}

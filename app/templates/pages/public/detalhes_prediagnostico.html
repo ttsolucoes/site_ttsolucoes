@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+{% from "macros/pre-diagnostico.jinja2" import input_field, eixo_question %}
+
+{% block title %}Pre Diagnostico{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/home.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/pre_diagnostico.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/detalhes_pre_diagnostico.css') }}">
+{% endblock %}
+
+{% block content %}
+
+{% set title_hero = "Pré diagnóstico - TT SOLUÇÕES" %}
+{% set subtitle_hero = "Levantamento da realidade tecnológica de sua empresa e classificação da maturidade (0 a 10). O formulário será estruturado com perguntas de múltipla escolha baseadas nos seguintes pilares de avaliação:" %}
+{% set columns = ["Eixo", "Critérios", "Peso (%)"] %}
+{% set data = [
+    ["Infraestrutura & Hardware", "Inventário atualizado, virtualização, rede segura", "15%"],
+    ["Sistemas & Automação", "Uso de ERP, CRM, RPA, BI, APIs integradas", "20%"],
+    ["Processos & Padronização", "BPMN, mapeamento, controle de versões, manuais operacionais", "20%"],
+    ["Pessoas & Capacitação", "Treinamento contínuo, fluência digital, onboarding técnico", "15%"],
+    ["Governança & Dados", "LGPD, compliance, auditoria de dados, políticas internas", "15%"],
+    ["Cultura & Inovação", "Abertura à mudança, labs internos, uso de techs emergentes", "15%"]
+] %}
+{% set actions_hero = [
+    {'url': '/index', 'class': 'btn btn-zero', 'label': 'HOME', 'title': 'Volte para a Index'},
+    {'url': '/pre_diagnostico', 'class': 'btn btn-zero', 'label': 'INICIAR', 'title': 'Inicie agora o pré diagnóstico'}
+] %}
+{% include 'components/hero-card.html' %}
+
+<section class="pre-diagnostico-metodo">
+    <div class="section-header">
+        <h2>Método de Avaliação do Pré-Diagnóstico</h2>
+        <p>
+            A matriz de avaliação é proprietária da TT Soluções, baseada em referências internacionais como CMMI, Capgemini e MIT Sloan, mas foi adaptada à realidade brasileira. O formulário é dinâmico e será ajustado com base em respostas e feedbacks contínuos.
+        </p>
+    </div>
+
+    <div class="eixos-container">
+        {% for eixo in [
+            {
+                'titulo': 'Infraestrutura & Hardware',
+                'descricao': 'Avalia a estrutura física e lógica de tecnologia da empresa.',
+                'criterios': 'Inventário, rede, virtualização, equipamentos.',
+                'peso': '15%',
+                'analise': [
+                    '0-2: Equipamentos desatualizados, rede instável, sem inventário.',
+                    '4-6: Rede funcional, alguns ativos organizados, sem virtualização.',
+                    '8-10: Infra moderna, virtualizada, monitorada, com inventário ativo.'
+                ]
+            },
+            {
+                'titulo': 'Sistemas & Automação',
+                'descricao': 'Avalia o uso de sistemas e integração entre as áreas.',
+                'criterios': 'ERP, CRM, BI, API, integração.',
+                'peso': '20%',
+                'analise': [
+                    '0-2: Nenhum sistema; controle em papel/Excel.',
+                    '4-6: Sistemas isolados, sem integração.',
+                    '8-10: ERP/CRM integrados, BI, automação de tarefas.'
+                ]
+            },
+            {
+                'titulo': 'Processos & Padronização',
+                'descricao': 'Avalia a organização de processos e documentação interna.',
+                'criterios': 'BPMN, fluxogramas, manuais, padronização.',
+                'peso': '20%',
+                'analise': [
+                    '0-2: Sem processos documentados.',
+                    '4-6: Alguns processos descritos, sem padronização.',
+                    '8-10: Processos mapeados, versões controladas, manuais operacionais.'
+                ]
+            },
+            {
+                'titulo': 'Pessoas & Capacitação',
+                'descricao': 'Avalia as competências digitais e treinamento da equipe.',
+                'criterios': 'Onboarding, capacitações, cultura digital.',
+                'peso': '15%',
+                'analise': [
+                    '0-2: Nenhum treinamento, equipe sem familiaridade digital.',
+                    '4-6: Treinamento pontual, apenas parte da equipe treinada.',
+                    '8-10: Capacitações recorrentes, onboarding estruturado, fluência digital.'
+                ]
+            },
+            {
+                'titulo': 'Governança & Dados',
+                'descricao': 'Avalia segurança, conformidade e gestão de dados.',
+                'criterios': 'LGPD, auditoria, compliance.',
+                'peso': '15%',
+                'analise': [
+                    '0-2: Nenhuma política de dados; riscos legais.',
+                    '4-6: Políticas iniciais, poucos controles efetivos.',
+                    '8-10: Total conformidade LGPD, dados protegidos, auditorias frequentes.'
+                ]
+            },
+            {
+                'titulo': 'Cultura & Inovação',
+                'descricao': 'Avalia abertura à inovação e experiências tecnológicas.',
+                'criterios': 'Abertura à mudança, labs internos, tech emergentes.',
+                'peso': '15%',
+                'analise': [
+                    '0-2: Postura reativa, nenhuma iniciativa de inovação.',
+                    '4-6: Iniciativas pontuais, resistência a mudanças.',
+                    '8-10: Cultura de experimentação, incentivo à inovação.'
+                ]
+            }
+        ] %}
+        <div class="eixo-card">
+            <h3>{{ eixo.titulo }}</h3>
+            <p><strong>Descrição:</strong> {{ eixo.descricao }}</p>
+            <p><strong>Critérios:</strong> {{ eixo.criterios }}</p>
+            <p><strong>Peso:</strong> {{ eixo.peso }}</p>
+            <div class="analise-pontuacao">
+                <strong>Análise da Pontuação:</strong>
+                <ul>
+                    {% for item in eixo.analise %}
+                    <li>{{ item }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="metodo-final">
+        <h3>Cálculo da Maturidade Final</h3>
+        <p>A maturidade é a média entre as pontuações dos eixos.</p>
+        <ul>
+            <li>0 a 2: Transformação Completa (R$ 2.200)</li>
+            <li>2 a 4: Transformação Completa (R$ 2.200)</li>
+            <li>4 a 6: Indicadores Prontos (R$ 1.600)</li>
+            <li>6 a 8: Início Ágil (R$ 800)</li>
+            <li>8 a 10: Plano Personalizado sob demanda</li>
+        </ul>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block js %}
+<script src="{{ url_for('static', filename='js/modules/pre_diagnostico.js') }}"></script>
+{% endblock %}

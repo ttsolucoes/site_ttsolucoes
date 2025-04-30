@@ -7,7 +7,7 @@
 
         <nav class="main-nav">
             <ul>
-                <li><a href="/pre_diagnostico" title="Realizar o Pré diagnóstico">Pré diagnóstico</a></li>
+                <li><a href="/detalhes_pre_diagnostico" title="Realizar o Pré diagnóstico">Pré diagnóstico</a></li>
                 {% if current_user.is_authenticated %}
                     {% if session.user.cargo == 'admin' %}
                         <li>

@@ -8,6 +8,10 @@ app.secret_key = secret_key
 def pre_diagnostico():
     return render_template('pages/public/pre_diagnostico.html')
 
+@app.route('/detalhes_pre_diagnostico')
+def detalhes_pre_diagnostico():
+    return render_template('pages/public/detalhes_prediagnostico.html')
+
 @app.route('/pre_diagnostico_salvar', methods=['POST'])
 def pre_diagnostico_salvar():
 
