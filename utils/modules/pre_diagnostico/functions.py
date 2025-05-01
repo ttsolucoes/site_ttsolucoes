@@ -1,5 +1,31 @@
 from config.database import executar_sql
 import json
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+
+EMAIL_ADDRESS = "techttracksolucoes@gmail.com"
+APP_PASSWORD = "nhuh pctp kijc pjew"
+
+def enviar_email(destinatario = "", assunto = "Assunto Padrão", corpo = "<p>Corpo do e-mail padrão</p>"):
+    destinatario = destinatario
+    assunto = assunto
+    corpo = corpo
+
+    msg = MIMEMultipart()
+    msg['From'] = EMAIL_ADDRESS
+    msg['To'] = destinatario
+    msg['Subject'] = assunto
+
+    msg.attach(MIMEText(corpo, "html"))
+
+    try:
+        with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
+            smtp.login(EMAIL_ADDRESS, APP_PASSWORD)
+            smtp.send_message(msg)
+        return "Email enviado com sucesso!"
+    except Exception as e:
+        return f"Erro ao enviar e-mail: {str(e)}"
 
 def inserir_info_pessoal(info_pessoa: dict):
     query = f"""
@@ -89,6 +115,36 @@ def salvar_prediagnostico(dados : dict) -> dict:
     id_diagnostico = inserir_info_pessoal(info_pessoa)
     if not id_diagnostico:
         return {'status': 'error', 'message': 'Erro ao inserir informações pessoais'}
+    else:
+        email = info_pessoa.get('email')
+        assunto = "Pre-diagnóstico recebido"
+        corpo = f'''
+<p>Olá, {info_pessoa.get('nome')}.</p>
+
+<p>Seu pré-diagnóstico foi recebido com sucesso.</p>
+
+<p>Estamos analisando suas respostas e entraremos em contato em breve.</p>
+
+<p>Caso tenha dúvidas, entre em contato conosco:</p>
+
+<p>- Plataforma: https://site-ttsolucoes.onrender.com/recovery </p>
+
+<p>- Whatsapp: https://wa.me/5527997516005</p>
+
+<p>- Ligação: +55 (27) 9 9751-6005</p>
+-----
+</br>
+<small>Atenciosamente, equipe <strong>TT SOLUÇÕES</strong></small>
+</br>
+<small>Transformação técnico-digital para empresas que ainda fazem milagre com planilha.</small>
+</br>
+<img src="https://lh3.googleusercontent.com/d/1W1llr4gNibdJwsGX11dj2jspIt633yWX" width="96" height="96" alt="Logo TT Soluções">
+
+        '''
+        try:
+            enviar_email(email, assunto, corpo)
+        except:
+            pass
     inserir_info_eixos(info_eixos, info_final, id_diagnostico)
     inserir_info_final(info_final, id_diagnostico)
 
@@ -98,3 +154,47 @@ def salvar_prediagnostico(dados : dict) -> dict:
     print(f"Informações finais inseridas: {info_final}")
 
     return {'status': 'success', 'message': 'Dados salvos com sucesso', 'data': {'id_interno': id_diagnostico, 'info_final': info_final, 'info_eixos': info_eixos, 'info_pessoa': info_pessoa}}
+
+def consultar_prediagnosticos():
+    query_pessoa = "SELECT * FROM diagnostico_pessoal;"
+    query_final = "SELECT * FROM diagnostico_final;"
+    query_eixo = "SELECT * FROM diagnostico_eixo;"
+
+    dados_pessoais = executar_sql(query_pessoa)
+    dados_finais = executar_sql(query_final)
+    dados_eixos = executar_sql(query_eixo)
+
+    # Transformar dados em dicionários mais legíveis
+    diagnosticos = []
+    for pessoa in dados_pessoais:
+        diagnostico_id = pessoa[0]
+        dados = {
+            'id': diagnostico_id,
+            'nome': pessoa[1],
+            'empresa': pessoa[2],
+            'relacao': pessoa[3],
+            'email': pessoa[4],
+            'telefone': pessoa[5],
+            'data': pessoa[6],
+            'final': {},
+            'eixos': []
+        }
+
+        for final in dados_finais:
+            if final[1] == diagnostico_id:
+                dados['final'] = {
+                    'media_final': final[2],
+                    'proposta': final[3]
+                }
+
+        for eixo in dados_eixos:
+            if eixo[1] == diagnostico_id:
+                dados['eixos'].append({
+                    'eixo': eixo[2],
+                    'media': eixo[3],
+                    'respostas': eixo[4]
+                })
+
+        diagnosticos.append(dados)
+
+    return diagnosticos

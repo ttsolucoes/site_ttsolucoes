@@ -1,0 +1,32 @@
+.filters {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.filters input {
+    padding: 0.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    width: 250px;
+}
+
+.btn-ver {
+    padding: 0.4rem 0.8rem;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 0.3rem;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+@media (max-width: 768px) {
+    .filters {
+        flex-direction: column; /* Coloca os filtros um abaixo do outro */
+        gap: 1rem; /* Espaçamento entre os campos */
+    }
+
+    .filters input {
+        width: 100%;  /* Faz os filtros ocuparem toda a largura disponível */
+    }
+}

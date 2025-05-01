@@ -67,3 +67,50 @@
     background-color: var(--secondary-color);
     color: var(--text-dark);
 }
+
+@media (max-width: 768px) {
+    /* Estilo da tabela no celular */
+    .data-table thead {
+        display: none; /* Esconde o cabeçalho da tabela */
+    }
+
+    .data-table tbody {
+        display: block;
+        width: 100%;
+    }
+
+    .data-table tbody tr {
+        display: block;
+        margin-bottom: 1rem;
+        border: 1px solid var(--border-color);
+        padding: 1rem;
+        border-radius: 8px;
+    }
+
+    .data-table tbody td {
+        display: block;
+        width: 100%;
+        padding: 0.5rem;
+        border-bottom: 1px solid var(--border-color);
+        color: var(--text-color);
+        box-sizing: border-box;
+    }
+
+    /* Adicionar uma visualização estilo lista */
+    .data-table tbody td:before {
+        content: attr(data-label);
+        font-weight: bold;
+        margin-right: 0.5rem;
+        color: var(--text-dark);
+    }
+
+    .data-table tbody td:last-child {
+        border-bottom: none;
+    }
+
+    /* Ajustar a visualização da paginação para dispositivos móveis */
+    .table-pagination {
+        display: block;
+        margin-top: 1rem;
+    }
+}

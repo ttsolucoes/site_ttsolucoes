@@ -1,6 +1,32 @@
 from app import app
 from config import secret_key
 from flask import render_template, request, session, jsonify
+from config import secret_key, required_roles
+from collections import defaultdict
+import json
+
+def _consultar():
+
+    from config import executar_sql
+    query_eixos = "SELECT * FROM diagnostico_eixo"
+    dados_eixos = executar_sql(query_eixos)
+
+    eixos_por_diagnostico = defaultdict(list)
+
+    for linha in dados_eixos:
+        diagnostico_id = linha[1]
+        eixo = linha[2]
+        media = round(linha[3], 2)
+        respostas = linha[4]  # Já é um dict, não é necessário fazer json.loads
+
+        respostas_convertidas = {k: int(v) for k, v in respostas.items() if k.startswith("q")}
+        eixos_por_diagnostico[diagnostico_id].append({
+            'id': diagnostico_id,
+            'eixo': eixo,
+            'media': media,
+            'respostas': respostas_convertidas
+        })
+    return eixos_por_diagnostico
 
 app.secret_key = secret_key
 
@@ -11,6 +37,40 @@ def pre_diagnostico():
 @app.route('/detalhes_pre_diagnostico')
 def detalhes_pre_diagnostico():
     return render_template('pages/public/detalhes_prediagnostico.html')
+
+@app.route('/pre_diagnostico_detalhes')
+@required_roles('admin')
+def pre_diagnostico_detalhes():
+    from config import executar_sql
+    query = """
+SELECT d.id, d.nome, d.empresa, d.relacao, d.email, d.telefone, d.data,f.media_final, f.proposta
+FROM diagnostico_pessoal d
+JOIN diagnostico_final f ON d.id = f.diagnostico_id
+ORDER BY d.data DESC;
+    """
+    dados = executar_sql(query)
+
+    columns = ['ID', 'Nome', 'Empresa', 'Relação', 'Email', 'Telefone', 'Data', 'Média Final', 'Proposta']
+    data = []
+    for d in dados:
+        row = [
+            d[0], d[1], d[2], d[3], d[4], d[5],
+            str(d[6])[:19],
+            round(d[7], 2),
+            d[8]
+        ]
+        data.append(row)
+
+    detalhes = _consultar()
+
+    return render_template(
+        "pages/private/pre_diagnostico_detalhes.html",
+        columns=columns,
+        data=data,
+        eixos_por_diagnostico=detalhes,
+        pagination=None
+    )
+
 
 @app.route('/pre_diagnostico_salvar', methods=['POST'])
 def pre_diagnostico_salvar():

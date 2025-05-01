@@ -5,7 +5,7 @@ from .usuarios.functions import (
     acao_recuperar_acesso, atualizar_email_usuario
 )
 from .pre_diagnostico.functions import (
-    salvar_prediagnostico
+    salvar_prediagnostico, consultar_prediagnosticos
 )
 
 __all__ = [
@@ -27,5 +27,6 @@ __all__ = [
     'ver_recuperaracesso_public',
     'acao_recuperar_acesso',
     'atualizar_email_usuario',
-    'salvar_prediagnostico'
+    'salvar_prediagnostico',
+    'consultar_prediagnosticos'
 ]

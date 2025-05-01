@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/detalhes_prediagnostico.css') }}">
+{% endblock %}
+
+{{ detalhes }}
+
+{% block content %}
+
+<div class="page-header">
+    <h2>Pré-Diagnósticos Realizados</h2>
+</div>
+
+<div class="filters">
+    <input type="text" id="filtro-id" placeholder="Filtrar por ID..." />
+    <input type="text" id="filtro-nome" placeholder="Filtrar por nome..." />
+    <input type="text" id="filtro-empresa" placeholder="Filtrar por empresa..." />
+</div>
+
+{% include 'components/table.html' with context %}
+
+<p> A parte detalhada ainda está em manutenção. Agradecemos sua paciência! :] </p>
+
+<div id="component-container">
+
+    <h3>Médias por Eixo</h3>
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Eixo</th>
+                <th>Média</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for diagnostico_id, eixos in eixos_por_diagnostico.items() %}
+
+                    {% for eixo in eixos %}
+                        <tr>
+                            <td>{{ diagnostico_id }}</td>
+                            <td>{{ eixo.eixo }}</td>
+                            <td>{{ eixo.media }}</td>
+                        </tr>
+                    {% endfor %}
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <h3>Respostas e Pontuação por Eixo</h3>
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Eixo</th>
+                <th>Questão</th>
+                <th>Resposta</th>
+                <th>Pontuação</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for diagnostico_id, eixos in eixos_por_diagnostico.items() %}
+                    {% for eixo in eixos %}
+                        {% for questao, resposta in eixo.respostas.items() %}
+                            <tr>
+                                <td>{{ diagnostico_id }}</td>
+                                <td>{{ eixo.eixo }}</td>
+                                <td>{{ questao }}</td>
+                                <td>
+                                    {% set pontuacao = (resposta in [0, 2] and 'A') or (resposta == 4 and 'B') or (resposta == 6 and 'C') or (resposta == 8 and 'D') or (resposta == 10 and 'E') %}
+                                    {% if pontuacao == False %}
+                                        Sem Resposta
+                                    {% else %}
+                                        {{ pontuacao }}
+                                    {% endif %}
+                                </td>
+                                <td>{{ resposta }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% endfor %}
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
+
+
+{% block js %}
+
+<script src="{{ url_for('static', filename='js/modules/detalhes_prediagnostico.js') }}"></script>
+{% endblock %}
