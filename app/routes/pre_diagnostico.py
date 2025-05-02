@@ -74,15 +74,13 @@ ORDER BY d.data DESC;
 
 @app.route('/pre_diagnostico_salvar', methods=['POST'])
 def pre_diagnostico_salvar():
-
     from utils import salvar_prediagnostico
-
     dados = request.get_json()
-    if not dados:
-        return jsonify({'status': 'error', 'message': 'Dados inválidos'}), 400
-    elif not isinstance(dados, dict):
+
+    if not dados or not isinstance(dados, dict):
         return jsonify({'status': 'error', 'message': 'Dados inválidos'}), 400
 
+    # Organiza os dados recebidos
     dados_organizados = {
         'info_pessoa': {
             'nome': dados['step-1']['nome'],
@@ -91,63 +89,50 @@ def pre_diagnostico_salvar():
             'email': dados['step-1']['email'],
             'telefone': dados['step-1']['telefone'],
         },
-        'info_eixo1': dados['step-2'],
-        'info_eixo2': dados['step-3'],
-        'info_eixo3': dados['step-4'],
-        'info_eixo4': dados['step-5'],
-        'info_eixo5': dados['step-6'],
-        'info_eixo6': dados['step-7'],
         'info_eixos': {
-            'eixo1': dados['step-2'],
-            'eixo2': dados['step-3'],
-            'eixo3': dados['step-4'],
-            'eixo4': dados['step-5'],
-            'eixo5': dados['step-6'],
-            'eixo6': dados['step-7'],
+            f'eixo{i}': dados[f'step-{i+1}']
+            for i in range(1, 7)
         }
     }
 
     pesos = {
-    'eixo1': 0.15,
-    'eixo2': 0.20,
-    'eixo3': 0.20,
-    'eixo4': 0.15,
-    'eixo5': 0.15,
-    'eixo6': 0.15
+        'eixo1': 0.15,
+        'eixo2': 0.20,
+        'eixo3': 0.20,
+        'eixo4': 0.15,
+        'eixo5': 0.15,
+        'eixo6': 0.15
     }
 
-    faixa_proposta = {
-    (0, 4): 'Transformação completa',
-    (5, 6): 'Transformação ágil',
-    (7, 8): 'Início Ágil',
-    (9, 10): 'Planos sob-demanda'
-    }
-
+    # Calcular a média ponderada dos eixos (0 a 10)
     media_eixo = {}
     for eixo, respostas in dados_organizados['info_eixos'].items():
-        soma = sum(int(valor) for valor in respostas.values())
-        media = soma * pesos[eixo]
-        dados_organizados['info_eixos'][eixo]['media_eixo'] = media
-        media_eixo[eixo] = media
+        respostas_int = [int(v) for v in respostas.values() if v.isdigit()]
+        media = (sum(respostas_int) / len(respostas_int)) * pesos[eixo]
+        media_eixo[eixo] = round(media, 2)
+        respostas['media_eixo'] = media  # armazena para persistência
 
+    media_final = round(sum(media_eixo.values()), 2)
 
+    faixa_proposta = {
+        (0, 4): 'Transformação completa',
+        (5, 6): 'Transformação ágil',
+        (7, 8): 'Início Ágil',
+        (9, 10): 'Planos sob-demanda'
+    }
 
-    for faixa, proposta in faixa_proposta.items():
-        if faixa[0] <= (sum(media_eixo.values()) / 6) <= faixa[1]:
-            dados_organizados['info_final'] = {
-                'media_final': sum(media_eixo.values()) / 6,
-                'media_eixos': media_eixo,
-                'proposta': proposta
-            }
+    proposta = 'Planos sob-demanda'
+    for faixa, label in faixa_proposta.items():
+        if faixa[0] <= media_final <= faixa[1]:
+            proposta = label
             break
 
-    if 'info_final' not in dados_organizados:
-        dados_organizados['info_final'] = {
-            'media_final': sum(media_eixo.values()) / 6,
-            'media_eixos': media_eixo,
-            'proposta': 'Planos sob-demanda'
-        }
+    dados_organizados['info_final'] = {
+        'media_final': media_final,
+        'media_eixos': media_eixo,
+        'proposta': proposta
+    }
 
     response = salvar_prediagnostico(dados_organizados)
+    return jsonify(response), 200
 
-    return response, 200

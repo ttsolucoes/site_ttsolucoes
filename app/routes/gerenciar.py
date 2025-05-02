@@ -23,6 +23,7 @@ from email.mime.multipart import MIMEMultipart
 
 EMAIL_ADDRESS = "techttracksolucoes@gmail.com"
 APP_PASSWORD = "nhuh pctp kijc pjew"
+app.secret_key = secret_key
 
 def enviar_email(destinatario = "", assunto = "Assunto Padrão", corpo = "<p>Corpo do e-mail padrão</p>"):
     destinatario = destinatario
@@ -43,8 +44,6 @@ def enviar_email(destinatario = "", assunto = "Assunto Padrão", corpo = "<p>Cor
         return "Email enviado com sucesso!"
     except Exception as e:
         return f"Erro ao enviar e-mail: {str(e)}"
-
-app.secret_key = secret_key
 
 def get_solicitacoes() -> List[Dict[str, Union[int, str, bool]]]:
     usuarios_public = ver_usuarios_public()
@@ -88,22 +87,19 @@ def gerenciar_usuarios():
 @required_roles('admin')
 def atualizar_usuario(username):
     try:
+        username = str(username).strip()
         data = request.get_json() or {}
         tipo = data.get('tipo', 'privado')
 
         if tipo != 'privado':
             return jsonify({"success": False, "message": "Tipo inválido para esta rota."}), 400
 
-        # Atualiza email
         if 'email' in data:
-            # aqui seu `promover_usuario` precisa suportar email ou criar um novo handler.
             atualizar_email_usuario(username, data.get('email'))
 
-        # Atualiza cargo
         if 'cargo' in data:
             promover_usuario(username, tipo=tipo, novo_cargo=data.get('cargo'))
 
-        # Atualiza senha
         if 'senha_nova' in data:
             atualizar_senha_usuario(username, data.get('senha_nova'))
 

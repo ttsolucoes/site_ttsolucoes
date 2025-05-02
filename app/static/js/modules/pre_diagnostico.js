@@ -3,7 +3,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentStep = 0;
     const formData = {};
 
-    // Botões de avanço
     document.querySelectorAll('.btn-next').forEach(btn => {
         btn.addEventListener('click', () => {
             if (validateStep(currentStep)) {
@@ -16,7 +15,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Botões de voltar
     document.querySelectorAll('.btn-prev').forEach(btn => {
         btn.addEventListener('click', () => {
             if (currentStep > 0) {
@@ -26,14 +24,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Mostra o passo atual
     function showStep(index) {
         steps.forEach((step, i) => {
             step.classList.toggle('active', i === index);
         });
     }
 
-    // Valida os campos obrigatórios do passo
     function validateStep(index) {
         const form = steps[index].querySelector('form');
         if (!form) return true;
@@ -43,8 +39,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         return isValid;
     }
-
-    // Salva dados do passo atual no formData
     function saveStepData(index) {
         const form = steps[index].querySelector('form');
         if (form) {
@@ -53,18 +47,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Botão de finalização no passo 7
     document.querySelector('#step-7 .btn-next')?.addEventListener('click', () => {
         const confirmar = confirm("Você deseja finalizar ou revisar suas respostas?");
         if (confirmar) {
-            saveStepData(currentStep); // salva último passo antes de enviar
+            saveStepData(currentStep);
             enviarDados();
         } else {
             showStep(6);
         }
     });
 
-    // Envia dados para o backend
     function enviarDados() {
         fetch('/pre_diagnostico_salvar', {
             method: 'POST',
@@ -94,16 +86,15 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Calcula e exibe os resultados
     function calculateResults(data) {
         if (!data || !data.info_final) {
-            console.error("Dados incompletos para exibir resultados:", data);
-            alert("Não foi possível calcular os resultados. Tente novamente.");
+            console.error("Dados incompletos:", data);
+            alert("Erro ao calcular resultados.");
             return;
         }
-
+    
         const { media_final, media_eixos, proposta } = data.info_final;
-
+    
         const nomesEixos = {
             eixo1: 'Infraestrutura & Hardware',
             eixo2: 'Sistemas & Automação',
@@ -112,18 +103,18 @@ document.addEventListener('DOMContentLoaded', () => {
             eixo5: 'Governança & Dados',
             eixo6: 'Cultura & Inovação',
         };
-
+    
         document.getElementById('result-container').innerHTML = `
             <div class="result-card">
-                <h3>Maturidade Tecnológica: ${media_final.toFixed(1)}/10</h3>
+                <h3>Maturidade Tecnológica: ${media_final.toFixed(2)}/10</h3>
                 <div class="eixos-grid">
                     ${Object.entries(media_eixos).map(([eixo, nota]) => `
                         <div class="eixo-result">
                             <h4>${nomesEixos[eixo]}</h4>
                             <div class="progress-bar">
-                                <div style="width: ${(nota * 5)}%"></div>
+                                <div style="width: ${(nota * 10)}%"></div>
                             </div>
-                            <span>${(nota / 2).toFixed(1)}</span>
+                            <span>${nota.toFixed(2)}</span>
                         </div>
                     `).join('')}
                 </div>
@@ -134,4 +125,6 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
         `;
     }
+    
+
 });

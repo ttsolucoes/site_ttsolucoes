@@ -144,6 +144,7 @@ def criar_usuario(username: str, email : str, senha: str, cargo: str = 'user', a
 
     senha_hash = _hash_senha(senha)
     username = username.replace("'", "''")
+    username = username.strip()
     email = email.replace("'", "''")
     cargo = cargo.replace("'", "''")
     query = f"""
@@ -172,6 +173,8 @@ VALUES ({user_id}, 'criacao', 'Usuário criado com cargo {cargo}')
 def aprovar_usuario_publico(username: str) -> bool:
     """Move usuário da tabela pública para privada"""
     try:
+
+        username = username.strip()
 
         usuario = executar_sql(f"SELECT * FROM novos_usuarios WHERE username = '{username}'")[0]
         criar_usuario(usuario[1], usuario[2], usuario[3], 'user', -1, False)
@@ -215,6 +218,7 @@ ORDER BY l.data_hora DESC
 
 def validar_acesso(username: str, senha: str) -> bool:
     """Valida as credenciais de um usuário."""
+    username = username.strip()
     senha_hash = _hash_senha(senha)
     query = f"""
 SELECT 1 FROM usuarios 
@@ -275,6 +279,7 @@ WHERE u.username = '{username}'
 
 def promover_usuario(username: str, tipo: str, novo_cargo: str = None, nova_senha: str = None) -> bool:
     try:
+        username = username.strip()
         if tipo == 'publico':
             query = f"""
 INSERT INTO usuarios (username, email, senha, cargo)
@@ -298,6 +303,7 @@ VALUES ({user_id}, 'criacao', ''Usuário aprovado da fila pública com cargo use
             return True
 
         elif tipo == 'privado' or tipo == 'internos':
+
             updates = []
             log_details = []
 
@@ -332,6 +338,7 @@ VALUES ({user_id}, 'promocao', '{', '.join(log_details)}')
             raise ValueError("Tipo inválido. Use 'publico' ou 'privado'.")
 
     except Exception as e:
+        print(f"[ERRO promover_usuario] {e}")
         return False
 
 def atualizar_senha_usuario(username: str, nova_senha: str) -> bool:
