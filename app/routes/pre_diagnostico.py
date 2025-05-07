@@ -114,15 +114,15 @@ def pre_diagnostico_salvar():
 
     media_final = round(sum(media_eixo.values()), 2)
 
-    faixa_proposta = {
-        (0, 4): 'Transformação completa',
-        (5, 6): 'Transformação ágil',
-        (7, 8): 'Início Ágil',
-        (9, 10): 'Planos sob-demanda'
-    }
+    faixa_proposta = [
+        ((0, 4.5), 'Transformação completa'),
+        ((4.5, 6.5), 'Transformação ágil'),
+        ((6.5, 8.5), 'Início Ágil'),
+        ((8.5, 10.5), 'Planos sob-demanda')
+    ]
 
-    proposta = 'Planos sob-demanda'
-    for faixa, label in faixa_proposta.items():
+    proposta = 'Indefinido'
+    for faixa, label in faixa_proposta:
         if faixa[0] <= media_final <= faixa[1]:
             proposta = label
             break

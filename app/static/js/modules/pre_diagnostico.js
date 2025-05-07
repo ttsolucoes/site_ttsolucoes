@@ -2,6 +2,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const steps = document.querySelectorAll('.form-step');
     let currentStep = 0;
     const formData = {};
+    const pesosMaximos = {
+        eixo1: 1.5,
+        eixo2: 2,
+        eixo3: 2,
+        eixo4: 1.5,
+        eixo5: 1.5,
+        eixo6: 1.5
+    };
+
+    const nomesEixos = {
+        eixo1: 'Infraestrutura & Hardware',
+        eixo2: 'Sistemas & Automação',
+        eixo3: 'Processos & Padronização',
+        eixo4: 'Pessoas & Capacitação',
+        eixo5: 'Governança & Dados',
+        eixo6: 'Cultura & Inovação',
+    };
 
     document.querySelectorAll('.btn-next').forEach(btn => {
         btn.addEventListener('click', () => {
@@ -105,24 +122,24 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     
         document.getElementById('result-container').innerHTML = `
-            <div class="result-card">
-                <h3>Maturidade Tecnológica: ${media_final.toFixed(2)}/10</h3>
-                <div class="eixos-grid">
-                    ${Object.entries(media_eixos).map(([eixo, nota]) => `
-                        <div class="eixo-result">
-                            <h4>${nomesEixos[eixo]}</h4>
-                            <div class="progress-bar">
-                                <div style="width: ${(nota * 10)}%"></div>
-                            </div>
-                            <span>${nota.toFixed(2)}</span>
+        <div class="result-card">
+            <h3>Maturidade Tecnológica: ${media_final.toFixed(2)}/10</h3>
+            <div class="eixos-grid">
+                ${Object.entries(media_eixos).map(([eixo, nota]) => `
+                    <div class="eixo-result">
+                        <h4>${nomesEixos[eixo]}</h4>
+                        <div class="progress-bar">
+                            <div style="width: ${(nota / pesosMaximos[eixo] * 100)}%"></div>
                         </div>
-                    `).join('')}
-                </div>
-                <div class="proposta">
-                    <h4>Recomendação:</h4>
-                    <p>${proposta}</p>
-                </div>
+                        <span>${nota.toFixed(2)}/${pesosMaximos[eixo]}</span>
+                    </div>
+                `).join('')}
             </div>
+            <div class="proposta">
+                <h4>Recomendação:</h4>
+                <p>${proposta}</p>
+            </div>
+        </div>
         `;
     }
     
