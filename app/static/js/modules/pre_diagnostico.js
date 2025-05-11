@@ -75,6 +75,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function enviarDados() {
+        // Desabilita o botão de reiniciar
+        const restartBtn = document.querySelector('.btn-restart');
+        restartBtn.disabled = true;
+        restartBtn.textContent = 'Processando...';
+        restartBtn.style.opacity = '0.7';
+        restartBtn.style.cursor = 'not-allowed';
+        
         fetch('/pre_diagnostico_salvar', {
             method: 'POST',
             headers: {
@@ -100,6 +107,13 @@ document.addEventListener('DOMContentLoaded', () => {
         .catch(error => {
             console.error('Erro ao enviar dados:', error);
             alert('Erro de comunicação com o servidor.');
+        })
+        .finally(() => {
+            // Reabilita o botão de reiniciar independentemente do resultado
+            restartBtn.disabled = false;
+            restartBtn.textContent = 'Reiniciar';
+            restartBtn.style.opacity = '1';
+            restartBtn.style.cursor = 'pointer';
         });
     }
 

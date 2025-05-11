@@ -69,6 +69,18 @@ transition: background 0.3s ease, transform 0.2s ease;
 animation: pulseRestart 1.2s infinite;
 }
 
+.btn-restart:disabled {
+background-color: var(--light-color) !important;
+animation: none !important;
+transform: none !important;
+box-shadow: none !important;
+}
+
+.btn-restart.processing {
+background-color: var(--light-color);
+animation: none;
+}
+
 .btn-restart:hover {
 background: var(--danger-color-hover);
 transform: scale(1.02);
