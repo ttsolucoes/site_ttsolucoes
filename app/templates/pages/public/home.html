@@ -2,6 +2,7 @@
 
 {% block css %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/pages/home.css') }}">
+
 {% endblock %}
 
 
@@ -15,6 +16,7 @@
 ] %}
 {% include 'components/hero-card.html' %}
 
+{% include 'components/hero_institutional.html' %}
 
 <section class="access-options">
     <div class="grid-layout">
