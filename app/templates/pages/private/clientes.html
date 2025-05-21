@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}Gerir feedback{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/clientes_privado.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="main-content">
+    <h1 class="text-center mb-2">Feedback dos Clientes</h1>
+
+    <!-- GRÁFICO -->
+    <div class="chart-container mt-2 mb-2" style="max-width: 600px; margin: auto;">
+        <canvas id="graficoNotas"></canvas>
+    </div>
+
+    <!-- FEEDBACKS -->
+    <div class="feedback-grid mt-2">
+        {% for f in feedback %}
+        <div class="feedback-card">
+            <div class="feedback-header">{{ f.nome }} - Nota: {{ f.nota_satisfacao }}</div>
+            <div class="feedback-date">{{ f.data_envio.strftime('%d/%m/%Y %H:%M') }}</div>
+            <div class="feedback-body">"{{ f.comentario }}"</div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div id="feedback-data" data-feedback="{{ feedback|tojson|safe }}" style="display: none;"></div>
+
+{% endblock %}
+
+{% block js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{{ url_for('static', filename='js/modules/clientes_privado.js') }}"></script>
+<script>
+    const feedback = {{ feedback|tojson | safe }};
+    const notas = [1, 2, 3, 4, 5];
+    const contagemNotas = [0, 0, 0, 0, 0];
+
+    feedback.forEach(f => {
+        const nota = f.nota_satisfacao;
+        if (nota >= 1 && nota <= 5) {
+            contagemNotas[nota - 1]++;
+        }
+    });
+
+    const ctx = document.getElementById('graficoNotas').getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Nota 1', 'Nota 2', 'Nota 3', 'Nota 4', 'Nota 5'],
+            datasets: [{
+                label: 'Quantidade de Feedbacks',
+                data: contagemNotas,
+                backgroundColor: 'var(--accent-color)'
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { display: false },
+                tooltip: { callbacks: {
+                    label: ctx => `${ctx.raw} feedback(s)`
+                }}
+            },
+            scales: {
+                y: { beginAtZero: true, ticks: { precision: 0 } }
+            }
+        }
+    });
+</script>
+
+{% endblock %}

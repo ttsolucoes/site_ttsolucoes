@@ -1,0 +1,7 @@
+#clientes-container {
+    background-color: --modal-content-bg;
+}
+
+label {
+    color: var(--text-color) !important;
+}

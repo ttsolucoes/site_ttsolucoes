@@ -8,6 +8,7 @@
         <nav class="main-nav">
             <ul>
                 <li><a href="/detalhes_pre_diagnostico" title="Realizar o Pré diagnóstico">Pré diagnóstico</a></li>
+                <li><a href="/feedback" title="Realizar um Feedback">Feedbacks</a></li>
                 {% if current_user.is_authenticated %}
                     {% if session.user.cargo == 'admin' %}
                         <li>
@@ -18,6 +19,11 @@
                         <li>
                             <a href="/pre_diagnostico_detalhes" class="nav-link">
                                 <i class="fas fa-users-cog"></i> Gerenciar Pré Diagnósticos
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/ver_feedback" class="nav-link">
+                                <i class="fas fa-users-cog"></i> Gerenciar Feedbacks
                             </a>
                         </li>
                     {% endif %}

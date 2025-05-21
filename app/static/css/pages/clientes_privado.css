@@ -1,0 +1,39 @@
+.feedback-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.feedback-card {
+    background-color: var(--background-card);
+    border: 1px solid var(--border-color);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    transition: transform var(--transition-default);
+}
+
+.feedback-card:hover {
+    transform: translateY(-5px);
+}
+
+.feedback-header {
+    font-weight: bold;
+    color: var(--text-light);
+    margin-bottom: 0.5rem;
+}
+
+.feedback-date {
+    font-size: 0.875rem;
+    color: var(--text-light);
+    margin-bottom: 0.75rem;
+}
+
+.feedback-body {
+    color: var(--text-color);
+}
+
+.chart-container {
+    max-width: 600px;
+    margin: auto;
+}

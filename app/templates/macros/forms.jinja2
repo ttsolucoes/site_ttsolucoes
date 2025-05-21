@@ -1,9 +1,9 @@
 {% macro render_field(field, class='', placeholder='') %}
     <div class="form-group">
-        {{ field.label(class="form-label") }}
-        {{ field(class="form-control " + class, placeholder=placeholder) }}
+        {{ field.label(class="form-label", for=field.id) }}
+        {{ field(class="form-control " ~ class, placeholder=placeholder or field.label.text) }}
         {% if field.errors %}
-            <div class="form-errors">
+            <div class="form-errors" role="alert" aria-live="polite">
                 {% for error in field.errors %}
                     <span class="form-error">{{ error }}</span>
                 {% endfor %}

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% import 'macros/forms.jinja2' as forms %}
+
+{% block title %}Feedback{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/clientes_publicos.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="main-content">
+  <form id="feedback-form">
+      {{ forms.render_field(form.nome) }}
+      {{ forms.render_field(form.email) }}
+      {{ forms.render_field(form.nota_satisfacao, class="input-number", placeholder="Nota de 1 a 5") }}
+      {{ forms.render_field(form.comentario, placeholder="Escreva seu comentário") }}
+      {{ forms.render_submit('Enviar Feedback') }}
+  </form>
+
+  <div id="mensagem-feedback" class="mt-2"></div>
+</div>
+
+{% endblock %}
+
+{% block js %}
+<script src="{{ url_for('static', filename='js/modules/clientes_publicos.js') }}"></script>
+{% endblock %}
