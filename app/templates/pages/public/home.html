@@ -1,7 +1,11 @@
 {% extends "base.html" %}
+{% from 'macros/services_macro.html' import render_services %}
+{% from 'macros/clients_macro.html' import render_clients %}
 
 {% block css %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/pages/home.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/servicos.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/clientes.css') }}">
 
 {% endblock %}
 
@@ -18,6 +22,32 @@
 
 {% include 'components/hero_institutional.html' %}
 
+<section id="servicos" class="servicos-home mt-2">
+  <h2 class="text-center">Nossos Serviços</h2>
+  <p class="text-center mb-2">Soluções para transformar o trabalho das PMEs com método, processo e agilidade.</p>
+
+  <div class="servicos-grid">
+    <div class="servico">Pré-diagnóstico gratuito</div>
+    <div class="servico">Diagnóstico técnico detalhado</div>
+    <div class="servico">Execução de soluções digitais</div>
+    <div class="servico">Capacitação da equipe</div>
+    <div class="servico">Suporte técnico recorrente</div>
+  </div>
+</section>
+
+<section id="clientes-atendidos" class="main-content mt-2">
+  <h2 class="text-center">Clientes Atendidos</h2>
+  <div class="clientes-grid">
+    <div class="cliente-card">
+      <p>Site institucional e sistema de gestão de eventos</p>
+    </div>
+    <div class="cliente-card">
+      <p>Plataforma de geração de leads com filtros da RFB</p>
+    </div>
+  </div>
+</section>
+
+<!-- 
 <section class="access-options">
     <div class="grid-layout">
 
@@ -36,7 +66,7 @@
         {% endwith %}
 
     </div>
-</section>
+</section> -->
 
 {% endblock %}
 

@@ -1,0 +1,10 @@
+{% macro render_services(services, detailed=False) %}
+<section id="servicos" class="mt-2">
+    <h2 class="text-center mb-2">Nossos Serviços</h2>
+    <div class="grid" style="display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+        {% for s in services %}
+            {% include 'components/service_card.html' %}
+        {% endfor %}
+    </div>
+</section>
+{% endmacro %}

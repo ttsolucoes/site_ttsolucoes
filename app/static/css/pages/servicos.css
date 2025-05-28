@@ -1,0 +1,50 @@
+#servicos,
+#servicos-detalhados {
+  padding: var(--spacing-unit);
+  background-color: var(--background-card);
+  color: var(--text-color);
+  border-radius: 1rem;
+}
+
+.servicos-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.servico {
+  background-color: var(--dark-color);
+  padding: 1rem 1.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--btn-radius);
+  transition: background-color var(--transition-default);
+}
+
+.servico:hover {
+  background-color: var(--primary-color);
+  color: #fff;
+}
+
+.cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.card-servico {
+  background-color: var(--dark-color);
+  padding: 1.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  border: 1px solid var(--border-color);
+  transition: transform var(--transition-default);
+}
+
+.card-servico:hover {
+  transform: translateY(-5px);
+  background-color: var(--primary-color);
+  color: #fff;
+}

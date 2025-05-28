@@ -1,10 +1,14 @@
-{% extends "base.html" %}
+
+{% from 'macros/services_macro.html' import render_services %}
+{% from 'macros/clients_macro.html' import render_clients %}{% extends "base.html" %}
 
 {% block title %}Sobre{% endblock %}
 
 {% block css %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/pages/home.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/pages/about.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/servicos.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/clientes.css') }}">
 {% endblock %}
 
 {% block content %}
@@ -24,15 +28,31 @@
     {% include 'components/content_block.html' %}
 {% endwith %}
 
-{% with title='Como fazemos isso', description='Seguimos um fluxo de transformação, dividido em cinco etapas complementares:<br><br>
-- <strong>Pré-diagnóstico gratuito</strong>: identificamos o nível atual de maturidade técnica da empresa;<br><br>
-- <strong>Diagnóstico técnico detalhado</strong>: mapeamos os principais gargalos e oportunidades de melhoria;<br><br>
-- <strong>Execução de soluções digitais sob medida</strong>: implementamos ferramentas e processos adaptados à sua realidade;<br><br>
-- <strong>Capacitação da equipe</strong>: garantimos que todos saibam utilizar e manter as soluções adotadas;<br><br>
-- <strong>Suporte técnico recorrente</strong>: acompanhamos a evolução contínua da empresa, oferecendo apoio sempre que necessário.<br><br>
-Tudo isso com transparência, linguagem acessível e foco total na autonomia do cliente.' %}
-    {% include 'components/content_block.html' %}
-{% endwith %}
+<section id="servicos-detalhados" class="servicos-about main-content mt-2">
+  <h2 class="text-center">Como fazemos isso?</h2>
+  <div class="cards-container">
+    <div class="card-servico">
+      <h3>Pré-diagnóstico gratuito</h3>
+      <p>Identificamos o nível atual de maturidade técnica da sua empresa sem custo.</p>
+    </div>
+    <div class="card-servico">
+      <h3>Diagnóstico técnico detalhado</h3>
+      <p>Mapeamos os principais gargalos e oportunidades de melhoria do seu negócio.</p>
+    </div>
+    <div class="card-servico">
+      <h3>Execução de soluções digitais</h3>
+      <p>Implementamos ferramentas e processos sob medida para sua realidade.</p>
+    </div>
+    <div class="card-servico">
+      <h3>Capacitação da equipe</h3>
+      <p>Garantimos que sua equipe saiba operar e manter as soluções implantadas.</p>
+    </div>
+    <div class="card-servico">
+      <h3>Suporte técnico recorrente</h3>
+      <p>Acompanhamos sua evolução com apoio contínuo e proativo.</p>
+    </div>
+  </div>
+</section>
 
 <section class="features-section">
     <h2 class="section-title">Nossos pilares</h2>
@@ -70,6 +90,20 @@ Tudo isso com transparência, linguagem acessível e foco total na autonomia do 
 {% with title='Nosso diferencial', description='Unimos visão técnica, sensibilidade prática e metodologia objetiva para transformar negócios que ainda vivem no improviso digital. Não vendemos promessas, entregamos processo. Nosso compromisso é com a autonomia do cliente, não com a dependência da nossa tecnologia.' %}
     {% include 'components/content_block.html' %}
 {% endwith %}
+
+<section id="clientes-atendidos" class="main-content mt-2">
+  <h2 class="text-center">Projetos finalizados</h2>
+  <div class="clientes-grid">
+    <div class="cliente-card">
+      <img src="{{ url_for('static', filename='images/clientes/gjguadalupe.png') }}" alt="GJGuadalupe">
+      <p>Site institucional e sistema de gestão de eventos</p>
+    </div>
+    <div class="cliente-card">
+      <img src="{{ url_for('static', filename='images/clientes/extractrfb.png') }}" alt="ExtractRFB">
+      <p>Plataforma de geração de leads com filtros para PJ</p>
+    </div>
+  </div>
+</section>
 
 
 {% endblock %}

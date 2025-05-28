@@ -1,0 +1,10 @@
+{% macro render_clients(clients, detailed=False) %}
+<section id="clientes" class="mt-2">
+    <h2 class="text-center mb-2">Clientes Atendidos</h2>
+    <div class="grid" style="display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+        {% for c in clients %}
+            {% include 'components/client_card.html' %}
+        {% endfor %}
+    </div>
+</section>
+{% endmacro %}
