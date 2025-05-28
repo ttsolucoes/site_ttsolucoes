@@ -156,6 +156,7 @@ def aprovar_novo_usuario(id_solicitacao):
         criar_usuario(
             username=user['username'],
             email=user['email'],
+            empresa=user['empresa'],
             senha='123456',
             cargo='user'
         )

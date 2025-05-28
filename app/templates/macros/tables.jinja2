@@ -5,6 +5,7 @@
             <th>Usuário</th>
             <th>Email</th>
             {% if tipo == 'internos' %}
+                <th>Empresa</th>
                 <th>Cargo</th>
                 <th>Senha</th>
                 <th>Status</th>
@@ -24,6 +25,11 @@
                 <input type="text" class="email-input" value="{{ usuario.email }}">
                 {% else %}
                 {{ usuario.email }}
+                {% endif %}
+            </td>
+            <td>
+                {% if tipo == 'internos' %}
+                <input type="text" class="empresa-input" value="{{ usuario.empresa }}">
                 {% endif %}
             </td>
 

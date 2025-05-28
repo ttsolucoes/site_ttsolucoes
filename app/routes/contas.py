@@ -43,11 +43,11 @@ class RegistrationForm(FlaskForm):
         validators.Email(),
         validators.DataRequired()
     ])
-    password = PasswordField('Senha', [
+    empresa = StringField('Empresa', [
         validators.DataRequired(),
-        validators.EqualTo('confirm', message='Senhas devem ser iguais')
+        validators.Length(min=2)
     ])
-    confirm = PasswordField('Repita a Senha')
+
 
 class RecoveryForm(FlaskForm):
     email_or_username = StringField('Email ou Usuário', [
@@ -58,7 +58,6 @@ class RecoveryForm(FlaskForm):
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-
     from utils import criar_usuario_public
 
     form = RegistrationForm()
@@ -66,27 +65,25 @@ def register():
         new_user = {
             'username': form.username.data,
             'email': form.email.data,
-            'password': form.password.data,
+            'empresa': form.empresa.data,
             'status': 'pending'
         }
-        criar_usuario_public(form.username.data, form.password.data, form.email.data)
+        criar_usuario_public(
+            username=form.username.data,
+            senha="12345678",
+            email=form.email.data,
+            empresa=form.empresa.data
+        )
+
         assunto = "Cadastro recebido"
         corpo = f'''
-<p>Olá, {form.username.data} .</p>
-
-<p>Estamos entrando em contato para informar que recebemos sua solicitação de criação de conta em nossa plataforma. Nosso time de suporte está avaliando sua solicitação e iremos aprovar assim que possível.</p>
-
-<p>Caso não tenha solicitado, favor entre em contato conosco:</p>
-
+<p>Olá, {form.username.data}.</p>
+<p>Recebemos sua solicitação de criação de conta. Nossa equipe irá avaliá-la em breve.</p>
+<p>Caso não tenha solicitado, entre em contato conosco pelos canais abaixo:</p>
 <p>- Plataforma: https://site-ttsolucoes.onrender.com/recovery </p>
-
 <p>- Whatsapp: https://wa.me/5527997516005</p>
-
 <p>- Ligação: +55 (27) 9 9751-6005</p>
-
 <p>Ou simplesmente responda esse e-mail.</p>
-
-<p>Estamos gratos pela sua atenção e solicitação.</p>
 -----
 </br>
 <small>Atenciosamente, equipe <strong>TT SOLUÇÕES</strong></small>
@@ -94,10 +91,10 @@ def register():
 <small>Transformação técnico-digital para empresas que ainda fazem milagre com planilha.</small>
 </br>
 <img src="https://lh3.googleusercontent.com/d/1W1llr4gNibdJwsGX11dj2jspIt633yWX" width="96" height="96" alt="Logo TT Soluções">
-
         '''
         enviar_email(form.email.data, assunto, corpo)
         return render_template('pages/public/conta_criada.html', novos=new_user)
+
     return render_template('pages/public/criar_conta.html', form=form)
 
 @app.route('/recovery', methods=['GET', 'POST'])

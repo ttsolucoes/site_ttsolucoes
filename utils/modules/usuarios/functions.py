@@ -33,6 +33,7 @@ SELECT
     id, 
     username, 
     email, 
+    empresa, 
     senha
 FROM novos_usuarios
     """
@@ -42,7 +43,8 @@ FROM novos_usuarios
         'id': row[0],
         'username': row[1],
         'email': row[2],
-        'senha': row[3]
+        'empresa': row[3],
+        'senha': row[4]
     } for row in resultados]
 
 def ver_usuarios() -> List[Dict[str, Union[int, str, bool]]]:
@@ -53,6 +55,7 @@ SELECT
     u.username, 
     u.senha_hash,
     u.email,
+    u.empresa,
     u.cargo,
     u.acesso_api,
     COUNT(l.id) as total_logs
@@ -67,16 +70,17 @@ GROUP BY u.id
         'username': row[1],
         'senha': "********",
         'email': row[3],
-        'cargo': row[4],
-        'acesso_api': bool(row[5]),
-        'total_logs': row[6]
+        'empresa': row[4],
+        'cargo': row[5],
+        'acesso_api': bool(row[6]),
+        'total_logs': row[7]
     } for row in resultados]
 
-def criar_usuario_public(username: str, senha: str, email : str) -> bool:
+def criar_usuario_public(username: str, senha: str, email : str, empresa: str) -> bool:
 
     query = f"""
-INSERT INTO novos_usuarios (username, email, senha)
-VALUES ('{username}', '{email}', '{senha}');
+INSERT INTO novos_usuarios (username, email, senha, empresa)
+VALUES ('{username}', '{email}', '{senha}', '{empresa}');
     """
     try:
         executar_sql(query)
@@ -140,7 +144,7 @@ SELECT * FROM recuperar_acesso WHERE usuario_id = {id_solicitacao};
     }
     return resultado
 
-def criar_usuario(username: str, email : str, senha: str, cargo: str = 'user', acesso_api: bool = False) -> bool:
+def criar_usuario(username: str, email : str, senha: str, empresa: str, cargo: str = 'user', acesso_api: bool = False) -> bool:
 
     senha_hash = _hash_senha(senha)
     username = username.replace("'", "''")
@@ -148,8 +152,8 @@ def criar_usuario(username: str, email : str, senha: str, cargo: str = 'user', a
     email = email.replace("'", "''")
     cargo = cargo.replace("'", "''")
     query = f"""
-INSERT INTO usuarios (username, email, senha_hash, cargo, acesso_api)
-VALUES ('{username}', '{email}', '{senha_hash}', '{cargo}', {bool(acesso_api)})
+INSERT INTO usuarios (username, email, empresa, senha_hash, cargo, acesso_api)
+VALUES ('{username}', '{email}', '{empresa}', '{senha_hash}', '{cargo}', {bool(acesso_api)})
     """
     print(query)
     try:

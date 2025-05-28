@@ -16,8 +16,7 @@
         
         {{ render_field(form.username, placeholder="Escolha um nome de usuário") }}
         {{ render_field(form.email, placeholder="Seu melhor email") }}
-        {{ render_field(form.password, placeholder="Crie uma senha segura") }}
-        {{ render_field(form.confirm, placeholder="Repita a senha") }}
+        {{ render_field(form.empresa, placeholder="Nome da empresa") }}
         
         <div class="form-footer">
             {{ render_submit('Solicitar Cadastro') }}
@@ -30,5 +29,5 @@
 {% endblock %}
 
 {% block js %}
-<script src="{{ url_for('static', filename='js/modules/criar_conta.js') }}"></script>
+
 {% endblock %}
