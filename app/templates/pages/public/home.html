@@ -1,6 +1,6 @@
 {% extends "base.html" %}
-{% from 'macros/services_macro.html' import render_services %}
-{% from 'macros/clients_macro.html' import render_clients %}
+{% from 'macros/services_macro.jinja2' import render_services %}
+{% from 'macros/clients_macro.jinja2' import render_clients %}
 
 {% block css %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/pages/home.css') }}">

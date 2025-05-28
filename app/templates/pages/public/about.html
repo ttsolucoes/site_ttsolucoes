@@ -1,6 +1,6 @@
-
-{% from 'macros/services_macro.html' import render_services %}
-{% from 'macros/clients_macro.html' import render_clients %}{% extends "base.html" %}
+{% extends "base.html" %}
+{% from 'macros/services_macro.jinja2' import render_services %}
+{% from 'macros/clients_macro.jinja2' import render_clients %}{% extends "base.html" %}
 
 {% block title %}Sobre{% endblock %}
 
