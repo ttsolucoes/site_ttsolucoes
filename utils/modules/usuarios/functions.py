@@ -260,6 +260,7 @@ SELECT
     u.id, 
     u.username, 
     u.email, 
+    u.empresa,
     u.cargo, 
     u.acesso_api
 FROM usuarios u
@@ -275,8 +276,9 @@ WHERE u.username = '{username}'
             'id': row[0],
             'username': row[1],
             'email': row[2],
-            'cargo': row[3],
-            'acesso_api': bool(row[4])
+            'empresa': row[3],
+            'cargo': row[4],
+            'acesso_api': bool(row[5])
         }
     except Exception:
         return None
