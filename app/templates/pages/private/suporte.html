@@ -13,6 +13,7 @@
     <div class="chat-header">
         <h2>Central de Suporte</h2>
         <p>Usuário: {{ users.username }} | Empresa: {{ empresa }} | ID do usuário: {{ users.id }}</p>
+        <button id="toggle-chat-list" class="toggle-chat-list">Outras conversas</button>
     </div>
 
     <div class="chat-layout">
@@ -35,5 +36,6 @@
 
 {% block js %}
 <script src="{{ url_for('static', filename='js/modules/suporte.js') }}"></script>
+<script src="{{ url_for('static', filename='js/modules/chat_toggle.js') }}"></script>
 
 {% endblock %}

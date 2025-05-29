@@ -182,3 +182,53 @@
     from { transform: translateY(100px); opacity: 0; }
     to { transform: translateY(0); opacity: 1; }
 }
+
+#toggle-chat-list {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    /* Inicialmente visível */
+    .chat-list {
+        display: flex;
+    }
+    
+    /* Esconde completamente */
+    .chat-list:not(.show) {
+        display: none;
+    }
+    
+    .chat-area {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .chat-area.hide {
+        display: none;
+    }
+    .chat-layout {
+        flex-direction: column;
+    }
+
+    .chat-list {
+        display: none;
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+
+    .chat-list.show {
+        display: flex;
+    }
+
+    #toggle-chat-list {
+        display: inline-block;
+        background-color: var(--btn-secondary-bg);
+        color: var(--btn-secondary-text);
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: var(--btn-radius);
+        cursor: pointer;
+        margin-top: 0.5rem;
+    }
+}
+
