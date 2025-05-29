@@ -183,32 +183,29 @@
     to { transform: translateY(0); opacity: 1; }
 }
 
-#toggle-chat-list {
+/* Inicialmente visível */
+.chat-list {
+    display: flex;
+}
+
+/* Esconde completamente */
+.chat-list:not(.show) {
     display: none;
 }
 
+.chat-area {
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-area.hide {
+    display: none;
+}
+.chat-layout {
+    flex-direction: column;
+}
+
 @media (max-width: 768px) {
-    /* Inicialmente visível */
-    .chat-list {
-        display: flex;
-    }
-    
-    /* Esconde completamente */
-    .chat-list:not(.show) {
-        display: none;
-    }
-    
-    .chat-area {
-        display: flex;
-        flex-direction: column;
-    }
-    
-    .chat-area.hide {
-        display: none;
-    }
-    .chat-layout {
-        flex-direction: column;
-    }
 
     .chat-list {
         display: none;
