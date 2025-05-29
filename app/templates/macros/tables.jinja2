@@ -27,11 +27,11 @@
                 {{ usuario.email }}
                 {% endif %}
             </td>
+            {% if tipo == 'internos' %}
             <td>
-                {% if tipo == 'internos' %}
                 <input type="text" class="empresa-input" value="{{ usuario.empresa }}">
-                {% endif %}
             </td>
+            {% endif %}
 
             {% if tipo == 'internos' %}
             <td>

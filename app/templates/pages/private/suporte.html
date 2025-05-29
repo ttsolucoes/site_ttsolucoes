@@ -9,23 +9,28 @@
 {% endblock %}
 
 {% block content %}
-
 <div class="suporte-container">
     <div class="chat-header">
         <h2>Central de Suporte</h2>
-        <p>Usuário: {{ users.username }} | Empresa: {{ empresa }}</p>
+        <p>Usuário: {{ users.username }} | Empresa: {{ empresa }} | ID do usuário: {{ users.id }}</p>
     </div>
 
-    <div class="chat-box" id="chat-box">
-        <!-- Mensagens serão adicionadas aqui dinamicamente -->
-    </div>
+    <div class="chat-layout">
+        <div class="chat-list">
+            <button id="nova-conversa-btn">+ Nova Conversa</button>
+            <div class="conversas-container" id="conversas-container"></div>
+        </div>
 
-    <form id="chat-form" class="chat-form">
-        <input type="text" id="chat-input" placeholder="Digite sua mensagem..." required>
-        <button type="submit">Enviar</button>
-    </form>
+        <!-- Área do chat -->
+        <div class="chat-area">
+            <div class="chat-box" id="chat-box"></div>
+            <form id="chat-form" class="chat-form">
+                <input type="text" id="chat-input" placeholder="Digite sua mensagem..." required>
+                <button type="submit">Enviar</button>
+            </form>
+        </div>
+    </div>
 </div>
-
 {% endblock %}
 
 {% block js %}

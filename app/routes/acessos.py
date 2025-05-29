@@ -26,7 +26,9 @@ def login():
                 'logged_in': True
             }
             dados = detalhar_usuario(user)
+            session['user']['id'] = dados['id']
             session['user']['cargo'] = dados['cargo']
+            session['user']['empresa'] = dados['empresa']
             session['user']['roles'] = [dados['cargo']]  # Adiciona roles aqui
             session['last_activity'] = time.time()  # Define a última atividade na sessão
 
