@@ -183,49 +183,165 @@
     to { transform: translateY(0); opacity: 1; }
 }
 
-/* Inicialmente visível */
-.chat-list {
-    display: flex;
-}
-
-/* Esconde completamente */
-.chat-list:not(.show) {
-    display: none;
-}
-
-.chat-area {
-    display: flex;
-    flex-direction: column;
-}
-
-.chat-area.hide {
-    display: none;
-}
-.chat-layout {
-    flex-direction: column;
-}
-
 @media (max-width: 768px) {
-
+    .suporte-container {
+        margin: 0;
+        border-radius: 0;
+        padding: 0.5rem;
+        height: 100vh;
+        max-width: 100%;
+    }
+    
+    .chat-layout {
+        height: calc(100vh - 120px);
+        flex-direction: column;
+    }
+    
+    .chat-box {
+        height: calc(100vh - 220px);
+    }
+    
     .chat-list {
-        display: none;
         width: 100%;
         margin-bottom: 1rem;
+        display: none;
     }
-
+    
     .chat-list.show {
         display: flex;
     }
-
+    
+    .chat-area {
+        width: 100%;
+    }
+    
+    .chat-area.hide {
+        display: none;
+    }
+    
     #toggle-chat-list {
-        display: inline-block;
-        background-color: var(--btn-secondary-bg);
-        color: var(--btn-secondary-text);
-        border: none;
-        padding: 0.5rem 1rem;
-        border-radius: var(--btn-radius);
-        cursor: pointer;
-        margin-top: 0.5rem;
+        display: block;
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+    
+    #nova-conversa-btn {
+        width: 100%;
+    }
+    
+    .chat-form {
+        flex-direction: column;
+    }
+    
+    .chat-form input {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+    
+    .chat-form button {
+        width: 100%;
     }
 }
 
+/* Melhorias para telas pequenas (até 480px) */
+@media (max-width: 480px) {
+    .chat-header h2 {
+        font-size: 1.2rem;
+    }
+    
+    .chat-header p {
+        font-size: 0.8rem;
+    }
+    
+    .msg-autor {
+        font-size: 0.9rem;
+    }
+    
+    .msg-texto {
+        font-size: 0.9rem;
+    }
+    
+    .msg-data {
+        font-size: 0.7rem;
+    }
+}
+
+/* Estilo base do botão */
+.toggle-chat-list {
+    /* Cores e tipografia */
+    background-color: var(--primary-color);
+    color: var(--btn-primary-text);
+    border: none;
+    
+    /* Forma e espaçamento */
+    padding: var(--btn-padding);
+    border-radius: var(--btn-radius);
+    
+    /* Efeitos visuais */
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all var(--transition-default);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    
+    /* Layout */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+/* Efeito hover */
+.toggle-chat-list:hover {
+    background-color: var(--accent-color);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Efeito active (quando clicado) */
+.toggle-chat-list:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* Efeito focus para acessibilidade */
+.toggle-chat-list:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.5);
+}
+
+/* Ícone (opcional - pode ser adicionado via HTML ou pseudo-elemento) */
+.toggle-chat-list::before {
+    content: "💬";
+    display: inline-block;
+}
+
+/* Versão mobile */
+@media (max-width: 768px) {
+    .toggle-chat-list {
+        width: 100%;
+        margin-bottom: var(--spacing-unit);
+        padding: 0.75rem;
+    }
+}
+
+/* Estado quando a lista está visível */
+.toggle-chat-list.lista-visivel {
+    background-color: var(--accent-color);
+}
+
+/* Estado quando a lista está oculta */
+.toggle-chat-list.lista-oculta {
+    background-color: var(--primary-color);
+}
+
+/* Garante que a lista de chats comece oculta por padrão */
+.chat-list {
+    display: none;
+}
+
+/* Mostra quando tem a classe 'show' */
+.chat-list.show {
+    display: flex;
+    flex-direction: column;
+}

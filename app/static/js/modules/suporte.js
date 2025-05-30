@@ -1,4 +1,22 @@
+function configurarUIInicial() {
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+    
+    if (isMobile) {
+        // Em mobile, começa mostrando apenas o chat area
+        document.querySelector('.chat-list').classList.remove('show');
+        document.querySelector('.chat-area').classList.remove('hide');
+        document.getElementById('toggle-chat-list').textContent = 'Mostrar Conversas';
+    } else {
+        // Em desktop, mostra ambos
+        document.querySelector('.chat-list').classList.add('show');
+        document.querySelector('.chat-area').classList.remove('hide');
+        document.getElementById('toggle-chat-list').textContent = 'Ocultar Conversas';
+    }
+}
+
+// Chamar no DOMContentLoaded
 document.addEventListener("DOMContentLoaded", () => {
+    configurarUIInicial();
     const form = document.getElementById("chat-form");
     const input = document.getElementById("chat-input");
     const chatBox = document.getElementById("chat-box");
@@ -194,4 +212,8 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }, 5000);
     }
+});
+
+window.addEventListener('resize', () => {
+    configurarUIInicial();
 });
