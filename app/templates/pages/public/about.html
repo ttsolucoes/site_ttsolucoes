@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/pages/about.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/pages/servicos.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/pages/clientes.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/clientes_about.css') }}">
 {% endblock %}
 
 {% block content %}
@@ -91,16 +92,86 @@
     {% include 'components/content_block.html' %}
 {% endwith %}
 
-<section id="clientes-atendidos" class="main-content mt-2">
-  <h2 class="text-center">Projetos finalizados</h2>
-  <div class="clientes-grid">
-    <div class="cliente-card">
-      <img src="{{ url_for('static', filename='images/clientes/gjguadalupe.png') }}" alt="GJGuadalupe">
-      <p>Site institucional e sistema de gestão de eventos</p>
+<section id="clientes-detalhados" class="main-content mt-2">
+  <h1 class="text-center">Nossos Cases de Sucesso</h1>
+  <p class="text-center subtitulo">Conheça em detalhes os projetos que desenvolvemos para nossos clientes</p>
+  
+  <!-- Card Expandido 1 -->
+  <div class="cliente-card-expandido">
+    <div class="cliente-header">
+      <img src="{{ url_for('static', filename='images/clientes/gjguadalupe.png') }}" alt="GJGuadalupe" class="cliente-logo">
+      <div class="cliente-info">
+        <h2>GJGuadalupe</h2>
+        <div class="cliente-tags">
+          <span class="tag">Desenvolvimento Web</span>
+          <span class="tag">Sistema de Gestão</span>
+          <span class="tag">Site Institucional</span>
+        </div>
+      </div>
     </div>
-    <div class="cliente-card">
-      <img src="{{ url_for('static', filename='images/clientes/extractrfb.png') }}" alt="ExtractRFB">
-      <p>Plataforma de geração de leads com filtros para PJ</p>
+    <div class="cliente-content">
+      <h3>Desafio</h3>
+      <p>A GJGuadalupe precisava de uma solução completa que unisse sua presença online com um sistema eficiente para gerenciar seus diversos eventos religiosos e peregrinações.</p>
+      
+      <h3>Solução</h3>
+      <p>Desenvolvemos um site institucional moderno com:</p>
+      <ul class="feature-list">
+        <li>Design responsivo e acessível</li>
+        <li>Galeria de fotos dos eventos</li>
+        <li>Blog integrado</li>
+        <li>Sistema de gestão de eventos completo com:</li>
+        <ul>
+          <li>Cadastro de participantes</li>
+          <li>Controle financeiro</li>
+          <li>Geração de relatórios</li>
+          <li>Módulo de transporte e hospedagem</li>
+        </ul>
+      </ul>
+      
+      <div class="resultados">
+        <h3>Resultados</h3>
+        <div class="stats-grid">
+          <div class="stat-item">
+            <div class="stat-number">+300%</div>
+            <div class="stat-label">Aumento no número de inscrições</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">40h/mês</div>
+            <div class="stat-label">Economia em processos manuais</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">100%</div>
+            <div class="stat-label">Satisfação do cliente</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Seção de Métricas Gerais -->
+  <div class="metricas-gerais">
+    <h2 class="text-center">Nossos Números</h2>
+    <div class="metricas-grid">
+      <div class="metrica-card">
+        <div class="metrica-icon">🏢</div>
+        <div class="metrica-number">50+</div>
+        <div class="metrica-label">Clientes Atendidos</div>
+      </div>
+      <div class="metrica-card">
+        <div class="metrica-icon">🚀</div>
+        <div class="metrica-number">120+</div>
+        <div class="metrica-label">Projetos Entregues</div>
+      </div>
+      <div class="metrica-card">
+        <div class="metrica-icon">⏱️</div>
+        <div class="metrica-number">98%</div>
+        <div class="metrica-label">Entregas no Prazo</div>
+      </div>
+      <div class="metrica-card">
+        <div class="metrica-icon">💡</div>
+        <div class="metrica-number">100%</div>
+        <div class="metrica-label">Soluções Customizadas</div>
+      </div>
     </div>
   </div>
 </section>
