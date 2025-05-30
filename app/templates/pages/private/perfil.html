@@ -20,6 +20,7 @@
                 items=[
                     ('Usuário', user.username),
                     ('Email', user.email),
+                    ('Empresa', user.empresa),
                     ('Cargo', user.cargo),
                     ('Status', 'Ativo')
                 ]
@@ -28,7 +29,8 @@
             {{ info_card(
                 title="Acesso",
                 items=[
-                    ('API', 'Sim' if user.acesso_api else 'Não')
+                    ('Web Aplicativo', 'Sim'),
+                    ('API', 'Sim' if user.acesso_api else 'Não'),
                 ]
             ) }}
         </div>

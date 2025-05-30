@@ -14,7 +14,20 @@ class FeedbackForm(FlaskForm):
 @app.route('/feedback', methods=['GET'])
 def clientes():
     form = FeedbackForm()
-    return render_template('pages/public/clientes.html', form=form)
+    query = "SELECT id, nome, email, nota_satisfacao, comentario, data_envio FROM feedback_clientes ORDER BY data_envio DESC;"
+    feedback = executar_sql(query)
+    resultado_feedback = [
+        {
+            'id': row[0],
+            'nome': row[1],
+            'email': row[2],
+            'nota_satisfacao': int(row[3]),
+            'comentario': row[4],
+            'data_envio': row[5]
+        }
+        for row in feedback
+    ]
+    return render_template('pages/public/clientes.html', form=form, feedback=resultado_feedback)
 
 @app.route('/ver_feedback', methods=['GET'])
 @required_roles('admin')
@@ -35,7 +48,6 @@ def ver_feedback():
         }
         for row in feedback
     ]
-    print(resultado_feedback)
     return render_template('pages/private/clientes.html', feedback=resultado_feedback)
 
 @app.route('/api/feedback', methods=['POST'])

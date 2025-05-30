@@ -5,9 +5,25 @@
 
 {% block css %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/pages/clientes_publicos.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/clientes_privado.css') }}">
 {% endblock %}
 
 {% block content %}
+
+<h1 class="text-center mb-2">Feedback dos Clientes</h1>
+
+<!-- FEEDBACKS -->
+<div class="feedback-grid mt-2">
+    {% for f in feedback %}
+    <div class="feedback-card">
+        <div class="feedback-header">{{ f.nome }} - Nota: {{ f.nota_satisfacao }}</div>
+        <div class="feedback-date">{{ f.data_envio.strftime('%d/%m/%Y %H:%M') }}</div>
+        <div class="feedback-body">"{{ f.comentario }}"</div>
+    </div>
+    {% endfor %}
+</div>
+
+<h1 class="text-center mb-2">Forneça seu feedback</h1>
 
 <div class="main-content">
   <form id="feedback-form">
