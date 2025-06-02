@@ -1,9 +1,11 @@
 <section class="main-content mt-2">
+  <h1 class="text-center">Nossos Membros</h1>
+  <p class="text-center subtitulo">Conheça quem está por trás de nossa história</p>
   <div id="membros-container" class="membros-grid">
     {% for membro in membros %}
       <div class="membro-card">
         <div class="membro-avatar">
-          <img src="{{ membro.foto or '/static/images/logo.png' }}" alt="Foto de {{ membro.nome }}">
+          <img src="/static/images/membros/{{ membro.foto|default('logo') }}.png" alt="Foto de {{ membro.nome|default('Membro') }}">
         </div>
         <div class="membro-info">
           <h3>{{ membro.nome }}</h3>
