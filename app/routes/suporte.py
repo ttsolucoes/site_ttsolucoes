@@ -170,12 +170,47 @@ def enviar_mensagem(sessao_id):
     else:
         return jsonify({'error': 'Falha ao enviar mensagem'}), 500
 
+@app.route('/api/sessoes/<int:sessao_id>/status', methods=['POST'])
+@required_roles('user', 'admin')
+def atualizar_status_sessao(sessao_id):
+    novo_status = request.json.get('status')
+    if novo_status not in ['ABERTO', 'FINALIZADO', 'REABERTO']:
+        return jsonify({'error': 'Status inválido'}), 400
+
+    executar_sql(f"""
+        UPDATE chat_sessoes 
+        SET status = '{novo_status}', 
+            atualizado_em = NOW()
+        WHERE id = {sessao_id}
+    """)
+    return jsonify({'status': novo_status})
+
+@app.route('/api/sessoes/<int:sessao_id>/tags', methods=['POST', 'DELETE'])
+@required_roles('admin')  # Apenas suporte pode modificar tags
+def gerenciar_tags(sessao_id):
+    if request.method == 'POST':
+        tag = request.json.get('tag')
+        executar_sql(f"""
+            UPDATE chat_sessoes 
+            SET tags = array_append(tags, '{tag}') 
+            WHERE id = {sessao_id}
+        """)
+    elif request.method == 'DELETE':
+        tag = request.json.get('tag')
+        executar_sql(f"""
+            UPDATE chat_sessoes 
+            SET tags = array_remove(tags, '{tag}') 
+            WHERE id = {sessao_id}
+        """)
+    return jsonify({'success': True})
+
 @app.route('/suporte')
 @required_roles('user', 'admin')
 def suporte():
     user_logado = session['user']['username']
     users = detalhar_usuario(user_logado)
     empresa = users['empresa']
+    print(is_suporte(empresa))
     return render_template('pages/private/suporte.html', 
                          users=users, 
                          empresa=empresa,

@@ -14,6 +14,13 @@ from api.routes.principal import api_conexao_bp
 
 app.register_blueprint(api_conexao_bp, url_prefix='/api')
 
+from flask_socketio import SocketIO, emit
+
+socketio = SocketIO(app)
+
+@socketio.on('nova_mensagem')
+def handle_nova_mensagem(data):
+    emit('atualizar_chat', data, broadcast=True)
 
 __all__ = [
     'geral',
