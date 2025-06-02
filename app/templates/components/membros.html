@@ -1,0 +1,15 @@
+<section class="main-content mt-2">
+  <div id="membros-container" class="membros-grid">
+    {% for membro in membros %}
+      <div class="membro-card">
+        <div class="membro-avatar">
+          <img src="{{ membro.foto or '/static/images/logo.png' }}" alt="Foto de {{ membro.nome }}">
+        </div>
+        <div class="membro-info">
+          <h3>{{ membro.nome }}</h3>
+          <p>{{ membro.cargo }}</p>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</section>

@@ -14,84 +14,6 @@
 
 {% block content %}
 
-{% set title_hero = "TT SOLUÇÕES" %}
-{% set subtitle_hero = "Transformação técnico-digital para empresas que ainda fazem milagre com planilha." %}
-{% set actions_hero = [
-    {'url': '/index', 'class': 'btn btn-zero', 'label': 'Home', 'title': 'Acesse a index do sistema'},
-    {'url': '/detalhes_pre_diagnostico', 'class': 'btn btn-zero', 'label': 'Pré diagnóstico', 'title': 'Realize o pré diagnóstico gratuito'}
-    ] %}
-{% include 'components/hero-card.html' %}
-
-{% with title='Quem somos', description='A TT Soluções nasceu para acabar com o caos silencioso das planilhas e dar poder digital às PMEs brasileiras.' %}
-    {% include 'components/content_block.html' %}
-{% endwith %}
-{% with title='Nossa missão', description='Reduzir o déficit técnico-operacional das pequenas e médias empresas brasileiras em até 120 dias, com soluções acessíveis, sustentáveis e 100% adaptadas à realidade do cliente.' %}
-    {% include 'components/content_block.html' %}
-{% endwith %}
-
-<section id="servicos-detalhados" class="servicos-about main-content mt-2">
-  <h2 class="text-center">Como fazemos isso?</h2>
-  <div class="cards-container">
-    <div class="card-servico">
-      <h3>Pré-diagnóstico gratuito</h3>
-      <p>Identificamos o nível atual de maturidade técnica da sua empresa sem custo.</p>
-    </div>
-    <div class="card-servico">
-      <h3>Diagnóstico técnico detalhado</h3>
-      <p>Mapeamos os principais gargalos e oportunidades de melhoria do seu negócio.</p>
-    </div>
-    <div class="card-servico">
-      <h3>Execução de soluções digitais</h3>
-      <p>Implementamos ferramentas e processos sob medida para sua realidade.</p>
-    </div>
-    <div class="card-servico">
-      <h3>Capacitação da equipe</h3>
-      <p>Garantimos que sua equipe saiba operar e manter as soluções implantadas.</p>
-    </div>
-    <div class="card-servico">
-      <h3>Suporte técnico recorrente</h3>
-      <p>Acompanhamos sua evolução com apoio contínuo e proativo.</p>
-    </div>
-  </div>
-</section>
-
-<section class="features-section">
-    <h2 class="section-title">Nossos pilares</h2>
-    <div class="features-grid">
-        {% with icon='shield-check', title='Ética e Alinhamento', description='Negócios saudáveis começam com pessoas respeitadas e alinhadas.' %}
-            {% include 'components/feature_card.html' %}
-        {% endwith %}
-
-        {% with icon='clock', title='Responsabilidade e Ritmo', description='Prezamos por equilíbrio e constância, sem promessas vazias.' %}
-            {% include 'components/feature_card.html' %}
-        {% endwith %}
-
-        {% with icon='sparkles', title='Execução Sustentável', description='Antes não feito do que mal feito. Fazemos com método e propósito.' %}
-            {% include 'components/feature_card.html' %}
-        {% endwith %}
-
-        {% with icon='users', title='Ambiente Transparente', description='Acreditamos em acessos iguais, informações compartilhadas e crescimento real.' %}
-            {% include 'components/feature_card.html' %}
-        {% endwith %}
-    </div>
-</section>
-
-{% with title='De onde viemos', description='A TT Soluções nasceu do inconformismo diante da realidade enfrentada por pequenas e médias empresas brasileiras: processos manuais, desperdício de tempo e barreiras técnicas que travam o crescimento. Fruto de vivências intensas no campo da tecnologia e da gestão, a empresa surgiu com um propósito, transformar realidades técnicas e humanas.<br><br> Mais do que automatizar rotinas, buscamos democratizar o acesso a soluções robustas, acessíveis e inteligentes. Valorizamos a diversidade, promovemos a autonomia e acreditamos que a evolução só é verdadeira quando alcança tanto as pessoas quanto as organizações.<br><br> Somos movidos pela ética, pela inovação e pela certeza de que é possível fazer diferente e melhor.' %}
-    {% include 'components/content_block.html' %}
-{% endwith %}
-
-{% with title='Descritivo filosófico', description='Acreditamos que a complexidade das organizações não pode ser enfrentada com soluções simples, mas com simplicidade intencional. A TT Soluções parte do princípio de que maturidade operacional é consequência de alinhamento entre pessoas, processos e propósito. <br><br> Enxergamos a gestão como um campo entrópico: quanto mais desorganizado o ambiente, maior o potencial de transformação, desde que haja inteligência técnica e sensibilidade humana. <br><br> Nossos sistemas são desenhados para acolher a diversidade e a imprevisibilidade como partes naturais da realidade organizacional. Automatizamos não para substituir, mas para liberar o melhor das pessoas. <br><br> A inovação, para nós, não está apenas na tecnologia, mas na coragem de redesenhar rotinas, repensar o tempo e redistribuir o poder decisório. Somos agentes de maturidade, construindo pontes entre a urgência do agora e a sustentabilidade do amanhã.' %}
-    {% include 'components/content_block.html' %}
-{% endwith %}
-
-{% with title='O que acreditamos', description='Crescer certo vale mais do que crescer rápido. Acreditamos que uma empresa deve ser um reflexo de suas pessoas: ética, transparente e comprometida. Aqui, respeitamos o tempo de cada etapa e priorizamos processos simples, relações justas e entregas com propósito.' %}
-    {% include 'components/content_block.html' %}
-{% endwith %}
-
-{% with title='Nosso diferencial', description='Unimos visão técnica, sensibilidade prática e metodologia objetiva para transformar negócios que ainda vivem no improviso digital. Não vendemos promessas, entregamos processo. Nosso compromisso é com a autonomia do cliente, não com a dependência da nossa tecnologia.' %}
-    {% include 'components/content_block.html' %}
-{% endwith %}
-
 <section id="clientes-detalhados" class="main-content mt-2">
   <h1 class="text-center">Nossos Cases de Sucesso</h1>
   <p class="text-center subtitulo">Conheça em detalhes os projetos que desenvolvemos para nossos clientes</p>
@@ -191,7 +113,7 @@
   <!-- Card Expandido 3 -->
   <div class="cliente-card-expandido">
     <div class="cliente-header">
-      <img src="{{ url_for('static', filename='images/clientes/invertus_invertussystem.png') }}" alt="extractrfb" class="cliente-logo">
+      <img src="{{ url_for('static', filename='images/clientes/invertus_invertussystem.png') }}" alt="invertus_invertussystem" class="cliente-logo">
       <div class="cliente-info">
         <h2>Invertus - InvertusSystem</h2>
         <div class="cliente-tags">
@@ -235,7 +157,7 @@
   <!-- Card Expandido 3 -->
   <div class="cliente-card-expandido">
     <div class="cliente-header">
-      <img src="{{ url_for('static', filename='images/clientes/inove_invertussystem.png') }}" alt="extractrfb" class="cliente-logo">
+      <img src="{{ url_for('static', filename='images/clientes/inove_invertussystem.png') }}" alt="inove_invertussystem" class="cliente-logo">
       <div class="cliente-info">
         <h2>Migrador - InvertusSystem</h2>
         <div class="cliente-tags">
@@ -282,7 +204,7 @@
   <!-- Card Expandido 5 -->
   <div class="cliente-card-expandido">
     <div class="cliente-header">
-      <img src="{{ url_for('static', filename='images/clientes/inove_invertussystem.png') }}" alt="extractrfb" class="cliente-logo">
+      <img src="{{ url_for('static', filename='images/clientes/invertus_system.png') }}" alt="invertus_system" class="cliente-logo">
       <div class="cliente-info">
         <h2>Inove - InvertusSystem</h2>
         <div class="cliente-tags">
@@ -353,6 +275,87 @@
   </div>
 </section>
 
+{% set membros = [
+  {'nome': 'Guilherme Antonio', 'cargo': 'Diretor de Tecnologia'},
+  {'nome': 'Guilherme Ramos', 'cargo': 'Diretor de Finanças'},
+  {'nome': 'Luiz Esquivel', 'cargo': 'Diretor de Operações e Qualidade'},
+  {'nome': 'Nicole Ressurreição', 'cargo': 'Diretora de Relacionamento ao Cliente'}
+] %}
+
+{% include 'components/membros.html' %}
+
+<section class="main-content mt-2">
+
+  {% with title='Quem somos', description='A TT Soluções nasceu para acabar com o caos silencioso das planilhas e dar poder digital às PMEs brasileiras.' %}
+      {% include 'components/content_block.html' %}
+  {% endwith %}
+  {% with title='Nossa missão', description='Reduzir o déficit técnico-operacional das pequenas e médias empresas brasileiras em até 120 dias, com soluções acessíveis, sustentáveis e 100% adaptadas à realidade do cliente.' %}
+      {% include 'components/content_block.html' %}
+  {% endwith %}
+
+  <section id="servicos-detalhados" class="servicos-about main-content mt-2">
+    <h2 class="text-center">Como fazemos isso?</h2>
+    <div class="cards-container">
+      <div class="card-servico">
+        <h3>Pré-diagnóstico gratuito</h3>
+        <p>Identificamos o nível atual de maturidade técnica da sua empresa sem custo.</p>
+      </div>
+      <div class="card-servico">
+        <h3>Diagnóstico técnico detalhado</h3>
+        <p>Mapeamos os principais gargalos e oportunidades de melhoria do seu negócio.</p>
+      </div>
+      <div class="card-servico">
+        <h3>Execução de soluções digitais</h3>
+        <p>Implementamos ferramentas e processos sob medida para sua realidade.</p>
+      </div>
+      <div class="card-servico">
+        <h3>Capacitação da equipe</h3>
+        <p>Garantimos que sua equipe saiba operar e manter as soluções implantadas.</p>
+      </div>
+      <div class="card-servico">
+        <h3>Suporte técnico recorrente</h3>
+        <p>Acompanhamos sua evolução com apoio contínuo e proativo.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="features-section">
+      <h2 class="section-title">Nossos pilares</h2>
+      <div class="features-grid">
+          {% with icon='shield-check', title='Ética e Alinhamento', description='Negócios saudáveis começam com pessoas respeitadas e alinhadas.' %}
+              {% include 'components/feature_card.html' %}
+          {% endwith %}
+
+          {% with icon='clock', title='Responsabilidade e Ritmo', description='Prezamos por equilíbrio e constância, sem promessas vazias.' %}
+              {% include 'components/feature_card.html' %}
+          {% endwith %}
+
+          {% with icon='sparkles', title='Execução Sustentável', description='Antes não feito do que mal feito. Fazemos com método e propósito.' %}
+              {% include 'components/feature_card.html' %}
+          {% endwith %}
+
+          {% with icon='users', title='Ambiente Transparente', description='Acreditamos em acessos iguais, informações compartilhadas e crescimento real.' %}
+              {% include 'components/feature_card.html' %}
+          {% endwith %}
+      </div>
+  </section>
+
+  {% with title='De onde viemos', description='A TT Soluções nasceu do inconformismo diante da realidade enfrentada por pequenas e médias empresas brasileiras: processos manuais, desperdício de tempo e barreiras técnicas que travam o crescimento. Fruto de vivências intensas no campo da tecnologia e da gestão, a empresa surgiu com um propósito, transformar realidades técnicas e humanas.<br><br> Mais do que automatizar rotinas, buscamos democratizar o acesso a soluções robustas, acessíveis e inteligentes. Valorizamos a diversidade, promovemos a autonomia e acreditamos que a evolução só é verdadeira quando alcança tanto as pessoas quanto as organizações.<br><br> Somos movidos pela ética, pela inovação e pela certeza de que é possível fazer diferente e melhor.' %}
+      {% include 'components/content_block.html' %}
+  {% endwith %}
+
+  {% with title='Descritivo filosófico', description='Acreditamos que a complexidade das organizações não pode ser enfrentada com soluções simples, mas com simplicidade intencional. A TT Soluções parte do princípio de que maturidade operacional é consequência de alinhamento entre pessoas, processos e propósito. <br><br> Enxergamos a gestão como um campo entrópico: quanto mais desorganizado o ambiente, maior o potencial de transformação, desde que haja inteligência técnica e sensibilidade humana. <br><br> Nossos sistemas são desenhados para acolher a diversidade e a imprevisibilidade como partes naturais da realidade organizacional. Automatizamos não para substituir, mas para liberar o melhor das pessoas. <br><br> A inovação, para nós, não está apenas na tecnologia, mas na coragem de redesenhar rotinas, repensar o tempo e redistribuir o poder decisório. Somos agentes de maturidade, construindo pontes entre a urgência do agora e a sustentabilidade do amanhã.' %}
+      {% include 'components/content_block.html' %}
+  {% endwith %}
+
+  {% with title='O que acreditamos', description='Crescer certo vale mais do que crescer rápido. Acreditamos que uma empresa deve ser um reflexo de suas pessoas: ética, transparente e comprometida. Aqui, respeitamos o tempo de cada etapa e priorizamos processos simples, relações justas e entregas com propósito.' %}
+      {% include 'components/content_block.html' %}
+  {% endwith %}
+
+  {% with title='Nosso diferencial', description='Unimos visão técnica, sensibilidade prática e metodologia objetiva para transformar negócios que ainda vivem no improviso digital. Não vendemos promessas, entregamos processo. Nosso compromisso é com a autonomia do cliente, não com a dependência da nossa tecnologia.' %}
+      {% include 'components/content_block.html' %}
+  {% endwith %}
+</section>
 
 {% endblock %}
 

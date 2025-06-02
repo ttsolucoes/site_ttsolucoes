@@ -52,6 +52,53 @@
     opacity: 0.85;
 }
 
+.main-content {
+  padding: var(--spacing-unit);
+  background-color: var(--background-soft);
+  color: var(--text-color);
+}
+
+.membros-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: calc(var(--spacing-unit) * 1.5);
+}
+
+.membro-card {
+  background: var(--background-card);
+  border-radius: 1rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  text-align: center;
+  padding: var(--spacing-unit);
+  transition: transform var(--transition-default);
+  border: 1px solid var(--border-color);
+}
+
+.membro-card:hover {
+  transform: translateY(-5px);
+}
+
+.membro-avatar img {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 0.75rem;
+  border: 2px solid var(--primary-color);
+}
+
+.membro-info h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: var(--text-dark);
+}
+
+.membro-info p {
+  margin: 0.2rem 0 0;
+  font-size: 0.95rem;
+  color: var(--text-light);
+}
+
 @media (max-width: 768px) {
     .section-title {
         font-size: 1.75rem;
