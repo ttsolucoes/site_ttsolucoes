@@ -26,6 +26,10 @@
     --btn-radius: 0.5rem;
     --transition-default: 0.3s ease;
 
+    --primary-color-hover: #0069d9;
+    --secondary-color-hover: #059669;
+    --background-white: #ffffff;
+
     --modal-bg: rgba(0, 0, 0, 0.6);
     --modal-content-bg: #fff;
 
@@ -33,6 +37,10 @@
 }
 
 * { margin: 0; padding: 0; }
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
 
 a {
     color: var(--primary-color);

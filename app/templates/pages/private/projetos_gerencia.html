@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}Gerência de Projeto{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/suporte_gerencia.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="gerencia-container">
+    <h2>Projetos em andamento</h2>
+    <p>Usuário: {{ users.username }} | Empresa: {{ empresa }} | ID: {{ users.id }}</p>
+
+    <div class="metricas-grid">
+        <div class="metrica-card">
+            <h3>MTTR (Tempo Médio para Resolução)</h3>
+            <div class="grafico-container">
+                <canvas id="mttrChart"></canvas>
+            </div>
+            <div class="metrica-info" id="mttrInfo"></div>
+        </div>
+        
+        <div class="metrica-card">
+            <h3>MTBF (Tempo Médio entre Falhas)</h3>
+            <div class="grafico-container">
+                <canvas id="mtbfChart"></canvas>
+            </div>
+            <div class="metrica-info" id="mtbfInfo"></div>
+        </div>
+    </div>
+    
+    <div class="filtros">
+        <select id="filtro-periodo">
+            <option value="7">Últimos 7 dias</option>
+            <option value="30" selected>Últimos 30 dias</option>
+            <option value="90">Últimos 90 dias</option>
+            <option value="365">Últimos 12 meses</option>
+        </select>
+        
+        <select id="filtro-equipe" class="suporte-only">
+            <option value="todos">ExtractRFB</option>
+            <!-- Opções serão preenchidas via JS -->
+        </select>
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{{ url_for('static', filename='js/modules/suporte_gerencia.js') }}"></script>
+{% endblock %}

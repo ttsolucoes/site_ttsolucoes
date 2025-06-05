@@ -11,7 +11,7 @@
     <div class="chat-header">
         <h2>Central de Suporte</h2>
         <p>Usuário: {{ users.username }} | Empresa: {{ empresa }} | ID: {{ users.id }}</p>
-        <button id="toggle-chat-list" class="toggle-chat-list">
+        <button id="toggle-chat-list" class="toggle-chat-list" aria-expanded="false">
             <svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
             </svg>
@@ -21,33 +21,41 @@
 
     <div class="chat-layout">
         <!-- Lista de conversas -->
-        <div class="chat-list">
-            <button id="nova-conversa-btn">+ Nova Conversa</button>
-            <div class="conversas-container" id="conversas-container"></div>
+        <div class="chat-list" id="chat-list">
+            <button id="nova-conversa-btn" class="btn-nova-conversa">+ Nova Conversa</button>
+            <div class="conversas-container" id="conversas-container">
+                <!-- Conversas serão carregadas aqui via JS -->
+            </div>
         </div>
 
         <!-- Área principal do chat -->
-        <div class="chat-area">
+        <div class="chat-area" id="chat-area">
             <!-- Barra de ações (somente para suporte) -->
             {% if eh_suporte %}
             <div class="chat-actions" id="chat-actions">
-                <button id="finalizar-chat" class="btn btn-danger"onclick="encerrarConversa()">Finalizar Chat</button>
+                <button id="finalizar-chat" class="btn btn-danger">Finalizar Chat</button>
                 <button id="reabrir-chat" class="btn btn-secondary" style="display:none;">Reabrir Chat</button>
                 <div class="tags-wrapper">
                     <input type="text" id="nova-tag" placeholder="Adicionar tag..." class="tag-input">
-                    <div id="tags-list" class="tags-list"></div>
+                    <div id="tags-list" class="tags-list">
+                        <!-- Tags serão carregadas aqui via JS -->
+                    </div>
                 </div>
             </div>
             {% endif %}
             
             <!-- Caixa de mensagens -->
-            <div class="chat-box" id="chat-box"></div>
+            <div class="chat-box" id="chat-box">
+                <!-- Mensagens serão carregadas aqui via JS -->
+            </div>
             
             <!-- Formulário de mensagem -->
-            <form id="chat-form" class="chat-form">
-                <input type="text" id="chat-input" placeholder="Digite sua mensagem..." required>
-                <button type="submit">Enviar</button>
+            <form id="chat-form" class="chat-form" aria-label="Formulário de envio de mensagem">
+                <input type="text" id="chat-input" placeholder="Digite sua mensagem..." aria-label="Digite sua mensagem" required>
+                <button type="submit" id="enviar-btn" class="btn-enviar" disabled>Enviar</button>
             </form>
+
+            <div id="feedback-msg" role="alert" aria-live="assertive" class="feedback-msg"></div>
         </div>
     </div>
 </div>

@@ -12,11 +12,6 @@
                 {% if current_user.is_authenticated %}
                     {% if session.user.cargo == 'admin' %}
                         <li>
-                            <a href="/usuarios" class="nav-link">
-                                <i class="fas fa-users-cog"></i> Gerenciar Usuários
-                            </a>
-                        </li>
-                        <li>
                             <a href="/pre_diagnostico_detalhes" class="nav-link">
                                 <i class="fas fa-users-cog"></i> Gerenciar Pré Diagnósticos
                             </a>
@@ -25,8 +20,18 @@
                             <a href="/ver_feedback" class="nav-link">
                                 <i class="fas fa-users-cog"></i> Gerenciar Feedbacks
                             </a>
+                        <li>
+                            <a href="/suporte_gerencia" class="nav-link">
+                                <i class="fas fa-users-cog"></i> Gerenciar Suporte
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/usuarios" class="nav-link">
+                                <i class="fas fa-users-cog"></i> Gerenciar Usuários
+                            </a>
                         </li>
                     {% endif %}
+                    <li><a href="/projetos_gerencia" title="Ir para projetos">Projetos</a></li>
                     <li><a href="/suporte" title="Ir para suporte">Suporte</a></li>
                     <li><a href="/perfil" title="Ir para perfil do sistema">Perfil</a></li>
                     <li><a href="/logout" title="Deslogar do sistema">Sair</a></li>

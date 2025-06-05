@@ -1,5 +1,5 @@
 import sqlite3
-from typing import Union
+from typing import Union, Optional, Tuple
 from typing import List
 import pandas as pd
 import psycopg2
@@ -28,20 +28,37 @@ def finalizar_conexao(conn):
     finally:
         conn.close()
 
-def executar_sql(sql: str) -> Union[str, list]:
+def executar_sql(sql: str, params: Optional[Tuple] = None) -> Union[str, List[Tuple]]:
+    """
+    Executa uma instrução SQL no banco de dados, com ou sem parâmetros.
+
+    Args:
+        sql (str): Instrução SQL.
+        params (tuple, optional): Parâmetros seguros para a query.
+
+    Returns:
+        Union[str, List[Tuple]]: Resultado da query (lista de tuplas) ou mensagem de sucesso.
+    """
     conn = conectar_banco()
     cursor = conn.cursor()
     try:
-        cursor.execute(sql)
-        if cursor.description:
-            resultado = cursor.fetchall()
+        if params:
+            cursor.execute(sql, params)
         else:
+            cursor.execute(sql)
+
+        if cursor.description:  # Query de leitura
+            resultado = cursor.fetchall()
+        else:  # Insert/Update/Delete
             resultado = "Sucesso ao executar"
+
         conn.commit()
         return resultado
+
     except OperationalError as e:
         conn.rollback()
         raise Exception(f"Erro ao executar SQL: {e}")
+
     finally:
         cursor.close()
         conn.close()

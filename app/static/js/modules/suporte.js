@@ -1,369 +1,478 @@
-window.sessaoAtiva = null;
-window.currentChatStatus = 'ABERTO';
-
-async function mostrarNotificacao(mensagem, tipo = 'info') {
-    const notificacao = document.createElement('div');
-    notificacao.className = `notificacao notificacao-${tipo}`;
-    notificacao.textContent = mensagem;
-    
-    document.body.appendChild(notificacao);
-    setTimeout(() => notificacao.remove(), 3000);
-}
-
-async function atualizarMensagensSessaoAtiva() {
-    if (!sessaoAtiva) return;
-
-    try {
-        const response = await fetch(`/api/sessoes/${sessaoAtiva}/mensagens`);
-        if (!response.ok) throw new Error('Erro ao atualizar mensagens');
-
-        const mensagens = await response.json();
-    } catch (error) {
-        console.error('Erro ao atualizar mensagens da sessão ativa:', error);
-    }
-}
-
-window.removerTag = async function(tag) {
-    try {
-        const response = await fetch(`/api/sessoes/${sessaoAtiva}/tags`, {
-            method: 'DELETE',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ tag })
-        });
-
-        if (!response.ok) throw new Error('Erro ao remover tag');
-
-        const sessao = await response.json();
-        atualizarTags(sessao.tags);
-    } catch (error) {
-        console.error('Erro:', error);
-        mostrarNotificacao('Erro ao remover tag', 'error');
-    }
-};
-
-async function encerrarConversa() {
-    if (!window.sessaoAtiva) {
-        console.error('Nenhuma sessão ativa para encerrar');
-        mostrarNotificacao('Nenhuma conversa ativa para encerrar', 'error');
-        return;
+class SuporteChat {
+    constructor() {
+        this.sessaoAtiva = null;
+        this.currentChatStatus = 'ABERTO';
+        this.userData = {
+            username: null,
+            userId: null,
+            empresa: null,
+            ehSuporte: false
+        };
+        this.elements = {
+            form: null,
+            input: null,
+            chatBox: null,
+            conversasContainer: null,
+            novaConversaBtn: null,
+            finalizarChatBtn: null,
+            reabrirChatBtn: null,
+            novaTagInput: null,
+            tagsList: null,
+            toggleChatListBtn: null,
+            chatList: null,
+            chatArea: null
+        };
+        this.intervalId = null;
+        this.resizeTimeout = null;
     }
 
-    fetch(`/api/sessoes/${window.sessaoAtiva}/status`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ status: 'FINALIZADO' })
-    })
-    .then(response => {
-        if (!response.ok) throw new Error('Erro ao atualizar status');
-        return response.json();
-    })
-    .then(data => {
-        console.log('Status atualizado para:', data.status);
-        mostrarNotificacao('Conversa finalizada com sucesso', 'success');
-        
-        // Atualiza a UI
-        document.getElementById('finalizar-chat').style.display = 'none';
-        document.getElementById('reabrir-chat').style.display = 'block';
-        
-        // Atualiza o status global
-        window.currentChatStatus = 'FINALIZADO';
-        
-        // Atualiza a lista de conversas
-        if (window.carregarConversas) window.carregarConversas();
-    })
-    .catch(error => {
-        console.error('Erro ao encerrar conversa:', error);
-        mostrarNotificacao('Erro ao finalizar conversa', 'error');
-    });
-}
 
 
-// Configuração inicial da UI
-function configurarUIInicial() {
-    const isMobile = window.matchMedia('(max-width: 768px)').matches;
-    const chatList = document.querySelector('.chat-list');
-    const chatArea = document.querySelector('.chat-area');
-    const toggleBtn = document.getElementById('toggle-chat-list');
-
-    if (isMobile) {
-        chatList.classList.remove('show');
-        chatArea.classList.remove('hide');
-        toggleBtn.textContent = 'Mostrar Conversas';
-    } else {
-        chatList.classList.add('show');
-        chatArea.classList.remove('hide');
-        toggleBtn.textContent = 'Ocultar Conversas';
+    init() {
+        this.cacheElements();
+        this.getUserData();
+        this.setupEventListeners();
+        this.loadInitialData();
+        this.setupAutoRefresh();
+        this.adjustLayout();
     }
-}
 
-// Função principal
-document.addEventListener("DOMContentLoaded", () => {
-    // Elementos da UI
-    const elements = {
-        form: document.getElementById("chat-form"),
-        input: document.getElementById("chat-input"),
-        chatBox: document.getElementById("chat-box"),
-        conversasContainer: document.getElementById("conversas-container"),
-        novaConversaBtn: document.getElementById("nova-conversa-btn"),
-        finalizarChatBtn: document.getElementById("finalizar-chat"),
-        reabrirChatBtn: document.getElementById("reabrir-chat"),
-        novaTagInput: document.getElementById("nova-tag"),
-        tagsList: document.getElementById("tags-list")
-    };
+    cacheElements() {
+        this.elements.form = document.getElementById('chat-form');
+        this.elements.input = document.getElementById('chat-input');
+        this.elements.chatBox = document.getElementById('chat-box');
+        this.elements.conversasContainer = document.getElementById('conversas-container');
+        this.elements.novaConversaBtn = document.getElementById('nova-conversa-btn');
+        this.elements.finalizarChatBtn = document.getElementById('finalizar-chat');
+        this.elements.reabrirChatBtn = document.getElementById('reabrir-chat');
+        this.elements.novaTagInput = document.getElementById('nova-tag');
+        this.elements.tagsList = document.getElementById('tags-list');
+        this.elements.toggleChatListBtn = document.getElementById('toggle-chat-list');
+        this.elements.chatList = document.getElementById('chat-list');
+        this.elements.chatArea = document.getElementById('chat-area');
+    }
 
-    // Dados do usuário
-    const userData = {
-        username: "{{ users.username }}",
-        userId: "{{ users.id }}",
-        empresa: "{{ empresa }}",
-        ehSuporte: "{{ eh_suporte }}" === "True"
-    };
+    getUserData() {
+        this.userData.username = window.userData?.username || '';
+        this.userData.userId = window.userData?.userId || '';
+        this.userData.empresa = window.userData?.empresa || '';
+        this.userData.ehSuporte = window.userData?.ehSuporte || false;
+    }
 
-    // Configuração inicial
-    configurarUIInicial();
-    setupEventListeners();
-    carregarConversas();
+    setupEventListeners() {
+        this.elements.form.addEventListener('submit', (e) => this.handleFormSubmit(e));
+        this.elements.input.addEventListener('input', () => this.toggleSendButton());
+        this.elements.novaTagInput?.addEventListener('keydown', (e) => this.handleTagInput(e));
+        this.elements.finalizarChatBtn?.addEventListener('click', () => this.finalizarChat());
+        this.elements.reabrirChatBtn?.addEventListener('click', () => this.reabrirChat());
+        this.elements.novaConversaBtn?.addEventListener('click', () => this.criarConversa());
+        this.elements.toggleChatListBtn?.addEventListener('click', () => this.toggleChatList());
+        window.addEventListener('resize', () => this.adjustLayout());
+    }
 
-    // Funções principais
-    function setupEventListeners() {
-        elements.form.addEventListener("submit", handleSubmit);
-        elements.novaConversaBtn.addEventListener('click', criarConversa);
-        
-        if (userData.ehSuporte) {
-            elements.finalizarChatBtn.addEventListener('click', finalizarChat);
-            elements.reabrirChatBtn.addEventListener('click', reabrirChat);
-            elements.novaTagInput.addEventListener('keypress', handleTagInput);
+    async loadInitialData() {
+        await this.carregarConversas();
+        if (!this.sessaoAtiva && this.elements.conversasContainer.children.length > 0) {
+            const primeiraConversa = this.elements.conversasContainer.children[0];
+            const sessaoId = primeiraConversa.dataset.sessaoId;
+            await this.carregarMensagens(sessaoId);
+        } else if (this.elements.conversasContainer.children.length === 0 && !this.userData.ehSuporte) {
+            await this.criarConversa();
         }
     }
 
-    async function handleSubmit(e) {
-        e.preventDefault();
-        const mensagem = elements.input.value.trim();
-        if (!mensagem) return;
-
-        await enviarMensagem(mensagem);
-        elements.input.value = "";
+    setupAutoRefresh() {
+        clearInterval(this.intervalId);
+        this.intervalId = setInterval(async () => {
+            if (this.sessaoAtiva) {
+                await this.atualizarMensagensSessaoAtiva();
+            }
+        }, 2000); // Alterado para 5 segundos
     }
 
-    async function carregarConversas() {
+    adjustLayout() {
+        clearTimeout(this.resizeTimeout);
+        this.resizeTimeout = setTimeout(() => {
+            if (window.innerWidth < 768) {
+                this.elements.chatList.style.display = 'none';
+                this.elements.chatArea.style.display = 'block';
+                this.elements.toggleChatListBtn.setAttribute('aria-expanded', 'false');
+            } else {
+                this.elements.chatList.style.display = 'block';
+                this.elements.chatArea.style.display = 'block';
+                this.elements.toggleChatListBtn.setAttribute('aria-expanded', 'true');
+            }
+        }, 100);
+    }
+
+    toggleChatList() {
+        const isExpanded = this.elements.toggleChatListBtn.getAttribute('aria-expanded') === 'true';
+        if (window.innerWidth < 768) {
+            this.elements.chatList.style.display = isExpanded ? 'none' : 'block';
+            this.elements.chatArea.style.display = isExpanded ? 'block' : 'none';
+            this.elements.toggleChatListBtn.setAttribute('aria-expanded', isExpanded ? 'false' : 'true');
+        }
+    }
+
+    async handleFormSubmit(e) {
+        e.preventDefault();
+        const mensagem = this.elements.input.value.trim();
+        if (!mensagem) return;
+        await this.enviarMensagem(mensagem);
+        this.elements.input.value = '';
+        this.toggleSendButton();
+    }
+
+    toggleSendButton() {
+        const enviarBtn = this.elements.form.querySelector('#enviar-btn');
+        enviarBtn.disabled = this.elements.input.value.trim() === '' || this.currentChatStatus === 'FINALIZADO';
+    }
+
+    async handleTagInput(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            const tag = this.elements.novaTagInput.value.trim();
+            if (tag) {
+                await this.adicionarTag(tag);
+                this.elements.novaTagInput.value = '';
+            }
+        }
+    }
+
+    async atualizarMensagensSessaoAtiva() {
+        if (!this.sessaoAtiva) return;
+        
+        try {
+            const response = await fetch(`/api/sessoes/${this.sessaoAtiva}/mensagens`);
+            if (!response.ok) throw new Error('Erro ao atualizar mensagens');
+            
+            const mensagens = await response.json();
+            const currentMsgCount = document.querySelectorAll('.chat-message').length;
+            
+            // Só renderiza se houver novas mensagens
+            if (mensagens.length !== currentMsgCount) {
+                this.renderMensagens(mensagens);
+            }
+        } catch (error) {
+            console.error('Erro ao atualizar mensagens:', error);
+        }
+    }
+
+    renderMensagens(mensagens) {
+
+        // Manter a posição do scroll se o usuário não estiver no final
+        const wasScrolledToBottom = this.isScrolledToBottom();
+        
+        this.elements.chatBox.innerHTML = mensagens.map(msg => {
+            const msgClass = (msg.autor === this.userData.username) ? 'me' :
+                           (msg.eh_suporte ? 'suporte' : 'other');
+            return `
+                <div class="chat-message ${msgClass}">
+                    <div class="msg-autor">${msg.autor}</div>
+                    <div class="msg-texto">${msg.mensagem}</div>
+                    <div class="msg-data">${this.formatarData(msg.enviada_em)}</div>
+                </div>
+            `;
+        }).join('');
+        
+        // Restaurar a posição do scroll
+        if (wasScrolledToBottom) {
+            this.scrollToBottom();
+        }
+    }
+
+    formatarData(dataString) {
+        if (!dataString) return '';
+        const data = new Date(dataString);
+        return data.toLocaleDateString('pt-BR') + ' ' +
+               data.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+    }
+
+    async carregarConversas(manterSessaoAtual = true) {
         try {
             const response = await fetch('/api/sessoes');
             if (!response.ok) throw new Error('Erro ao carregar conversas');
-            
             const sessoes = await response.json();
-            renderConversas(sessoes);
-            
-            if (!window.sessaoAtiva && sessoes.length > 0) {
-                await carregarMensagens(sessoes[0].id);
-            } else if (sessoes.length === 0 && !userData.ehSuporte) {
-                await criarConversa();
+            this.renderConversas(sessoes);
+
+            // Garante que a sessão ativa só é definida se for necessário
+            if (!manterSessaoAtual || !this.sessaoAtiva) {
+                const primeiraSessao = sessoes[0];
+                if (primeiraSessao) {
+                    this.sessaoAtiva = primeiraSessao.id;
+                    await this.carregarMensagens(this.sessaoAtiva);
+                }
             }
         } catch (error) {
             console.error('Erro ao carregar conversas:', error);
+            this.mostrarNotificacao('Erro ao carregar conversas', 'error');
         }
     }
 
-    function renderConversas(sessoes) {
-        elements.conversasContainer.innerHTML = '';
-        
-        sessoes.forEach(sessao => {
-            const conversaEl = document.createElement('div');
-            conversaEl.className = sessao.id === window.sessaoAtiva ? 'conversa-item ativa' : 'conversa-item';
-            
-            const titulo = userData.ehSuporte && sessao.usuario_nome ? 
-                `${sessao.titulo} (${sessao.usuario_nome})` : sessao.titulo;
-            
-            conversaEl.innerHTML = `
-                <div class="conversa-titulo">${titulo}</div>
-                <div class="conversa-status ${sessao.status?.toLowerCase()}">${sessao.status || 'ABERTO'}</div>
-                <div class="conversa-data">${formatarData(sessao.atualizado_em)}</div>
+
+    renderConversas(sessoes) {
+        this.elements.conversasContainer.innerHTML = sessoes.map(sessao => {
+            const titulo = (this.userData.ehSuporte && sessao.usuario_nome) ?
+                         `${sessao.titulo} (${sessao.usuario_nome})` : sessao.titulo;
+            return `
+                <div class="conversa-item ${sessao.id === this.sessaoAtiva ? 'ativa' : ''}" 
+                     data-sessao-id="${sessao.id}">
+                    <div class="conversa-titulo">${titulo}</div>
+                    <div class="conversa-status ${sessao.status?.toLowerCase() || 'aberto'}">
+                        ${sessao.status || 'ABERTO'}
+                    </div>
+                    <div class="conversa-data">${this.formatarData(sessao.atualizado_em)}</div>
+                </div>
             `;
-            
-            conversaEl.addEventListener('click', () => carregarMensagens(sessao.id));
-            elements.conversasContainer.appendChild(conversaEl);
+        }).join('');
+
+        // Adiciona event listeners para cada conversa
+        document.querySelectorAll('.conversa-item').forEach(item => {
+            item.addEventListener('click', async () => {
+                const sessaoId = item.dataset.sessaoId;
+                await this.carregarMensagens(sessaoId);
+                if (window.innerWidth < 768) {
+                    this.elements.chatList.style.display = 'none';
+                    this.elements.chatArea.style.display = 'block';
+                    this.elements.toggleChatListBtn.setAttribute('aria-expanded', 'false');
+                }
+            });
         });
     }
 
-    async function carregarMensagens(sessaoId) {
+    async carregarMensagens(sessaoId) {
+        if (this.sessaoAtiva === sessaoId) return;
         try {
             const [mensagensResponse, sessaoResponse] = await Promise.all([
                 fetch(`/api/sessoes/${sessaoId}/mensagens`),
-                fetch(`/api/sessoes`)
+                fetch(`/api/sessoes/${sessaoId}`)
             ]);
-            
-            if (!mensagensResponse.ok) {
-                mostrarNotificacao('Erro ao carregar mensagens do chat', 'error');
-                throw new Error('Erro ao carregar mensagens do chat');
+
+            if (!mensagensResponse.ok || !sessaoResponse.ok) {
+                throw new Error('Erro ao carregar chat');
             }
-            if (!sessaoResponse.ok) {
-                mostrarNotificacao('Erro ao carregar dados da sessão do chat', 'error');
-                throw new Error('Erro ao carregar dados da sessão do chat');
+
+            const mensagens = await mensagensResponse.json();
+            const sessao = await sessaoResponse.json();
+
+            this.sessaoAtiva = sessaoId;
+            this.currentChatStatus = sessao.status || 'ABERTO';
+
+            this.renderMensagens(mensagens);
+            this.scrollToBottom(); // Adicionar esta linha
+            this.atualizarUIStatusChat();
+
+            if (this.userData.ehSuporte) {
+                this.atualizarTags(sessao.tags || []);
             }
-            
-            const [mensagens, sessao] = await Promise.all([
-                mensagensResponse.json(),
-                sessaoResponse.json()
-            ]);
-            
-            window.sessaoAtiva = sessaoId;
-            window.currentChatStatus = sessao.status || 'ABERTO';
-            
-            renderMensagens(mensagens);
-            atualizarUIStatusChat();
-            if (userData.ehSuporte) atualizarTags(sessao.tags);
-            
-            carregarConversas(); // Atualiza a lista de conversas
+
+            // Atualiza a classe ativa nas conversas
+            document.querySelectorAll('.conversa-item').forEach(item => {
+                item.classList.toggle('ativa', item.dataset.sessaoId === sessaoId);
+            });
+
         } catch (error) {
             console.error('Erro ao carregar mensagens:', error);
+            this.mostrarNotificacao('Erro ao carregar mensagens', 'error');
         }
     }
 
-    function renderMensagens(mensagens) {
-        elements.chatBox.innerHTML = "";
-        mensagens.forEach(msg => {
-            const msgClass = msg.autor === userData.username ? 'me' : 
-                           msg.eh_suporte ? 'suporte' : 'other';
-            
-            const msgEl = document.createElement("div");
-            msgEl.className = `chat-message ${msgClass}`;
-            msgEl.innerHTML = `
-                <div class="msg-autor">${msg.autor}</div>
-                <div class="msg-texto">${msg.mensagem}</div>
-                <div class="msg-data">${formatarData(msg.enviada_em)}</div>
-            `;
-            elements.chatBox.appendChild(msgEl);
-        });
-        elements.chatBox.scrollTop = elements.chatBox.scrollHeight;
-    }
+    atualizarUIStatusChat() {
+        if (!this.userData.ehSuporte) return;
 
-    function atualizarUIStatusChat() {
-        if (!userData.ehSuporte) return;
-        
-        elements.finalizarChatBtn.style.display = window.currentChatStatus === 'ABERTO' ? 'block' : 'none';
-        elements.reabrirChatBtn.style.display = window.currentChatStatus === 'FINALIZADO' ? 'block' : 'none';
-    }
-
-    async function finalizarChat() {
-        await atualizarStatusChat('FINALIZADO');
-        window.currentChatStatus = 'FINALIZADO';
-        atualizarUIStatusChat();
-        mostrarNotificacao('Chat finalizado', 'success');
-    }
-
-    async function reabrirChat() {
-        await atualizarStatusChat('REABERTO');
-        window.currentChatStatus = 'REABERTO';
-        atualizarUIStatusChat();
-        mostrarNotificacao('Chat reaberto', 'success');
-    }
-
-    async function atualizarStatusChat(status) {
-        try {
-            const response = await fetch(`/api/sessoes/${window.sessaoAtiva}/status`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ status })
-            });
-            
-            if (!response.ok) throw new Error('Erro ao atualizar status');
-        } catch (error) {
-            console.error('Erro:', error);
-            mostrarNotificacao('Erro ao atualizar status do chat', 'error');
+        if (this.elements.finalizarChatBtn) {
+            this.elements.finalizarChatBtn.style.display = (this.currentChatStatus === 'ABERTO') ? 'inline-block' : 'none';
         }
-    }
-
-    async function criarConversa() {
-        try {
-            const primeiraMsg = prompt("Digite sua mensagem inicial para o suporte:");
-            if (!primeiraMsg) return;
-            
-            const response = await fetch('/api/sessoes', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ 
-                    titulo: '',
-                    primeira_msg: primeiraMsg 
-                })
-            });
-            
-            if (!response.ok) throw new Error('Erro ao criar conversa');
-            
-            const novaSessao = await response.json();
-            await carregarMensagens(novaSessao.id);
-            mostrarNotificacao('Conversa criada com sucesso', 'success');
-        } catch (error) {
-            console.error('Erro ao criar conversa:', error);
-            mostrarNotificacao('Erro ao criar conversa', 'error');
+        if (this.elements.reabrirChatBtn) {
+            this.elements.reabrirChatBtn.style.display = (this.currentChatStatus === 'FINALIZADO') ? 'inline-block' : 'none';
         }
+
+        this.elements.input.disabled = (this.currentChatStatus === 'FINALIZADO');
+        this.toggleSendButton();
     }
 
-    async function enviarMensagem(mensagem) {
-        if (!window.sessaoAtiva) {
-            await criarConversa();
+    async enviarMensagem(mensagem) {
+        if (!this.sessaoAtiva) {
+            await this.criarConversa(mensagem);
             return;
         }
-        
+
+        if (this.currentChatStatus === 'FINALIZADO') {
+            this.mostrarNotificacao('Chat finalizado. Não é possível enviar mensagens.', 'warning');
+            return;
+        }
+
         try {
-            const response = await fetch(`/api/sessoes/${window.sessaoAtiva}/mensagens`, {
+            const response = await fetch(`/api/sessoes/${this.sessaoAtiva}/mensagens`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ mensagem })
             });
-            
+
             if (!response.ok) throw new Error('Erro ao enviar mensagem');
-            
-            const novaMsg = await response.json();
-            carregarMensagens(window.sessaoAtiva);
+
+            await this.carregarMensagens(this.sessaoAtiva);
         } catch (error) {
             console.error('Erro ao enviar mensagem:', error);
-            mostrarNotificacao('Erro ao enviar mensagem', 'error');
+            this.mostrarNotificacao('Erro ao enviar mensagem', 'error');
         }
     }
 
-    // Funções para tags
-    function handleTagInput(e) {
-        if (e.key === 'Enter' && e.target.value.trim()) {
-            adicionarTag(e.target.value.trim());
-            e.target.value = '';
-        }
-    }
-
-    async function adicionarTag(tag) {
+    async criarConversa(primeiraMsg = null) {
         try {
-            const response = await fetch(`/api/sessoes/${window.sessaoAtiva}/tags`, {
+            if (!primeiraMsg) {
+                primeiraMsg = prompt("Digite sua mensagem inicial para o suporte:");
+                if (!primeiraMsg) return;
+            }
+
+            const response = await fetch('/api/sessoes', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ tag })
+                body: JSON.stringify({
+                    titulo: 'Nova conversa',
+                    primeira_msg: primeiraMsg
+                })
             });
-            
-            if (!response.ok) throw new Error('Erro ao adicionar tag');
-            
-            const sessao = await response.json();
-            atualizarTags(sessao.tags);
+
+            if (!response.ok) throw new Error('Erro ao criar conversa');
+
+            const novaSessao = await response.json();
+            await this.carregarMensagens(novaSessao.id);
+            await this.carregarConversas(false);
+            this.mostrarNotificacao('Conversa criada com sucesso', 'success');
         } catch (error) {
-            console.error('Erro:', error);
-            mostrarNotificacao('Erro ao adicionar tag', 'error');
+            console.error('Erro ao criar conversa:', error);
+            this.mostrarNotificacao('Erro ao criar conversa', 'error');
         }
     }
 
-    function atualizarTags(tags = []) {
-        elements.tagsList.innerHTML = tags.map(tag => `
+    async finalizarChat() {
+        await this.atualizarStatusChat('FINALIZADO');
+        this.mostrarNotificacao('Chat finalizado', 'success');
+    }
+
+    async reabrirChat() {
+        await this.atualizarStatusChat('REABERTO');
+        this.mostrarNotificacao('Chat reaberto', 'success');
+    }
+
+    async atualizarStatusChat(status) {
+        try {
+            const response = await fetch(`/api/sessoes/${this.sessaoAtiva}/status`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status })
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Erro ao atualizar status');
+            }
+
+            this.currentChatStatus = status;
+            this.atualizarUIStatusChat();
+
+        } catch (error) {
+            console.error('Erro ao atualizar status:', error);
+            this.mostrarNotificacao('Erro ao atualizar status do chat', 'error');
+        }
+    }
+
+    atualizarTags(tags = []) {
+        if (!this.elements.tagsList) return;
+        this.elements.tagsList.innerHTML = tags.map(tag => `
             <span class="tag">
                 ${tag}
-                <button onclick="removerTag('${tag}')">×</button>
+                <button type="button" aria-label="Remover tag ${tag}" 
+                        onclick="suporteChat.removerTag('${tag}')">×</button>
             </span>
         `).join('');
     }
 
-    // Funções utilitárias
-    function formatarData(dataString) {
-        if (!dataString) return '';
-        const data = new Date(dataString);
-        return data.toLocaleDateString('pt-BR') + ' ' + data.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+    async adicionarTag(tag) {
+        if (!tag.trim()) return;
+
+        try {
+            const response = await fetch(`/api/sessoes/${this.sessaoAtiva}/tags`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ tag: tag.trim() })
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Erro ao adicionar tag');
+            }
+
+            const sessaoResponse = await fetch(`/api/sessoes/${this.sessaoAtiva}`);
+            const sessao = await sessaoResponse.json();
+            this.atualizarTags(sessao.tags);
+
+        } catch (error) {
+            console.error('Erro ao adicionar tag:', error);
+            this.mostrarNotificacao('Erro ao adicionar tag', 'error');
+        }
     }
 
-    setInterval(atualizarMensagensSessaoAtiva, 1000);
-    
-});
+    async removerTag(tag) {
+        try {
+            const response = await fetch(`/api/sessoes/${this.sessaoAtiva}/tags/${encodeURIComponent(tag)}`, {
+                method: 'DELETE'
+            });
 
-window.addEventListener('resize', configurarUIInicial);
+            if (!response.ok) throw new Error('Erro ao remover tag');
+
+            const sessaoResponse = await fetch(`/api/sessoes/${this.sessaoAtiva}`);
+            const sessao = await sessaoResponse.json();
+            this.atualizarTags(sessao.tags);
+
+        } catch (error) {
+            console.error('Erro ao remover tag:', error);
+            this.mostrarNotificacao('Erro ao remover tag', 'error');
+        }
+    }
+
+    // Adicionar novos métodos auxiliares:
+    isScrolledToBottom() {
+        const { chatBox } = this.elements;
+        return chatBox.scrollHeight - chatBox.clientHeight <= chatBox.scrollTop + 10;
+    }
+
+    scrollToBottom() {
+        const { chatBox } = this.elements;
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    mostrarNotificacao(mensagem, tipo = 'info') {
+        const notificacao = document.createElement('div');
+        notificacao.className = `notificacao notificacao-${tipo}`;
+        notificacao.textContent = mensagem;
+        notificacao.setAttribute('role', 'alert');
+
+        document.body.appendChild(notificacao);
+        setTimeout(() => notificacao.remove(), 3000);
+    }
+
+    destroy() {
+        clearInterval(this.intervalId);
+        // Remove todos os event listeners
+        this.elements.form.removeEventListener('submit', this.handleFormSubmit);
+        this.elements.input.removeEventListener('input', this.toggleSendButton);
+        this.elements.novaTagInput?.removeEventListener('keydown', this.handleTagInput);
+        this.elements.finalizarChatBtn?.removeEventListener('click', this.finalizarChat);
+        this.elements.reabrirChatBtn?.removeEventListener('click', this.reabrirChat);
+        this.elements.novaConversaBtn?.removeEventListener('click', this.criarConversa);
+        this.elements.toggleChatListBtn?.removeEventListener('click', this.toggleChatList);
+        window.removeEventListener('resize', this.adjustLayout);
+    }
+}
+
+
+// Instancia e inicializa o chat
+const suporteChat = new SuporteChat();
+document.addEventListener('DOMContentLoaded', () => suporteChat.init());
+
+
+
+// Expõe métodos necessários para uso global
+window.suporteChat = suporteChat;
