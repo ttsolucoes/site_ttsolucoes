@@ -73,7 +73,7 @@ def is_suporte(empresa):
     return str(empresa).lower() == 'tt_solucoes'
 
 @app.route('/api/metricas/mttr', methods=['GET'])
-@required_roles('admin')  # Apenas administradores/suporte podem acessar
+@required_roles('user', 'admin')  # Apenas administradores/suporte podem acessar
 def calcular_mttr():
     empresa = session['user']['empresa']
     periodo = int(request.args.get('periodo', 30))
@@ -124,7 +124,7 @@ def calcular_mttr():
     return jsonify(dados_formatados)
 
 @app.route('/api/metricas/mtbf', methods=['GET'])
-@required_roles('admin')  # Apenas administradores/suporte podem acessar
+@required_roles('user', 'admin')  # Apenas administradores/suporte podem acessar
 def calcular_mtbf():
     empresa = session['user']['empresa']
     parametros = []
@@ -474,6 +474,22 @@ def registrar_reconhecimento(sessao_id):
         executar_sql(sql, (sessao_id,))
 
     return jsonify({'success': True})
+
+@app.route('/api/equipes')
+@required_roles('user', 'admin')
+def listar_equipes():
+    user_logado = session['user']['username']
+    usuario = detalhar_usuario(user_logado)
+    empresa = usuario['empresa']
+
+    projetos_por_empresa = {
+        "tt_solucoes": ["ExtractRFB", "URA_GOOGLE", "GJ_GUADALUPE"],
+        "Invertus": ["ExtractRFB", "URA_GOOGLE"],
+        "gj_guadalupe": ["GJ_GUADALUPE"]
+    }
+
+    equipes = projetos_por_empresa.get(empresa, [])
+    return jsonify(equipes)
 
 @app.route('/projetos_gerencia')
 @required_roles('user', 'admin')

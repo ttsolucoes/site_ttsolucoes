@@ -1,0 +1,78 @@
+.gerencia-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 1rem;
+    background-color: var(--background-card);
+    border-radius: var(--btn-radius);
+}
+
+.metrica-info p strong {
+    color: var(--warning-color);
+}
+
+canvas {
+    display: block;
+    width: 100%;
+}
+canvas[style*="display: none"] {
+    height: 0;
+}
+
+.metricas-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+@media (max-width: 768px) {
+    .metricas-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.metrica-card {
+    background-color: var(--background-soft);
+    padding: 1.5rem;
+    border-radius: var(--btn-radius);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.metrica-card h3 {
+    margin-top: 0;
+    color: var(--primary-color);
+}
+
+.grafico-container {
+    position: relative;
+    height: 300px;
+    margin: 1rem 0;
+}
+
+.metrica-info {
+    background-color: var(--dark-color);
+    padding: 1rem;
+    border-radius: var(--btn-radius);
+    margin-top: 1rem;
+}
+
+.metrica-info p {
+    margin: 0.5rem 0;
+}
+
+.filtros {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding: 1rem;
+    background-color: var(--background-soft);
+    border-radius: var(--btn-radius);
+}
+
+.filtros select {
+    padding: 0.5rem;
+    border-radius: var(--btn-radius);
+    background-color: var(--dark-color);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+}
