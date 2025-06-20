@@ -1,7 +1,6 @@
 from functools import wraps
 from flask import request, session, jsonify
 import time
-from utils import validar_acesso, ver_usuarios
 from app import app
 from dotenv import load_dotenv
 import os
@@ -26,6 +25,7 @@ def get_authenticated_user_roles():
     return roles
 
 def get_user_roles(username: str) -> list:
+    from utils import validar_acesso, ver_usuarios
     """Retorna as roles do usuário."""
     users = ver_usuarios()  # Supondo que ver_usuarios retorna uma lista de usuários
     for user in users:
@@ -34,6 +34,7 @@ def get_user_roles(username: str) -> list:
     return []
 
 def get_api_user_roles():
+    from utils import validar_acesso, ver_usuarios
     """Recupera as roles do usuário autenticado via API (Authorization Header)."""
     auth = request.authorization
     if not auth:
