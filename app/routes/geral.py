@@ -2,6 +2,7 @@ from flask import request, session, render_template
 from werkzeug.exceptions import HTTPException
 from app import app
 from datetime import datetime
+from utils import inserir_log
 
 @app.context_processor
 def inject_now():
@@ -19,6 +20,8 @@ def home():
     if 'user' not in session:
         return render_template('pages/public/home.html')
     else:
+        user_data_atual = session['user']['username']
+        inserir_log(user_data_atual, 'rota home', "Acessou a página inicial privada")
         return render_template('pages/private/home.html')
 
 @app.route('/saiba_mais')

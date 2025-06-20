@@ -75,6 +75,9 @@ def get_solicitacoes() -> List[Dict[str, Union[int, str, bool]]]:
 @required_roles('admin')
 def gerenciar_usuarios():
 
+    user_atual = session['user']['username']
+    inserir_log(user_atual, 'rota usuarios', "Acessou a página de gerenciamento de usuários")
+
     usuarios_internos = ver_usuarios()
     usuarios_publicos = get_solicitacoes()
     return render_template(

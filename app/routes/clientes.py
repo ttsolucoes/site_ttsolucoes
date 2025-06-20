@@ -1,6 +1,7 @@
-from flask import render_template, request, jsonify
+from flask import render_template, request, jsonify, session
 from app import app
 from config import executar_sql, required_roles
+from utils import inserir_log
 from flask_wtf import FlaskForm
 from wtforms import StringField, TextAreaField, IntegerField
 from wtforms.validators import DataRequired, Email, NumberRange
@@ -13,6 +14,8 @@ class FeedbackForm(FlaskForm):
 
 @app.route('/feedback', methods=['GET'])
 def clientes():
+    user_atual = session['user']['username']
+    inserir_log(user_atual, 'rota feedback', 'Usuário acessou a rota feedback')
     form = FeedbackForm()
     query = "SELECT id, nome, email, nota_satisfacao, comentario, data_envio FROM feedback_clientes ORDER BY data_envio DESC;"
     feedback = executar_sql(query)
@@ -32,6 +35,9 @@ def clientes():
 @app.route('/ver_feedback', methods=['GET'])
 @required_roles('admin')
 def ver_feedback():
+
+    user_atual = session['user']['username']
+    inserir_log(user_atual, 'rota ver_feedback', 'Usuário acessou a rota ver_feedback')
 
     from config import executar_sql
 

@@ -1,7 +1,7 @@
 from app import app
 from flask import render_template, request, jsonify, session, redirect
 from config import required_roles, executar_sql
-from utils import detalhar_usuario
+from utils import detalhar_usuario, inserir_log
 import datetime
 
 def calcular_metricas(sessao_id):
@@ -496,6 +496,7 @@ def listar_equipes():
 def projetos_gerencia():
     user_logado = session['user']['username']
     users = detalhar_usuario(user_logado)
+    inserir_log(user_logado, 'rota projetos_gerencia', "Acessou a página de projetos da gerência")
     return render_template('pages/private/projetos_gerencia.html', 
                          users=users,
                          empresa=users['empresa'],
@@ -506,7 +507,10 @@ def projetos_gerencia():
 def suporte_gerencia():
     if not is_suporte(session['user']['empresa']):
         return redirect('/suporte')
-    
+
+    user_logado = session['user']['username']
+    inserir_log(user_logado, 'rota suporte_gerencia', "Acessou a página de suporte da gerência")
+
     return render_template('pages/private/suporte_gerencia.html', 
                          users=session['user'],
                          eh_suporte=True)
@@ -515,6 +519,7 @@ def suporte_gerencia():
 @required_roles('user', 'admin')
 def suporte():
     user_logado = session['user']['username']
+    inserir_log(user_logado, 'rota suporte', "Acessou a página de suporte")
     users = detalhar_usuario(user_logado)
     empresa = users['empresa']
     print(is_suporte(empresa))

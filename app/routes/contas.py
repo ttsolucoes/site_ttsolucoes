@@ -1,12 +1,12 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, validators
 from app import app
-from flask import render_template
+from flask import render_template, session
 from config import secret_key
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-from utils import detalhar_usuario
+from utils import detalhar_usuario, inserir_log
 
 app.secret_key = secret_key
 
@@ -58,6 +58,11 @@ class RecoveryForm(FlaskForm):
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+
+    if 'user' in session:
+        user = detalhar_usuario(session['user'])
+        inserir_log(user, 'rota register', "Acessou a página de registro de conta pública")
+
     from utils import criar_usuario_public
 
     form = RegistrationForm()
@@ -99,6 +104,11 @@ def register():
 
 @app.route('/recovery', methods=['GET', 'POST'])
 def recovery():
+
+    if 'user' in session:
+        user = detalhar_usuario(session['user'])
+        inserir_log(user, 'rota recovery', "Acessou a página de recuperação de conta pública")
+
     from utils import recuperar_acesso_public, detalhar_usuario
     form = RecoveryForm()
 

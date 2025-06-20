@@ -4,6 +4,7 @@ from flask import render_template, request, session, jsonify
 from config import secret_key, required_roles
 from collections import defaultdict
 import json
+from utils import inserir_log
 
 def _consultar():
 
@@ -32,15 +33,31 @@ app.secret_key = secret_key
 
 @app.route('/pre_diagnostico')
 def pre_diagnostico():
+
+    if 'user' in session:
+        user_data_atual = session['user']['username']
+        inserir_log(user_data_atual, 'rota pre_diagnostico', "Acessou a página de pré-diagnóstico")
+        return render_template('pages/public/pre_diagnostico.html')
+
     return render_template('pages/public/pre_diagnostico.html')
 
 @app.route('/detalhes_pre_diagnostico')
 def detalhes_pre_diagnostico():
+
+    if 'user' in session:
+        user_data_atual = session['user']['username']
+        inserir_log(user_data_atual, 'rota detalhes_pre_diagnostico', "Acessou a página de detalhes do pré-diagnóstico")
+        return render_template('pages/public/detalhes_prediagnostico.html')
+
     return render_template('pages/public/detalhes_prediagnostico.html')
 
 @app.route('/pre_diagnostico_detalhes')
 @required_roles('admin')
 def pre_diagnostico_detalhes():
+
+    user_data_atual = session['user']['username']
+    inserir_log(user_data_atual, 'rota pre_diagnostico_detalhes', "Acessou a página de detalhes do pré-diagnóstico")
+    
     from config import executar_sql
     query = """
 SELECT d.id, d.nome, d.empresa, d.relacao, d.email, d.telefone, d.data,f.media_final, f.proposta
