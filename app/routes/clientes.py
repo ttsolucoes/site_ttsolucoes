@@ -14,8 +14,9 @@ class FeedbackForm(FlaskForm):
 
 @app.route('/feedback', methods=['GET'])
 def clientes():
-    user_atual = session['user']['username']
-    inserir_log(user_atual, 'rota feedback', 'Usuário acessou a rota feedback')
+    if 'user' in session:
+        user_atual = session['user']['username']
+        inserir_log(user_atual, 'rota feedback', 'Usuário acessou a rota feedback')
     form = FeedbackForm()
     query = "SELECT id, nome, email, nota_satisfacao, comentario, data_envio FROM feedback_clientes ORDER BY data_envio DESC;"
     feedback = executar_sql(query)
