@@ -1,18 +1,29 @@
-from flask import request, session, render_template
+from flask import request, session, render_template, g
 from werkzeug.exceptions import HTTPException
 from app import app
 from datetime import datetime
 from utils import inserir_log
 
+@app.before_request
+def load_lang():
+    lang = request.cookies.get('lang')
+    if lang not in ['pt', 'en']:
+        lang = 'pt'
+    g.lang = lang 
+
 @app.context_processor
 def inject_now():
-
     if 'user' not in session:
         user = { 'is_authenticated': False }
     else:
         user = { 'is_authenticated': True }
 
-    return {'now': datetime.now(), 'current_user': user}
+    return {
+        'now': datetime.now(),
+        'current_user': user,
+        'lang': g.get('lang', 'pt')  # injeta o lang lido do cookie
+    }
+
 
 @app.route('/')
 @app.route('/index')

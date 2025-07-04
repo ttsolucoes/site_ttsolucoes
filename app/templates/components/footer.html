@@ -1,24 +1,45 @@
 <footer class="main-footer">
     <div class="footer-container">
         <div class="footer-top">
+            {% if lang == 'pt' %}
             <p>&copy; {{ now.year }} TECH TRACK SOLUÇÕES. Todos os direitos reservados.</p>
+            {% else %}
+            <p>&copy; {{ now.year }} TECH TRACK SOLUTIONS. All rights reserved.</p>
+            {% endif %}
         </div>
 
         <nav class="footer-nav">
+            {% if lang == 'pt' %}
             <a href="mailto:techttracksolucoes@gmail.com" title="Enviar e-mail">📧 E-mail</a>
             <a href="https://wa.me/5527997516005" target="_blank" title="Conversar via WhatsApp">📱 WhatsApp</a>
             <a href="tel:+5527997516005" title="Ligar para TT Soluções">☎️ Telefone</a>
             <a href="https://www.instagram.com/techtrack.solucoes" target="_blank" title="Instagram">📷 Instagram</a>
             <a href="https://www.linkedin.com/company/tech-track-solu%C3%A7%C3%B5es" target="_blank" title="LinkedIn">💼 LinkedIn</a>
             <a href="https://github.com/ttsolucoes" target="_blank" title="GitHub">💻 GitHub</a>
+            {% else %}
+            <a href="mailto:techttracksolucoes@gmail.com" title="Send an email">📧 Email</a>
+            <a href="https://wa.me/5527997516005" target="_blank" title="Chat via WhatsApp">📱 WhatsApp</a>
+            <a href="tel:+5527997516005" title="Call TT Solutions">☎️ Phone</a>
+            <a href="https://www.instagram.com/techtrack.solucoes" target="_blank" title="Instagram">📷 Instagram</a>
+            <a href="https://www.linkedin.com/company/tech-track-solu%C3%A7%C3%B5es" target="_blank" title="LinkedIn">💼 LinkedIn</a>
+            <a href="https://github.com/ttsolucoes" target="_blank" title="GitHub">💻 GitHub</a>
+            {% endif %}
         </nav>
 
         <div class="footer-bottom">
+            {% if lang == 'pt' %}
             <p class="footer-legal">
                 CNPJ: 60.774.248/0001-31 &nbsp;|&nbsp;
                 Razão Social: TECH TRACK CONSULTORIA EM TECNOLOGIA DA INFORMAÇÃO LTDA &nbsp;|&nbsp;
                 Nome Fantasia: TECH TRACK SOLUÇÕES
             </p>
+            {% else %}
+            <p class="footer-legal">
+                CNPJ: 60.774.248/0001-31 &nbsp;|&nbsp;
+                Legal Name: TECH TRACK CONSULTORIA EM TECNOLOGIA DA INFORMAÇÃO LTDA &nbsp;|&nbsp;
+                Trade Name: TECH TRACK SOLUTIONS
+            </p>
+            {% endif %}
         </div>
     </div>
 </footer>

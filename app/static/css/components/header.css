@@ -59,3 +59,24 @@
     font-size: 1rem;
     margin: 0;
 }
+
+.language-switch {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.language-switch .flag {
+    width: 24px;
+    height: 16px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    transition: transform 0.2s;
+}
+
+.language-switch .flag:hover {
+    transform: scale(1.1);
+}
+

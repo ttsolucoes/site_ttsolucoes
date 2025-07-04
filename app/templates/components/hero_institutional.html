@@ -1,20 +1,37 @@
 <section id="hero-institutional">
   <div class="hero-institutional-content">
-    <h1 class="hero-institutional-title">
-      Transformamos <span class="hero-institutional-highlight">tecnologia em solução</span>
-    </h1>
-    <p class="hero-institutional-description">
-      A TT Soluções ajuda pequenas e médias empresas a saírem das planilhas e entrarem no digital: com inteligência, ética e autonomia.
-    </p>
-    <div class="hero-institutional-actions">
-      <a href="/detalhes_pre_diagnostico" class="hero-institutional-btn-primary">
-        Quero fazer meu pré-diagnóstico
-        <span class="tooltip" tabindex="0" aria-label="Pré-diagnóstico: uma avaliação rápida e gratuita para entender o nível tecnológico da sua empresa.">
-          &#9432;
-        </span>
-      </a>
-      <a href="/saiba_mais" class="hero-institutional-btn-secondary" title="Sobre a empresa">Conhecer a empresa</a>
-    </div>
+    {% if lang == 'en' %}
+      <h1 class="hero-institutional-title">
+        We turn <span class="hero-institutional-highlight">technology into solutions</span>
+      </h1>
+      <p class="hero-institutional-description">
+        TT Solutions helps small and medium-sized businesses leave spreadsheets behind and embrace the digital world — with intelligence, ethics, and autonomy.
+      </p>
+      <div class="hero-institutional-actions">
+        <a href="/detalhes_pre_diagnostico" class="hero-institutional-btn-primary">
+          I want to take my pre-diagnosis
+          <span class="tooltip" tabindex="0" aria-label="Pre-diagnosis: a quick and free assessment to understand your company's technological maturity.">
+            &#9432;
+          </span>
+        </a>
+        <a href="/saiba_mais" class="hero-institutional-btn-secondary" title="About the company">Learn more</a>
+      </div>
+    {% else %}
+      <h1 class="hero-institutional-title">
+        Transformamos <span class="hero-institutional-highlight">tecnologia em solução</span>
+      </h1>
+      <p class="hero-institutional-description">
+        A TT Soluções ajuda pequenas e médias empresas a saírem das planilhas e entrarem no digital: com inteligência, ética e autonomia.
+      </p>
+      <div class="hero-institutional-actions">
+        <a href="/detalhes_pre_diagnostico" class="hero-institutional-btn-primary">
+          Quero fazer meu pré-diagnóstico
+          <span class="tooltip" tabindex="0" aria-label="Pré-diagnóstico: uma avaliação rápida e gratuita para entender o nível tecnológico da sua empresa.">
+            &#9432;
+          </span>
+        </a>
+        <a href="/saiba_mais" class="hero-institutional-btn-secondary" title="Sobre a empresa">Conhecer a empresa</a>
+      </div>
+    {% endif %}
   </div>
 </section>
-

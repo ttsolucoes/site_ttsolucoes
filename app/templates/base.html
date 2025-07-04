@@ -15,7 +15,17 @@
     <meta name="twitter:title" content="TT Soluções">
     <meta name="twitter:description" content="Transformação técnico-digital para pequenas e médias empresas.">
     <meta name="twitter:image" content="{{ url_for('static', filename='images/logo.png') }}">
-    <title> TT SOLUÇÕES | {% block title %} HOME {% endblock %}</title>
+
+    {% if lang == 'en' %}
+        <meta http-equiv="Content-Language" content="en">
+        {% set title_prefix = 'TT SOLUTIONS' %}
+    {% else %}
+        <meta http-equiv="Content-Language" content="pt-BR">
+        {% set title_prefix = 'TT SOLUÇÕES' %}
+    {% endif %}
+    <title> {{ title_prefix }} | {% block title %} HOME {% endblock %}</title>
+
+    
     <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='images/logo.png') }}">
     <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/logo.png') }}">
     <link rel="shortcut icon" href="{{ url_for('static', filename='images/logo.ico') }}" type="image/x-icon">
@@ -47,6 +57,7 @@
     {% include 'components/footer.html' %}
     
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/lang.js') }}"></script>
     {% block js %}{% endblock %}
 
 </body>

@@ -2,7 +2,13 @@
 {% from 'macros/services_macro.jinja2' import render_services %}
 {% from 'macros/clients_macro.jinja2' import render_clients %}
 
-{% block title %}Sobre{% endblock %}
+{% if lang == 'en' %}
+  {% set page_title = 'About' %}
+{% else %}
+  {% set page_title = 'Sobre' %}
+{% endif %}
+{% block title %}{{ page_title }}{% endblock %}
+
 
 {% block css %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/pages/home.css') }}">
@@ -16,90 +22,445 @@
 
 <section class="main-content mt-2">
 
+  {% if lang == 'en' %}
+  {% with title='Who we are', description='TT Solutions was created to put an end to the silent chaos of spreadsheets and give digital power to Brazilian SMEs.' %}
+      {% include 'components/content_block.html' %}
+  {% endwith %}
+  {% else %}
   {% with title='Quem somos', description='A TT Soluções nasceu para acabar com o caos silencioso das planilhas e dar poder digital às PMEs brasileiras.' %}
       {% include 'components/content_block.html' %}
   {% endwith %}
-  {% with title='Nossa missão', description='Reduzir o déficit técnico-operacional das pequenas e médias empresas brasileiras em até 120 dias, com soluções acessíveis, sustentáveis e 100% adaptadas à realidade do cliente.' %}
-      {% include 'components/content_block.html' %}
-  {% endwith %}
+  {% endif %}
+
+  {% if lang == 'en' %}
+    {% with title='Our mission', description='Reduce the technical-operational gap of Brazilian small and medium-sized enterprises in up to 120 days, with accessible, sustainable solutions 100% adapted to the client\'s reality.' %}
+        {% include 'components/content_block.html' %}
+    {% endwith %}
+  {% else %}
+    {% with title='Nossa missão', description='Reduzir o déficit técnico-operacional das pequenas e médias empresas brasileiras em até 120 dias, com soluções acessíveis, sustentáveis e 100% adaptadas à realidade do cliente.' %}
+        {% include 'components/content_block.html' %}
+    {% endwith %}
+  {% endif %}
 
   <section id="servicos-detalhados" class="servicos-about main-content mt-2">
-    <h2 class="text-center">Como fazemos isso?</h2>
-    <div class="cards-container">
-      <div class="card-servico">
-        <h3>Pré-diagnóstico gratuito</h3>
-        <p>Identificamos o nível atual de maturidade técnica da sua empresa sem custo.</p>
+    {% if lang == 'en' %}
+      <h2 class="text-center">How do we do it?</h2>
+      <div class="cards-container">
+        <div class="card-servico">
+          <h3>Free pre-diagnosis</h3>
+          <p>We identify your company's current level of technical maturity at no cost.</p>
+        </div>
+        <div class="card-servico">
+          <h3>Detailed technical diagnosis</h3>
+          <p>We map the main bottlenecks and improvement opportunities in your business.</p>
+        </div>
+        <div class="card-servico">
+          <h3>Implementation of digital solutions</h3>
+          <p>We implement tools and processes tailored to your reality.</p>
+        </div>
+        <div class="card-servico">
+          <h3>Team training</h3>
+          <p>We ensure your team knows how to operate and maintain the implemented solutions.</p>
+        </div>
+        <div class="card-servico">
+          <h3>Ongoing technical support</h3>
+          <p>We support your evolution with continuous and proactive assistance.</p>
+        </div>
       </div>
-      <div class="card-servico">
-        <h3>Diagnóstico técnico detalhado</h3>
-        <p>Mapeamos os principais gargalos e oportunidades de melhoria do seu negócio.</p>
+    {% else %}
+      <h2 class="text-center">Como fazemos isso?</h2>
+      <div class="cards-container">
+        <div class="card-servico">
+          <h3>Pré-diagnóstico gratuito</h3>
+          <p>Identificamos o nível atual de maturidade técnica da sua empresa sem custo.</p>
+        </div>
+        <div class="card-servico">
+          <h3>Diagnóstico técnico detalhado</h3>
+          <p>Mapeamos os principais gargalos e oportunidades de melhoria do seu negócio.</p>
+        </div>
+        <div class="card-servico">
+          <h3>Execução de soluções digitais</h3>
+          <p>Implementamos ferramentas e processos sob medida para sua realidade.</p>
+        </div>
+        <div class="card-servico">
+          <h3>Capacitação da equipe</h3>
+          <p>Garantimos que sua equipe saiba operar e manter as soluções implantadas.</p>
+        </div>
+        <div class="card-servico">
+          <h3>Suporte técnico recorrente</h3>
+          <p>Acompanhamos sua evolução com apoio contínuo e proativo.</p>
+        </div>
       </div>
-      <div class="card-servico">
-        <h3>Execução de soluções digitais</h3>
-        <p>Implementamos ferramentas e processos sob medida para sua realidade.</p>
-      </div>
-      <div class="card-servico">
-        <h3>Capacitação da equipe</h3>
-        <p>Garantimos que sua equipe saiba operar e manter as soluções implantadas.</p>
-      </div>
-      <div class="card-servico">
-        <h3>Suporte técnico recorrente</h3>
-        <p>Acompanhamos sua evolução com apoio contínuo e proativo.</p>
-      </div>
-    </div>
+    {% endif %}
   </section>
 
   <section class="features-section">
-      <h2 class="section-title">Nossos pilares</h2>
-      <div class="features-grid">
-          {% with icon='shield-check', title='Ética e Alinhamento', description='Negócios saudáveis começam com pessoas respeitadas e alinhadas.' %}
-              {% include 'components/feature_card.html' %}
-          {% endwith %}
+  {% if lang == 'en' %}
+    <h2 class="section-title">Our pillars</h2>
+    <div class="features-grid">
+      {% with icon='shield-check', title='Ethics and Alignment', description='Healthy businesses start with respected and aligned people.' %}
+          {% include 'components/feature_card.html' %}
+      {% endwith %}
 
-          {% with icon='clock', title='Responsabilidade e Ritmo', description='Prezamos por equilíbrio e constância, sem promessas vazias.' %}
-              {% include 'components/feature_card.html' %}
-          {% endwith %}
+      {% with icon='clock', title='Responsibility and Rhythm', description='We value balance and consistency, with no empty promises.' %}
+          {% include 'components/feature_card.html' %}
+      {% endwith %}
 
-          {% with icon='sparkles', title='Execução Sustentável', description='Antes não feito do que mal feito. Fazemos com método e propósito.' %}
-              {% include 'components/feature_card.html' %}
-          {% endwith %}
+      {% with icon='sparkles', title='Sustainable Execution', description='Better not done than poorly done. We act with method and purpose.' %}
+          {% include 'components/feature_card.html' %}
+      {% endwith %}
 
-          {% with icon='users', title='Ambiente Transparente', description='Acreditamos em acessos iguais, informações compartilhadas e crescimento real.' %}
-              {% include 'components/feature_card.html' %}
-          {% endwith %}
-      </div>
-  </section>
+      {% with icon='users', title='Transparent Environment', description='We believe in equal access, shared information, and real growth.' %}
+          {% include 'components/feature_card.html' %}
+      {% endwith %}
+    </div>
+  {% else %}
+    <h2 class="section-title">Nossos pilares</h2>
+    <div class="features-grid">
+      {% with icon='shield-check', title='Ética e Alinhamento', description='Negócios saudáveis começam com pessoas respeitadas e alinhadas.' %}
+          {% include 'components/feature_card.html' %}
+      {% endwith %}
 
-  {% with title='De onde viemos', description='A TT Soluções nasceu do inconformismo diante da realidade enfrentada por pequenas e médias empresas brasileiras: processos manuais, desperdício de tempo e barreiras técnicas que travam o crescimento. Fruto de vivências intensas no campo da tecnologia e da gestão, a empresa surgiu com um propósito, transformar realidades técnicas e humanas.<br><br> Mais do que automatizar rotinas, buscamos democratizar o acesso a soluções robustas, acessíveis e inteligentes. Valorizamos a diversidade, promovemos a autonomia e acreditamos que a evolução só é verdadeira quando alcança tanto as pessoas quanto as organizações.<br><br> Somos movidos pela ética, pela inovação e pela certeza de que é possível fazer diferente e melhor.' %}
-      {% include 'components/content_block.html' %}
-  {% endwith %}
+      {% with icon='clock', title='Responsabilidade e Ritmo', description='Prezamos por equilíbrio e constância, sem promessas vazias.' %}
+          {% include 'components/feature_card.html' %}
+      {% endwith %}
 
-  {% with title='Descritivo filosófico', description='Acreditamos que a complexidade das organizações não pode ser enfrentada com soluções simples, mas com simplicidade intencional. A TT Soluções parte do princípio de que maturidade operacional é consequência de alinhamento entre pessoas, processos e propósito. <br><br> Enxergamos a gestão como um campo entrópico: quanto mais desorganizado o ambiente, maior o potencial de transformação, desde que haja inteligência técnica e sensibilidade humana. <br><br> Nossos sistemas são desenhados para acolher a diversidade e a imprevisibilidade como partes naturais da realidade organizacional. Automatizamos não para substituir, mas para liberar o melhor das pessoas. <br><br> A inovação, para nós, não está apenas na tecnologia, mas na coragem de redesenhar rotinas, repensar o tempo e redistribuir o poder decisório. Somos agentes de maturidade, construindo pontes entre a urgência do agora e a sustentabilidade do amanhã.' %}
-      {% include 'components/content_block.html' %}
-  {% endwith %}
+      {% with icon='sparkles', title='Execução Sustentável', description='Antes não feito do que mal feito. Fazemos com método e propósito.' %}
+          {% include 'components/feature_card.html' %}
+      {% endwith %}
 
-  {% with title='O que acreditamos', description='Crescer certo vale mais do que crescer rápido. Acreditamos que uma empresa deve ser um reflexo de suas pessoas: ética, transparente e comprometida. Aqui, respeitamos o tempo de cada etapa e priorizamos processos simples, relações justas e entregas com propósito.' %}
-      {% include 'components/content_block.html' %}
-  {% endwith %}
-
-  {% with title='Nosso diferencial', description='Unimos visão técnica, sensibilidade prática e metodologia objetiva para transformar negócios que ainda vivem no improviso digital. Não vendemos promessas, entregamos processo. Nosso compromisso é com a autonomia do cliente, não com a dependência da nossa tecnologia.' %}
-      {% include 'components/content_block.html' %}
-  {% endwith %}
+      {% with icon='users', title='Ambiente Transparente', description='Acreditamos em acessos iguais, informações compartilhadas e crescimento real.' %}
+          {% include 'components/feature_card.html' %}
+      {% endwith %}
+    </div>
+  {% endif %}
 </section>
 
-{% set membros = [
-  {'nome': 'Guilherme Antônio', 'cargo': 'Diretor de Tecnologia'},
-  {'nome': 'Guilherme Ramos', 'cargo': 'Diretor de Finanças'},
-  {'nome': 'Luiz Esquivel', 'cargo': 'Diretor de Operações e Qualidade', 'foto': 'luiz'},
-  {'nome': 'Nicole Ressurreição', 'cargo': 'Diretora de Relacionamento ao Cliente'}
-] %}
+  {% if lang == 'en' %}
+    {% with title='Where we come from', description='TT Solutions was born from inconformity with the reality faced by small and medium-sized Brazilian companies: manual processes, wasted time, and technical barriers hindering growth. With deep experiences in technology and management, the company emerged with a purpose—to transform technical and human realities.<br><br> More than just automating routines, we seek to democratize access to robust, affordable, and intelligent solutions. We value diversity, promote autonomy, and believe that evolution is only true when it reaches both people and organizations.<br><br> We are driven by ethics, innovation, and the certainty that it is possible to do things differently and better.' %}
+        {% include 'components/content_block.html' %}
+    {% endwith %}
+  {% else %}
+    {% with title='De onde viemos', description='A TT Soluções nasceu do inconformismo diante da realidade enfrentada por pequenas e médias empresas brasileiras: processos manuais, desperdício de tempo e barreiras técnicas que travam o crescimento. Fruto de vivências intensas no campo da tecnologia e da gestão, a empresa surgiu com um propósito, transformar realidades técnicas e humanas.<br><br> Mais do que automatizar rotinas, buscamos democratizar o acesso a soluções robustas, acessíveis e inteligentes. Valorizamos a diversidade, promovemos a autonomia e acreditamos que a evolução só é verdadeira quando alcança tanto as pessoas quanto as organizações.<br><br> Somos movidos pela ética, pela inovação e pela certeza de que é possível fazer diferente e melhor.' %}
+        {% include 'components/content_block.html' %}
+    {% endwith %}
+  {% endif %}
+
+  {% if lang == 'en' %}
+    {% with title='Philosophical description', description='We believe that the complexity of organizations cannot be addressed with simple solutions, but with intentional simplicity. TT Solutions operates on the principle that operational maturity is a consequence of alignment between people, processes, and purpose.<br><br> We see management as an entropic field: the more disorganized the environment, the greater the potential for transformation, as long as there is technical intelligence and human sensitivity.<br><br> Our systems are designed to embrace diversity and unpredictability as natural parts of organizational reality. We automate not to replace, but to unleash the best in people.<br><br> For us, innovation is not just in technology, but in the courage to redesign routines, rethink time, and redistribute decision-making power. We are maturity agents, building bridges between the urgency of now and the sustainability of tomorrow.' %}
+        {% include 'components/content_block.html' %}
+    {% endwith %}
+  {% else %}
+    {% with title='Descritivo filosófico', description='Acreditamos que a complexidade das organizações não pode ser enfrentada com soluções simples, mas com simplicidade intencional. A TT Soluções parte do princípio de que maturidade operacional é consequência de alinhamento entre pessoas, processos e propósito. <br><br> Enxergamos a gestão como um campo entrópico: quanto mais desorganizado o ambiente, maior o potencial de transformação, desde que haja inteligência técnica e sensibilidade humana. <br><br> Nossos sistemas são desenhados para acolher a diversidade e a imprevisibilidade como partes naturais da realidade organizacional. Automatizamos não para substituir, mas para liberar o melhor das pessoas. <br><br> A inovação, para nós, não está apenas na tecnologia, mas na coragem de redesenhar rotinas, repensar o tempo e redistribuir o poder decisório. Somos agentes de maturidade, construindo pontes entre a urgência do agora e a sustentabilidade do amanhã.' %}
+        {% include 'components/content_block.html' %}
+    {% endwith %}
+  {% endif %}
+
+  {% if lang == 'en' %}
+    {% with title='What we believe', description='Growing right is more valuable than growing fast. We believe a company should reflect its people: ethical, transparent, and committed. Here, we respect the time of each stage and prioritize simple processes, fair relationships, and purposeful deliveries.' %}
+        {% include 'components/content_block.html' %}
+    {% endwith %}
+  {% else %}
+    {% with title='O que acreditamos', description='Crescer certo vale mais do que crescer rápido. Acreditamos que uma empresa deve ser um reflexo de suas pessoas: ética, transparente e comprometida. Aqui, respeitamos o tempo de cada etapa e priorizamos processos simples, relações justas e entregas com propósito.' %}
+        {% include 'components/content_block.html' %}
+    {% endwith %}
+  {% endif %}
+
+  {% if lang == 'en' %}
+    {% with title='Our difference', description='We combine technical vision, practical sensitivity, and objective methodology to transform businesses still stuck in digital improvisation. We don’t sell promises; we deliver processes. Our commitment is to client autonomy—not dependency on our technology.' %}
+        {% include 'components/content_block.html' %}
+    {% endwith %}
+  {% else %}
+    {% with title='Nosso diferencial', description='Unimos visão técnica, sensibilidade prática e metodologia objetiva para transformar negócios que ainda vivem no improviso digital. Não vendemos promessas, entregamos processo. Nosso compromisso é com a autonomia do cliente, não com a dependência da nossa tecnologia.' %}
+        {% include 'components/content_block.html' %}
+    {% endwith %}
+  {% endif %}
+
+</section>
+
+{% if lang == 'en' %}
+  {% set membros = [
+    {'nome': 'Guilherme Antônio', 'cargo': 'Technology Director'},
+    {'nome': 'Guilherme Ramos', 'cargo': 'Finance Director'},
+    {'nome': 'Luiz Esquivel', 'cargo': 'Operations and Quality Director', 'foto': 'luiz'},
+    {'nome': 'Nicole Ressurreição', 'cargo': 'Customer Relationship Director'}
+  ] %}
+{% else %}
+  {% set membros = [
+    {'nome': 'Guilherme Antônio', 'cargo': 'Diretor de Tecnologia'},
+    {'nome': 'Guilherme Ramos', 'cargo': 'Diretor de Finanças'},
+    {'nome': 'Luiz Esquivel', 'cargo': 'Diretor de Operações e Qualidade', 'foto': 'luiz'},
+    {'nome': 'Nicole Ressurreição', 'cargo': 'Diretora de Relacionamento ao Cliente'}
+  ] %}
+{% endif %}
 
 {% include 'components/membros.html' %}
 
 <section id="clientes-detalhados" class="main-content mt-2">
-  <h1 class="text-center">Nossos Cases de Sucesso</h1>
-  <p class="text-center subtitulo">Conheça em detalhes os projetos que desenvolvemos para nossos clientes</p>
-  
+  {% if lang == 'en' %}
+    <h1 class="text-center">Our Success Stories</h1>
+    <p class="text-center subtitulo">Explore in detail the projects we developed for our clients</p>
+
+    <!-- Expanded Card 1 -->
+    <div class="cliente-card-expandido">
+      <div class="cliente-header">
+        <img src="{{ url_for('static', filename='images/clientes/gjguadalupe.png') }}" alt="GJGuadalupe" class="cliente-logo">
+        <div class="cliente-info">
+          <h2>GJGuadalupe</h2>
+          <div class="cliente-tags">
+            <span class="tag">Web Development</span>
+            <span class="tag">Management System</span>
+            <span class="tag">Institutional Website</span>
+          </div>
+        </div>
+      </div>
+      <div class="cliente-content">
+        <h3>Challenge</h3>
+        <p>GJGuadalupe needed a complete solution combining its online presence with an efficient system to manage its various religious events and pilgrimages.</p>
+
+        <h3>Solution</h3>
+        <p>We developed a modern institutional website with:</p>
+        <ul class="feature-list">
+          <li>Responsive and accessible design</li>
+          <li>Complete event management system with:</li>
+          <ul>
+            <li>Participant registration</li>
+            <li>Event module</li>
+          </ul>
+        </ul>
+
+        <div class="resultados">
+          <h3>Results</h3>
+          <div class="stats-grid">
+            <div class="stat-item">
+              <div class="stat-number">100%</div>
+              <div class="stat-label">Increase in registrations</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">4h/month</div>
+              <div class="stat-label">Time saved in manual processes</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">100%</div>
+              <div class="stat-label">Client satisfaction</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <!-- Card Expandido 2 -->
+  <div class="cliente-card-expandido">
+    <div class="cliente-header">
+      <img src="{{ url_for('static', filename='images/clientes/extractrfb.png') }}" alt="extractrfb" class="cliente-logo">
+      <div class="cliente-info">
+        <h2>ExtractRFB</h2>
+        <div class="cliente-tags">
+          <span class="tag">WEB Development</span>
+            <span class="tag">Management System</span>
+            <span class="tag">Lead Management</span>
+          </div>
+          </div>
+        </div>
+        <div class="cliente-content">
+          <h3>Challenge</h3>
+          <p>Need for an environment to monitor RFB database updates and generate standardized leads.</p>
+          
+          <h3>Solution</h3>
+          <p>We developed a modern institutional website with:</p>
+          <ul class="feature-list">
+          <li>Responsive and accessible design</li>
+          <li>Lead management system</li>
+          </ul>
+          
+          <div class="resultados">
+          <h3>Results</h3>
+          <div class="stats-grid">
+            <div class="stat-item">
+            <div class="stat-number">100%</div>
+            <div class="stat-label">Confidence in lead management</div>
+            </div>
+            <div class="stat-item">
+            <div class="stat-number">4h/month</div>
+            <div class="stat-label">Time saved in manual processes</div>
+            </div>
+            <div class="stat-item">
+            <div class="stat-number">100%</div>
+            <div class="stat-label">Client satisfaction</div>
+            </div>
+          </div>
+          </div>
+        </div>
+        </div>
+
+        <!-- Expanded Card 3 -->
+        <div class="cliente-card-expandido">
+        <div class="cliente-header">
+          <img src="{{ url_for('static', filename='images/clientes/invertus_invertussystem.png') }}" alt="invertus_invertussystem" class="cliente-logo">
+          <div class="cliente-info">
+          <h2>Invertus - InvertusSystem</h2>
+          <div class="cliente-tags">
+            <span class="tag">Web Development</span>
+            <span class="tag">Management System</span>
+            <span class="tag">Mailing Management</span>
+          </div>
+          </div>
+        </div>
+        <div class="cliente-content">
+          <h3>Challenge</h3>
+          <p>Need to improve and standardize processes associated with mailing management.</p>
+          
+          <h3>Solution</h3>
+          <p>We developed a modern institutional website with:</p>
+          <ul class="feature-list">
+          <li>Responsive and accessible design</li>
+          <li>Mailing management system</li>
+          </ul>
+          
+          <div class="resultados">
+          <h3>Results</h3>
+          <div class="stats-grid">
+            <div class="stat-item">
+            <div class="stat-number">50%+</div>
+            <div class="stat-label">Confidence in institutional mailing</div>
+            </div>
+            <div class="stat-item">
+            <div class="stat-number">4h/month</div>
+            <div class="stat-label">Time saved in manual processes</div>
+            </div>
+            <div class="stat-item">
+            <div class="stat-number">100%</div>
+            <div class="stat-label">Client satisfaction</div>
+            </div>
+          </div>
+          </div>
+        </div>
+        </div>
+
+        <!-- Expanded Card 4 -->
+        <div class="cliente-card-expandido">
+        <div class="cliente-header">
+          <img src="{{ url_for('static', filename='images/clientes/inove_invertussystem.png') }}" alt="inove_invertussystem" class="cliente-logo">
+          <div class="cliente-info">
+          <h2>Migrador - InvertusSystem</h2>
+          <div class="cliente-tags">
+            <span class="tag">Web Development</span>
+            <span class="tag">Management System</span>
+            <span class="tag">Data Management</span>
+          </div>
+          </div>
+        </div>
+        <div class="cliente-content">
+          <h3>About</h3>
+          <p>Data management platform, ETL, with processing, transforms CSV into a database</p>
+          
+          <h3>Solution</h3>
+          <p>We developed a modern institutional website with:</p>
+          <ul class="feature-list">
+          <li>Responsive and accessible design</li>
+          <li>Data management system</li>
+          <li>Upload data in CSV or XLS</li>
+          <li>Store in database with defined R diagram</li>
+          <li>Data management system</li>
+          </ul>
+          
+          <div class="resultados">
+          <h3>Results</h3>
+          <div class="stats-grid">
+            <div class="stat-item">
+            <div class="stat-number">80%+</div>
+            <div class="stat-label">Confidence in data sets</div>
+            </div>
+            <div class="stat-item">
+            <div class="stat-number">15h/week</div>
+            <div class="stat-label">Time saved in manual processes</div>
+            </div>
+            <div class="stat-item">
+            <div class="stat-number">100%</div>
+            <div class="stat-label">Client satisfaction</div>
+            </div>
+          </div>
+          </div>
+        </div>
+        </div>
+
+        <!-- Expanded Card 5 -->
+        <div class="cliente-card-expandido">
+        <div class="cliente-header">
+          <img src="{{ url_for('static', filename='images/clientes/invertus_system.png') }}" alt="invertus_system" class="cliente-logo">
+          <div class="cliente-info">
+          <h2>Inove - InvertusSystem</h2>
+          <div class="cliente-tags">
+            <span class="tag">Web Development</span>
+            <span class="tag">Management System</span>
+            <span class="tag">Dashboard Management</span>
+          </div>
+          </div>
+        </div>
+        <div class="cliente-content">
+          <h3>About</h3>
+          <p>Platform for visualization and centralization of dashboards and Data Business</p>
+          
+          <h3>Solution</h3>
+          <p>We developed a modern institutional website with:</p>
+          <ul class="feature-list">
+          <li>Responsive and accessible design</li>
+          <li>Data management system</li>
+          <li>Business intelligence for sales</li>
+          <li>Administrative intelligence for decision making</li>
+          </ul>
+          
+          <div class="resultados">
+          <h3>Results</h3>
+          <div class="stats-grid">
+            <div class="stat-item">
+            <div class="stat-number">70%+</div>
+            <div class="stat-label">Confidence in data management</div>
+            </div>
+            <div class="stat-item">
+            <div class="stat-number">15h/week</div>
+            <div class="stat-label">Time saved in manual processes</div>
+            </div>
+            <div class="stat-item">
+            <div class="stat-number">100%</div>
+            <div class="stat-label">Client satisfaction</div>
+            </div>
+          </div>
+          </div>
+        </div>
+        </div>
+
+    <!-- General Metrics -->
+    <div class="metricas-gerais">
+      <h2 class="text-center">Our Numbers</h2>
+      <div class="metricas-grid">
+        <div class="metrica-card">
+          <div class="metrica-icon">🏢</div>
+          <div class="metrica-number">3+</div>
+          <div class="metrica-label">Clients Served</div>
+        </div>
+        <div class="metrica-card">
+          <div class="metrica-icon">🚀</div>
+          <div class="metrica-number">5+</div>
+          <div class="metrica-label">Projects Delivered</div>
+        </div>
+        <div class="metrica-card">
+          <div class="metrica-icon">⏱️</div>
+          <div class="metrica-number">100%</div>
+          <div class="metrica-label">On-Time Delivery</div>
+        </div>
+        <div class="metrica-card">
+          <div class="metrica-icon">💡</div>
+          <div class="metrica-number">100%</div>
+          <div class="metrica-label">Custom Solutions</div>
+        </div>
+      </div>
+    </div>
+
+  {% else %}
+    <h1 class="text-center">Nossos Cases de Sucesso</h1>
+    <p class="text-center subtitulo">Conheça em detalhes os projetos que desenvolvemos para nossos clientes</p>
+
   <!-- Card Expandido 1 -->
   <div class="cliente-card-expandido">
     <div class="cliente-header">
@@ -355,7 +716,9 @@
       </div>
     </div>
   </div>
+  {% endif %}
 </section>
+
 
 {% endblock %}
 

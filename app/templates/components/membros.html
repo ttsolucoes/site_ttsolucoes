@@ -1,6 +1,11 @@
 <section class="main-content mt-2">
+  {% if lang == 'en' %}
+  <h1 class="text-center">Our Members</h1>
+  <p class="text-center subtitulo">Meet the people behind our story</p>
+  {% else %}
   <h1 class="text-center">Nossos Membros</h1>
   <p class="text-center subtitulo">Conheça quem está por trás de nossa história</p>
+  {% endif %}
   <div id="membros-container" class="membros-grid">
     {% for membro in membros %}
       <div class="membro-card">

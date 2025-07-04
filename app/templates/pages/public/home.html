@@ -12,75 +12,104 @@
 
 {% block content %}
 
-{% set title_hero = "TT SOLUÇÕES" %}
-{% set subtitle_hero = "Transformação técnico-digital para empresas que ainda fazem milagre com planilha." %}
-{% set actions_hero = [
-    {'url': '/saiba_mais', 'class': 'btn btn-zero', 'label': 'Saiba mais', 'title': 'Tenha mais informações da TT Soluções'},
-    {'url': '/detalhes_pre_diagnostico', 'class': 'btn btn-zero', 'label': 'Pré diagnóstico', 'title': 'Realize o pré diagnóstico gratuito'}
-] %}
+{% if lang == 'en' %}
+  {% set title_hero = "TT SOLUTIONS" %}
+  {% set subtitle_hero = "Technical and digital transformation for companies still making miracles with spreadsheets." %}
+  {% set actions_hero = [
+      {'url': '/saiba_mais', 'class': 'btn btn-zero', 'label': 'Learn more', 'title': 'Get more information about TT Solutions'},
+      {'url': '/detalhes_pre_diagnostico', 'class': 'btn btn-zero', 'label': 'Pre-diagnosis', 'title': 'Take the free pre-diagnosis'}
+  ] %}
+{% else %}
+  {% set title_hero = "TT SOLUÇÕES" %}
+  {% set subtitle_hero = "Transformação técnico-digital para empresas que ainda fazem milagre com planilha." %}
+  {% set actions_hero = [
+      {'url': '/saiba_mais', 'class': 'btn btn-zero', 'label': 'Saiba mais', 'title': 'Tenha mais informações da TT Soluções'},
+      {'url': '/detalhes_pre_diagnostico', 'class': 'btn btn-zero', 'label': 'Pré diagnóstico', 'title': 'Realize o pré diagnóstico gratuito'}
+  ] %}
+{% endif %}
+
 {% include 'components/hero-card.html' %}
 
 {% include 'components/hero_institutional.html' %}
 
 <section id="servicos" class="servicos-home mt-2">
-  <h2 class="text-center">Nossos Serviços</h2>
-  <p class="text-center mb-2">Soluções para transformar o trabalho das PMEs com método, processo e agilidade.</p>
+  {% if lang == 'en' %}
+    <h2 class="text-center">Our Services</h2>
+    <p class="text-center mb-2">Solutions to transform the work of SMEs with method, structure, and agility.</p>
 
-  <div class="servicos-grid">
-    <div class="servico">Pré-diagnóstico gratuito</div>
-    <div class="servico">Diagnóstico técnico detalhado</div>
-    <div class="servico">Execução de soluções digitais</div>
-    <div class="servico">Capacitação da equipe</div>
-    <div class="servico">Suporte técnico recorrente</div>
-  </div>
+    <div class="servicos-grid">
+      <div class="servico">Free pre-diagnosis</div>
+      <div class="servico">Detailed technical diagnosis</div>
+      <div class="servico">Execution of digital solutions</div>
+      <div class="servico">Team training</div>
+      <div class="servico">Ongoing technical support</div>
+    </div>
+  {% else %}
+    <h2 class="text-center">Nossos Serviços</h2>
+    <p class="text-center mb-2">Soluções para transformar o trabalho das PMEs com método, processo e agilidade.</p>
+
+    <div class="servicos-grid">
+      <div class="servico">Pré-diagnóstico gratuito</div>
+      <div class="servico">Diagnóstico técnico detalhado</div>
+      <div class="servico">Execução de soluções digitais</div>
+      <div class="servico">Capacitação da equipe</div>
+      <div class="servico">Suporte técnico recorrente</div>
+    </div>
+  {% endif %}
 </section>
 
 <section id="clientes-atendidos" class="main-content mt-2">
-  <h2 class="text-center">Projetos finalizados</h2>
-  <div class="clientes-grid">
-    <div class="cliente-card">
-      <img src="{{ url_for('static', filename='images/clientes/gjguadalupe.png') }}" alt="GJGuadalupe">
-      <p>Site institucional e sistema de gestão de eventos</p>
+  {% if lang == 'en' %}
+    <h2 class="text-center">Completed Projects</h2>
+    <div class="clientes-grid">
+      <div class="cliente-card">
+        <img src="{{ url_for('static', filename='images/clientes/gjguadalupe.png') }}" alt="GJGuadalupe">
+        <p>Institutional website and event management system</p>
+      </div>
+      <div class="cliente-card">
+        <img src="{{ url_for('static', filename='images/clientes/extractrfb.png') }}" alt="ExtractRFB">
+        <p>Lead generation platform with business filters</p>
+      </div>
+      <div class="cliente-card">
+        <img src="{{ url_for('static', filename='images/clientes/invertus_invertussystem.png') }}" alt="Invertus - InvertusSystem">
+        <p>Full mailing generation platform for telecom-focused companies</p>
+      </div>
+      <div class="cliente-card">
+        <img src="{{ url_for('static', filename='images/clientes/inove_invertussystem.png') }}" alt="Inove - InvertusSystem">
+        <p>Data management platform (ETL) that transforms CSV files into structured databases</p>
+      </div>
+      <div class="cliente-card">
+        <img src="{{ url_for('static', filename='images/clientes/invertus_system.png') }}" alt="Invertus System">
+        <p>Dashboard visualization and centralization platform (Data Business)</p>
+      </div>
     </div>
-    <div class="cliente-card">
-      <img src="{{ url_for('static', filename='images/clientes/extractrfb.png') }}" alt="ExtractRFB">
-      <p>Plataforma de geração de leads com filtros para PJ</p>
+  {% else %}
+    <h2 class="text-center">Projetos finalizados</h2>
+    <div class="clientes-grid">
+      <div class="cliente-card">
+        <img src="{{ url_for('static', filename='images/clientes/gjguadalupe.png') }}" alt="GJGuadalupe">
+        <p>Site institucional e sistema de gestão de eventos</p>
+      </div>
+      <div class="cliente-card">
+        <img src="{{ url_for('static', filename='images/clientes/extractrfb.png') }}" alt="ExtractRFB">
+        <p>Plataforma de geração de leads com filtros para PJ</p>
+      </div>
+      <div class="cliente-card">
+        <img src="{{ url_for('static', filename='images/clientes/invertus_invertussystem.png') }}" alt="Invertus - InvertusSystem">
+        <p>Plataforma de geração total de mailing para empresas que atuam com telefonia</p>
+      </div>
+      <div class="cliente-card">
+        <img src="{{ url_for('static', filename='images/clientes/inove_invertussystem.png') }}" alt="Inove - InvertusSystem">
+        <p>Plataforma de gestão de dados, ETL, com tratativas, transforma CSV em banco de dados</p>
+      </div>
+      <div class="cliente-card">
+        <img src="{{ url_for('static', filename='images/clientes/invertus_system.png') }}" alt="Invertus System">
+        <p>Plataforma de visualização e centralização de dashboards e Data Business</p>
+      </div>
     </div>
-    <div class="cliente-card">
-      <img src="{{ url_for('static', filename='images/clientes/invertus_invertussystem.png') }}" alt="Invertus - InvertusSystem">
-      <p>Plataforma de geração total de mailing para empresas que atuam com telefonia</p>
-    </div>
-    <div class="cliente-card">
-      <img src="{{ url_for('static', filename='images/clientes/inove_invertussystem.png') }}" alt="Inove - InvertusSystem">
-      <p>Plataforma de gestão de dados, ETL, com tratativas, transforma CSV em banco de dados</p>
-    </div>
-    <div class="cliente-card">
-      <img src="{{ url_for('static', filename='images/clientes/invertus_system.png') }}" alt="Invertus System">
-      <p>Plataforma de visualização e centralização de dashboards e Data Business</p>
-    </div>
-  </div>
+  {% endif %}
 </section>
 
-<!-- 
-<section class="access-options">
-    <div class="grid-layout">
-
-        {% with icon='user-plus', title='Primeiro Acesso', description='Novo por aqui? Crie sua conta e comece a usar hoje mesmo.', actions=[
-            {'url': '/register', 'class': 'btn btn-primary', 'label': 'Criar Conta'},
-            {'url': '/saiba_mais', 'class': 'btn-primary', 'label': 'Saiba mais'}
-        ] %}
-            {% include 'components/card-access.html' %}
-        {% endwith %}
-
-        {% with icon='user-check', title='Usuário Veterano', description='Já tem uma conta? Faça login para acessar seus dados.', actions=[
-            {'url': '/login', 'class': 'btn btn-secondary', 'label': 'Acessar Sistema'},
-            {'url': '/recovery', 'class': 'btn-secondary', 'label': 'Recuperar acesso'}
-        ] %}
-            {% include 'components/card-access.html' %}
-        {% endwith %}
-
-    </div>
-</section> -->
 
 {% endblock %}
 
